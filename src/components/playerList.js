@@ -7,29 +7,31 @@ const PlayerList = (props) => {
     //props
     const { currentPlayerName, addOpponent, addPlayerData } = props;
     //states
-    const [players, setPlayers] = useState();
+    const [onlinePlayers, setonlinePlayers] = useState();
     useEffect(()=> {
     //     console.log('aaaaaaa')
     //     fun();
-        const playersRef = query(collection(db, 'players'));
-        const getPlayers = onSnapshot(playersRef, snap=> {
+        const onlinePlayersRef = query(collection(db, 'players'));
+        const getonlinePlayers = onSnapshot(onlinePlayersRef, snap=> {
             console.log('realtime')
             const a = [];
             snap.forEach(doc=> {
-                a.push({name: doc.data().name, id: doc.id});
-                if(doc.data().name === currentPlayerName) addPlayerData({name: doc.data().name, id: doc.id});
+                
+                if(doc.data().name === currentPlayerName) {
+                    addPlayerData({name: doc.data().name, id: doc.id});
+                }else a.push({name: doc.data().name, id: doc.id});
             });
-            setPlayers(a);
+            setonlinePlayers(a);
         })
     }, [db])
 
     
 
-    const dispPlayers = ()=> {
+    const dispOnlinePlayers = ()=> {
         let a = []  
-        players.forEach(p=> {
+        onlinePlayers.forEach(p=> {
             if(currentPlayerName !== p.name) a.push(
-                <p onClick={()=> addOpponent(p)}>{p.name}</p>
+                <p onClick={()=> addOpponent(p)} key={p.id}>{p.name}</p>
             )
         })
         
@@ -38,7 +40,7 @@ const PlayerList = (props) => {
     return (
         <div>
             Online Players:
-            { players ? dispPlayers() : <></>}
+            { onlinePlayers ? dispOnlinePlayers() : <></>}
         </div>
     );
 };
