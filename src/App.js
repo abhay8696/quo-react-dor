@@ -1,23 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import EnterName from './components/enterName';
+import PlayerList from './components/playerList';
+import { useState } from 'react';
 
-function App() {
+const App = ()=> {
+  //states
+  const [playerData, setPlayerData] = useState();
+  const [currentPlayerName, setCurrentPlayerName] = useState();
+  const [opponent, setOpponent] = useState();
+
+  const addPlayerData = data=> {
+    console.log('setting player data')
+    setPlayerData(data);
+  }
+  const addCurrentPlayerName = name=> {
+    setCurrentPlayerName(name);
+  }
+  const addOpponent = name=> {
+    setOpponent(name);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>QUO-REACT-DOR</h1>
+      {
+        currentPlayerName ? 
+        <div>
+        <h1>Hello {currentPlayerName}!</h1>
+        <PlayerList 
+        currentPlayerName={currentPlayerName} 
+        addOpponent={addOpponent}
+        addPlayerData={addPlayerData}
+        />
+        </div>
+        :
+        <EnterName addCurrentPlayerName={addCurrentPlayerName}/>
+      }
     </div>
   );
 }
