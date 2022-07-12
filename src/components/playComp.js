@@ -1,12 +1,16 @@
 import React from 'react';
+//components
+import Board from './board';
+//styles
+import '../styles/playComp.css'
 
 const PlayComp = (props) => {
     //props
     const { opponent } = props;
     return (
-        <div>
-            Playing With: 
-            <h1>{opponent}</h1>
+        <div className='playComp'>
+            Playing With: {opponent}
+            <Board/>
         </div>
     );
 };

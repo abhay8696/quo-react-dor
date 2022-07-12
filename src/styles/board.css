@@ -1,0 +1,9 @@
+.box{
+    width: 4rem;
+    height: 4rem;
+    background-color: white;
+    margin: 3px;
+}
+.row{
+    display: flex;
+}

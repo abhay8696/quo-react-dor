@@ -10,6 +10,8 @@ import PlayComp from './components/playComp';
 //firebase
 import db from './Firebase';
 import { collection, onSnapshot, query, doc } from 'firebase/firestore';
+//functions
+import { alertUser, alertUserB } from './functions/unActiveUser';
 //styles
 import './App.css';
 
@@ -28,15 +30,13 @@ const App = ()=> {
   addCurrentPlayerName = name=> {
     setCurrentPlayerName(name);
   };
-  
+  //life cycle methods
   useEffect(()=> {
-    console.log('db updated!!!!')
-    console.log('fetching playerlist')
     if(playerData){
       console.log(playerData.name)
       const onlinePlayersRef = query(collection(db, 'players'));
       const getonlinePlayers = onSnapshot(onlinePlayersRef, snap=> {
-        console.log('playerlist')
+        
         const a = [];
         snap.forEach(doc=> {
           console.log(doc.data())
@@ -48,7 +48,7 @@ const App = ()=> {
       })
       const docRef = query(doc(db, "players", playerData.name));
         console.log(docRef)
-        if(docRef) console.log('request came from someone')
+        
         const request = onSnapshot(docRef, snap=> {
           if(snap.data().requestFrom.name){
             setRequestDailog(true);
