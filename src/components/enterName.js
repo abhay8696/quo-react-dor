@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+//contexts
+import { PlayerDataContext } from '../contexts/playerDataContext';
 //firebase
 import db from '../Firebase';
-import { addDoc, collection, getDoc, getDocs} from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 
 const EnterName = (props) => {
-    //props
-    const { addCurrentPlayerName } = props;
+    //contexts
+    const [playerData, setPlayerData] = useContext(PlayerDataContext);
+    
     //states
     const [name, setName] = useState();
-
-    const fun = async ()=> {
-        const querySnapshot = await getDocs(collection(db, "players"));
-        querySnapshot.forEach((doc) => {
-          console.log(doc.data());
-        });
-    }
-    
-      const create = ()=> {
-        if(!name || name.length <= 0) return alert('empty');
-        const docRef = addDoc(collection(db, 'players'), {
-        name: name
+    //functions
+    const getUser = async ()=> {
+      // if(!name || name.length <= 0) return alert('empty');
+      // const docRef = addDoc(collection(db, 'players'), {
+      // name: name
+      // })
+      const docRef = doc(db, 'players', name);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        setPlayerData(docSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+        const playersRef = collection(db, 'players')
+        await setDoc(doc(playersRef, name), {
+          name: name
         })
-        addCurrentPlayerName(name);
+        setPlayerData({
+          name: name
+        })
       }
+    };
+
     return (
         <div>
             <input onChange={e=> setName(e.target.value)}/>
-            <h1 onClick={()=> create()}>{'---->'}</h1>
+            <h1 onClick={()=> getUser()}>{'---->'}</h1>
         </div>
     );
 };
