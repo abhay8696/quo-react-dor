@@ -16,7 +16,7 @@
 .next{
     width: 4rem;
     height: 4rem;
-    background-color: grey;
+    background-color: rgb(247, 193, 148);
     margin: 0.3rem;
     border-radius: 5px;
 }
@@ -24,13 +24,41 @@
     width: 4.5rem;
     height: 0.3rem;
     border-radius: 3px;
-    background-color: white;
+    background-color: #fff;
+    opacity: 0.8;
+    opacity: 0.3;
+}
+.selectedHorizontalWall{
+    width: 4.5rem;
+    height: 0.3rem;
+    border-radius: 3px;
+    background-color: #843a07;
     opacity: 0.8;
 }
 .verticalWall{
     height: 4.5rem;
     width: 0.3rem;
     border-radius: 3px;
-    background-color: white;
+    background-color: #fff;
     opacity: 0.8;
+    opacity: 0.3;
+}
+.selectedVerticalWall{
+    height: 4.5rem;
+    width: 0.3rem;
+    border-radius: 3px;
+    background-color: #843a07;
+    opacity: 0.8;
+}
+.verticalWall:hover{
+    background-color: #843a07;
+    cursor: pointer;
+}
+.horizontalWall:hover{
+    background-color: #843a07;
+    cursor: pointer;
+}
+.box > svg{
+    color: #843a07;
+    font-size: 3.5em;
 }

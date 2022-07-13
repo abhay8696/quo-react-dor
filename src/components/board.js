@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import '../styles/board.css'
 //icons
 import pawn from '../../src/icons/pawn.svg'
+import StarsIcon from '@mui/icons-material/Stars';
+import LensIcon from '@mui/icons-material/Lens';
 const Board = () => {
     //states
     const 
     [selected, setSelected] = useState(),
-    [next, setNext] = useState([]);
+    [next, setNext] = useState([]),
+    [selectedWall, setSelectedWall] = useState([]);
     //functions
     const 
     clickBox = (i,j)=> {
@@ -16,38 +19,55 @@ const Board = () => {
         let arr = [t, r, b, l];
         setNext(arr);
     },
+    clickWall = (x,y)=> {
+        console.log(`${x}${y}`);
+        setSelectedWall([...selectedWall, `${x}${y}`]);
+    },
     dispBoxes = ()=> {
         let rows = [], i=0;
-        for(let k=1; k<=11; k++){
-            if(k%2===1) i++ ;
+        for(let x=1; x<=11; x++){
+            if(x%2===1) i++ ;
             rows.push(
-                <div className='row' key={`R${k}`}>
-                    { k%2 === 1 ? boxRow(i) : wallRow(i) } 
+                <div className='row' key={`R${x}`}>
+                    { x%2 === 1 ? boxRow(i,x) : wallRow(x) } 
                 </div>
             )
         }
         return rows;
     },
-    boxRow = i=> {
-        let row = [], j=0;
+    boxRow = (i,x)=> {
+        let row = [], j=0, y=0;
         for(let l=1; l<=11; l++){
             if(l%2 === 1) j++;
-            l%2 === 1 ? row.push(box(i,j)) : row.push(verticalWall());
+            else y++;
+            l%2 === 1 ? row.push(box(i,j)) : row.push(wall(x,y,'v'));
         }
         return row;
     },
-    wallRow = (i)=> {
+    wallRow = (x)=> {
         let row = [];
-        for(let m=1; m<=6; m++){
-            row.push(horizontalWall());
+        for(let y=1; y<=6; y++){
+            row.push(wall(x,y,'h'));
         }
         return row;
     },
-    horizontalWall = ()=> {
-        return <div className='horizontalWall'></div>
-    },
-    verticalWall = ()=> {
-        return <div className='verticalWall'></div>
+    wall = (x,y, type)=> {
+        let cls;
+        if(type==='v'){
+            if(selectedWall.includes(`${x}${y}`)){
+                cls = 'selectedVerticalWall'
+            }else cls = 'verticalWall';
+        }else {
+            if(selectedWall.includes(`${x}${y}`)){
+                cls = 'selectedHorizontalWall'
+            }else cls = 'horizontalWall';
+        }
+        return (
+            <div 
+            className={cls} 
+            onClick={()=> clickWall(x,y)}
+            key = {`${x}${y}`}
+            ></div>)
     },
     box = (i,j)=> {
         return (<div 
@@ -55,7 +75,7 @@ const Board = () => {
             key={`${i}${j}`} 
             onClick={()=> clickBox(i,j)}
             >
-                {selected===`${i}${j}` ? <img src={pawn} /> : <></>}
+                {selected===`${i}${j}` ? <LensIcon className='pawn'/> : <></>}
             </div>)
     };
 
