@@ -1,9 +1,20 @@
+.row{
+    display: flex;
+}
 .box{
     width: 4rem;
     height: 4rem;
     background-color: white;
-    margin: 3px;
-}
-.row{
+    margin: 4px;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+.next{
+    width: 4rem;
+    height: 4rem;
+    background-color: grey;
+    margin: 4px;
+    border-radius: 5px;
 }
