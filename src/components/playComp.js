@@ -6,11 +6,14 @@ import '../styles/playComp.css'
 
 const PlayComp = (props) => {
     //props
-    const { opponent } = props;
+    const { opponent, exitGame } = props;
+    //functions
+    
     return (
         <div className='playComp'>
             Playing With: {opponent}
             <Board/>
+            <button onClick={()=> exitGame()}>Exit</button>
         </div>
     );
 };

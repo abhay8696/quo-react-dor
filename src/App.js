@@ -9,7 +9,7 @@ import RequestBox from './components/requestBox';
 import PlayComp from './components/playComp';
 //firebase
 import db from './Firebase';
-import { collection, onSnapshot, query, doc } from 'firebase/firestore';
+import { collection, onSnapshot, query, doc, updateDoc } from 'firebase/firestore';
 //functions
 import { alertUser, alertUserB } from './functions/unActiveUser';
 //styles
@@ -29,6 +29,14 @@ const App = ()=> {
   const 
   addCurrentPlayerName = name=> {
     setCurrentPlayerName(name);
+  },
+  exitGame = async ()=> {
+    setOpponent(null);
+    //update playingWith on db
+    const playerRef = doc(db, "players", playerData.name);
+        await updateDoc(playerRef, {
+            playingWith: {name: null}
+        })
   };
   //life cycle methods
   useEffect(()=> {
@@ -97,7 +105,7 @@ const App = ()=> {
       }
       {
         opponent ?
-        <PlayComp opponent={opponent}/>
+        <PlayComp opponent={opponent} exitGame={exitGame}/>
         : <></>
       }
     {/* </OpponentContext.Provider> */}

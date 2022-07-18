@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 //firebase
 import db from '../Firebase';
-import { collection, onSnapshot, query, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 //context
 import { PlayerDataContext } from '../contexts/playerDataContext';
 // import { OpponentContext } from '../contexts/opponentContext';
@@ -30,6 +30,25 @@ const RequestBox = (props) => {
                 replyToRequestBy: {hasAccepted: null, name: null},
                 playingWith: {name: playerData.name}
             })
+
+            //create new game room
+            const gameRef = collection(db, 'liveGames');
+            await setDoc(doc(gameRef, `${playerData.name}-${requestFrom.name}`), {
+                player1: {
+                    name: requestFrom.name,
+                    position: 'B64',
+                    walls:10,
+                },
+                player2: {
+                    name: playerData.name,
+                    position: 'B14',
+                    walls: 10
+                },
+                wallArray : [],
+                winner: null,
+                loser: null,
+                
+              })
             
         }else{ //deny request
             //delete 'requestFrom' object from my doc
