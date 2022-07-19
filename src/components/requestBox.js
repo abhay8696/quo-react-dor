@@ -5,6 +5,8 @@ import { collection, onSnapshot, query, doc, updateDoc, getDoc, setDoc } from 'f
 //context
 import { PlayerDataContext } from '../contexts/playerDataContext';
 // import { OpponentContext } from '../contexts/opponentContext';
+//functions
+import { getHash } from '../functions/helperFunctions';
 
 const RequestBox = (props) => {
     //context
@@ -30,17 +32,19 @@ const RequestBox = (props) => {
                 replyToRequestBy: {hasAccepted: null, name: null},
                 playingWith: {name: playerData.name}
             })
-
+            //create new id with hash
+            let id = getHash(playerData.name, requestFrom.name);
             //create new game room
             const gameRef = collection(db, 'liveGames');
-            await setDoc(doc(gameRef, `${playerData.name}-${requestFrom.name}`), {
+            await setDoc(doc(gameRef, `${id}`), {
+                id: id,
                 player1: {
-                    name: requestFrom.name,
+                    name: playerData.name,
                     position: 'B64',
                     walls:10,
                 },
                 player2: {
-                    name: playerData.name,
+                    name: requestFrom.name,
                     position: 'B14',
                     walls: 10
                 },

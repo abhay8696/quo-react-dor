@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+//firebase
+import db from '../Firebase';
+import { doc, query, updateDoc } from 'firebase/firestore';
 //styles
 import '../styles/board.css'
 //icons
@@ -6,13 +9,32 @@ import pawn from '../../src/icons/pawn.svg'
 import StarsIcon from '@mui/icons-material/Stars';
 import LensIcon from '@mui/icons-material/Lens';
 import { selectClasses } from '@mui/material';
-const Board = () => {
+const Board = (props) => {
     //states
     const 
     [selected, setSelected] = useState("B64"),
     [next, setNext] = useState(["54", "65", "74", "63"]),
     [selectedWall, setSelectedWall] = useState([]),
-    [blocked, setBlocked] = useState([]);
+    [blocked, setBlocked] = useState([]),
+    [myPawn, setMyPawn] = useState(),
+    [opponentPawn, setOpponentPawn] = useState();
+    //props
+    const { gameData, playerData, opponent } = props;
+    //life cycle
+    useEffect(()=> {
+        console.log(gameData)
+        if(!myPawn && !opponentPawn){
+            if(gameData?.player1.name === playerData.name){
+                setMyPawn(gameData?.player1);
+                setOpponentPawn(gameData?.player2);
+            }else{
+                setMyPawn(gameData?.player2);
+                setOpponentPawn(gameData?.player1);
+            }
+        }else{
+
+        }
+    }, [gameData])
     //functions
     const 
     clickBox = (i,j)=> {
@@ -22,7 +44,7 @@ const Board = () => {
         setSelected(`B${i}${j}`);
 
         let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
-        let brr = [];
+        let arr = [];
         const checkThis = [`${t}${s}`, `${s}${r}`, `${s}${b}`, `${l}${s}`]
         checkThis.forEach(i=> {
             if(!blocked.includes(i)){
@@ -31,13 +53,30 @@ const Board = () => {
                 //join 0+1 and 2+3
                 let str1 = splitedStr[0].concat(splitedStr[1])
                 let str2 = splitedStr[2].concat(splitedStr[3])
-                //if(0+1 === s) brr.push(2+3) else brr.push(0+1)
-                if(str1 === s) brr.push(str2);
-                else brr.push(str1);
+                //if(0+1 === s) arr.push(2+3) else arr.push(0+1)
+                if(str1 === s) arr.push(str2);
+                else arr.push(str1);
             }
         })
-        let arr = [t, r, b, l];
-        setNext(brr);
+        setNext(arr);
+        const gameRef = doc(db, "liveGames", `${gameData?.id}`);
+        if(gameData.player1.name === playerData.name){
+            updateDoc(gameRef, {
+                player1:{
+                    position : `B${i}${j}`,
+                    name: playerData.name,
+                    walls: gameData.player1.walls
+                }
+            })
+        }else{
+            updateDoc(gameRef, {
+            player2:{
+                position : `B${i}${j}`,
+                name: playerData.name,
+                walls: gameData.player2.walls
+            }
+            })
+        }
     },
     clickWall = (x,y)=> {
         let blockBox1, blockBox2
@@ -57,6 +96,27 @@ const Board = () => {
         setSelectedWall([...selectedWall, `W${x}${y}`]);
 
         check_ajacency_of_wall_and_box(blockBox1,blockBox2);
+
+        if(gameData){
+            const gameRef = doc(db, "liveGames", String(gameData.id));
+            if(gameData.player1.name === playerData.name){
+                updateDoc(gameRef, {
+                    player1:{
+                        position : gameData.player1.position,
+                        name: playerData.name,
+                        walls: gameData.player1.walls-1
+                    }
+                })
+            }else{updateDoc(gameRef, {
+                player2:{
+                    position : gameData.player2.position,
+                    name: playerData.name,
+                    walls: gameData.player2.walls-1
+                }
+            })
+            }
+        };
+
     },
     check_ajacency_of_wall_and_box = (box1, box2)=> {
         let b1 = `B${box1}`, b2 = `B${box2}`, newNext = [];
@@ -70,7 +130,7 @@ const Board = () => {
                 }
             })
             setNext(newNext);
-        }else console.log(false)
+        }
     },
     dispBoxes = ()=> {
         let rows = [], i=0;
@@ -138,6 +198,11 @@ const Board = () => {
         <div className='board'>
             {dispBoxes()}
             <button onClick={()=> clearBoard()}>Clear</button>
+            <h1>
+            {
+                gameData ? gameData.player1.name : null 
+            }
+            </h1>
         </div>
     );
 };

@@ -9,11 +9,13 @@ import RequestBox from './components/requestBox';
 import PlayComp from './components/playComp';
 //firebase
 import db from './Firebase';
-import { collection, onSnapshot, query, doc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, doc, updateDoc, getDoc, deleteDoc, getDocs } from 'firebase/firestore';
 //functions
 import { alertUser, alertUserB } from './functions/unActiveUser';
+import { getHash } from './functions/helperFunctions';
 //styles
 import './App.css';
+import { async } from '@firebase/util';
 
 
 const App = ()=> {
@@ -24,6 +26,7 @@ const App = ()=> {
   const [requestDailog, setRequestDailog] = useState(false);
   const [requestFrom, setRequestFrom] = useState();
   const [onlinePlayers, setonlinePlayers] = useState();
+  const [gameData, setGameData] = useState(null);
 
   //functions
   const 
@@ -37,17 +40,18 @@ const App = ()=> {
         await updateDoc(playerRef, {
             playingWith: {name: null}
         })
+  },
+  updateGameData = dataObject=> {
+    setGameData(dataObject);
   };
   //life cycle methods
   useEffect(()=> {
     if(playerData){
-      console.log(playerData.name)
       const onlinePlayersRef = query(collection(db, 'players'));
       const getonlinePlayers = onSnapshot(onlinePlayersRef, snap=> {
         
         const a = [];
         snap.forEach(doc=> {
-          console.log(doc.data())
           if(doc.data().name !== playerData.name) {
             a.push(doc.data());
           } 
@@ -55,7 +59,6 @@ const App = ()=> {
         setonlinePlayers(a);
       })
       const docRef = query(doc(db, "players", playerData.name));
-        console.log(docRef)
         
         const request = onSnapshot(docRef, snap=> {
           if(snap.data().requestFrom.name){
@@ -80,6 +83,20 @@ const App = ()=> {
       if(!requestFrom.name) setRequestDailog(false);
     }
   }, [requestFrom])
+  useEffect(()=> {
+    if(opponent){
+      console.log('game')
+      getGame();
+    }
+  }, [opponent])
+  const getGame = async ()=> {
+    const gameId = getHash(playerData.name, opponent);
+    const gameRef = collection(db, 'liveGames');
+    const snap = await getDocs(gameRef);
+    snap.forEach(doc=> {
+      Number(doc.id) === gameId ? setGameData(doc.data()) : console.log('game not found!');
+    });
+  }
   return (
     <div className="App">
       <PlayerDataContext.Provider value={[playerData, setPlayerData]}>
@@ -104,8 +121,8 @@ const App = ()=> {
           /> : <></>
       }
       {
-        opponent ?
-        <PlayComp opponent={opponent} exitGame={exitGame}/>
+        opponent && gameData?
+        <PlayComp opponent={opponent} exitGame={exitGame} gameData={gameData} updateGameData={updateGameData}/>
         : <></>
       }
     {/* </OpponentContext.Provider> */}
