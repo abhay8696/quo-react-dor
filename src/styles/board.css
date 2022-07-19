@@ -1,3 +1,6 @@
+.boardInverted{
+    transform: rotate(180deg);
+}
 .row{
     display: flex;
     justify-content: space-around;
@@ -58,7 +61,12 @@
     background-color: #843a07;
     cursor: pointer;
 }
-.box > svg{
+.pawn{
     color: #843a07;
+}
+.box > svg{
     font-size: 3.5em;
+}
+.opponentPawn{
+    color: #698407;
 }

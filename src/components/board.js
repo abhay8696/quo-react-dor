@@ -12,38 +12,37 @@ import { selectClasses } from '@mui/material';
 const Board = (props) => {
     //states
     const 
-    [selected, setSelected] = useState("B64"),
-    [next, setNext] = useState(["54", "65", "74", "63"]),
+    [selected, setSelected] = useState(),
+    [next, setNext] = useState(),
     [selectedWall, setSelectedWall] = useState([]),
     [blocked, setBlocked] = useState([]),
-    [myPawn, setMyPawn] = useState(),
+    [boardType, setBoardType] = useState('normal'),
     [opponentPawn, setOpponentPawn] = useState();
     //props
     const { gameData, playerData, opponent } = props;
     //life cycle
     useEffect(()=> {
+        if(gameData?.player1.name === playerData.name){
+            setBoardType('normal')
+        }else setBoardType('boardInverted')
+    }, [])
+    useEffect(()=> {
         console.log(gameData)
-        if(!myPawn && !opponentPawn){
-            if(gameData?.player1.name === playerData.name){
-                setMyPawn(gameData?.player1);
-                setOpponentPawn(gameData?.player2);
-            }else{
-                setMyPawn(gameData?.player2);
-                setOpponentPawn(gameData?.player1);
-            }
+        if(gameData?.player1.name === playerData.name){
+            setSelected(gameData?.player1);
+            setOpponentPawn(gameData?.player2);
         }else{
-
+            setSelected(gameData?.player2);
+            setOpponentPawn(gameData?.player1);
         }
     }, [gameData])
-    //functions
-    const 
-    clickBox = (i,j)=> {
+    useEffect(()=> {
+        const i = Number(selected?.position?.split('')[1]);
+        const j = Number(selected?.position?.split('')[2]);
         let s = `${i}${j}`
-        if(!next.includes(s)) return;
         
-        setSelected(`B${i}${j}`);
-
         let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
+        console.log({t,r,b,l})
         let arr = [];
         const checkThis = [`${t}${s}`, `${s}${r}`, `${s}${b}`, `${l}${s}`]
         checkThis.forEach(i=> {
@@ -59,6 +58,15 @@ const Board = (props) => {
             }
         })
         setNext(arr);
+    }, [selected])
+    //functions
+    const 
+    clickBox = (i,j)=> {
+        let s = `${i}${j}`
+        if(!next?.includes(s)) return;
+        
+        setSelected(`B${i}${j}`);
+
         const gameRef = doc(db, "liveGames", `${gameData?.id}`);
         if(gameData.player1.name === playerData.name){
             updateDoc(gameRef, {
@@ -93,7 +101,7 @@ const Board = (props) => {
             blockBox2 = `${iBot}${jBot}`;
             }
         if(!blocked.includes(`${blockBox1}${blockBox2}`)) setBlocked([...blocked, `${blockBox1}${blockBox2}`]);
-        setSelectedWall([...selectedWall, `W${x}${y}`]);
+        setSelected([...selectedWall, `W${x}${y}`]);
 
         check_ajacency_of_wall_and_box(blockBox1,blockBox2);
 
@@ -180,11 +188,12 @@ const Board = (props) => {
     },
     box = (i,j)=> {
         return (<div 
-            className={next.includes(`${i}${j}`) ? 'next' : 'box'}
+            className={next?.includes(`${i}${j}`) ? 'next' : 'box'}
             key={`B${i}${j}`} 
             onClick={()=> clickBox(i,j)}
             >
-                {selected===`B${i}${j}` ? <LensIcon className='pawn'/> : <></>}
+                {selected?.position===`B${i}${j}` ? <LensIcon className='pawn'/> : <></>}
+                {opponentPawn?.position===`B${i}${j}` ? <LensIcon className='opponentPawn'/> : <></>}
             </div>)
     }, 
     clearBoard = ()=> {
@@ -195,8 +204,10 @@ const Board = (props) => {
     };
 
     return (
-        <div className='board'>
-            {dispBoxes()}
+        <div className=''>
+            <div className={boardType}>
+                {dispBoxes()}
+            </div>
             <button onClick={()=> clearBoard()}>Clear</button>
             <h1>
             {
