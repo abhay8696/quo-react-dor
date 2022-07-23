@@ -75,7 +75,7 @@ const RequestBox = (props) => {
     return (
         requestFrom ?
         <div>
-            <h1>You Request To Play Game From {requestFrom.name}</h1>
+            <h1>Request From {requestFrom.name}</h1>
             <button onClick={()=> requestFunc(true)}>Yes</button>
             <button onClick={()=> requestFunc(false)}>No</button>
         </div>

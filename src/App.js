@@ -35,6 +35,7 @@ const App = ()=> {
   },
   exitGame = async ()=> {
     setOpponent(null);
+    setGameData(null);
     //update playingWith on db
     const playerRef = doc(db, "players", playerData.name);
         await updateDoc(playerRef, {
@@ -86,16 +87,24 @@ const App = ()=> {
   useEffect(()=> {
     if(opponent){
       console.log('game')
-      getGame();
+      console.log(opponent)
+      console.log('game')
+      const gameId = getHash(playerData.name, opponent);
+      setTimeout(() => {
+        getGame(gameId)
+      }, 5000);
     }
+
   }, [opponent])
-  const getGame = async ()=> {
-    const gameId = getHash(playerData.name, opponent);
+  const getGame = async gameId=> {
+    console.log('getting game')
     const gameRef = collection(db, 'liveGames');
     const snap = await getDocs(gameRef);
-    snap.forEach(doc=> {
-      Number(doc.id) === gameId ? setGameData(doc.data()) : console.log('game not found!');
-    });
+    if(gameId){
+      snap.forEach(doc=> {
+        if(Number(doc.id) === gameId ) setGameData(doc.data());
+      });
+    }else console.log(`gameId not found! ${gameId}`)
   }
   return (
     <div className="App">

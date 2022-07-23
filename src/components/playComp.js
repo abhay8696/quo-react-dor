@@ -19,6 +19,7 @@ const PlayComp = (props) => {
     //life cycle
     useEffect(()=> {
         console.log("Entered PlayComp")
+        console.log(gameData)
 
         let unsub = onSnapshot(doc(db, "liveGames", `${gameData?.id}`), (doc) => {
             updateGameData(doc.data())
