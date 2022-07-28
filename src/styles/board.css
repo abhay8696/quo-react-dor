@@ -36,7 +36,7 @@
     height: 0.3rem;
     border-radius: 3px;
     background-color: #843a07;
-    opacity: 0.8;
+    /* opacity: 0.8; */
 }
 .verticalWall{
     height: 4.5rem;
@@ -51,7 +51,7 @@
     width: 0.3rem;
     border-radius: 3px;
     background-color: #843a07;
-    opacity: 0.8;
+    /* opacity: 0.8; */
 }
 .verticalWall:hover{
     background-color: #843a07;
@@ -69,4 +69,8 @@
 }
 .opponentPawn{
     color: #698407;
+}
+.info{
+    color: #000;
+    position: absolute;
 }

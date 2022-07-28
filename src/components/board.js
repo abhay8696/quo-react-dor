@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 //firebase
 import db from '../Firebase';
 import { doc, query, updateDoc } from 'firebase/firestore';
+//functions
+import { block_boxes_ajacent_to_wall, check_next_collide_with_opponentPawn, clearBoard, clickBox, clickWall, find_box_adjacent_to_wall } from '../functions/boardFunctions';
 //styles
 import '../styles/board.css'
 //icons
@@ -18,30 +20,41 @@ const Board = (props) => {
     [standingWalls, setStandingWalls] = useState([]),
     [blocked, setBlocked] = useState([]),
     [boardType, setBoardType] = useState('normal'),
-    [opponentPawn, setOpponentPawn] = useState();
+    [opponentPawn, setOpponentPawn] = useState(),
+    [targetRowOfOpponent, setTargetRowOfOpponent] = useState(1),
+    [myTurn, setMyturn] = useState(false);
     //props
     const { gameData, playerData, opponent } = props;
     //life cycle
     useEffect(()=> {
         if(gameData?.player1.name === playerData.name){
-            setBoardType('normal')
-        }else setBoardType('boardInverted');
-        setGameRef(doc(db, "liveGames", `${gameData?.id}`));
+            setBoardType('normal');
+            setTargetRowOfOpponent(8);
+        }else {
+            setBoardType('boardInverted');
+            setTargetRowOfOpponent(1);
+        }
 
+        setGameRef(doc(db, "liveGames", `${gameData?.id}`));
+        
         return ()=> {
-            setStandingWalls([]);
         }
     }, [])
     useEffect(()=> {
         if(gameData?.player1.name === playerData.name){
             setSelected(gameData?.player1);
             setOpponentPawn(gameData?.player2);
+            if(gameData.turnNo%2 === 1) setMyturn(true);
+            if(gameData.turnNo%2 === 0) setMyturn(false);
         }else{
             setSelected(gameData?.player2);
             setOpponentPawn(gameData?.player1);
+            if(gameData.turnNo%2 === 1) setMyturn(false);
+            if(gameData.turnNo%2 === 0) setMyturn(true);
         }
         setStandingWalls(gameData?.wallArray);
-        setBlocked(gameData?.blockedWays)
+        setBlocked(gameData?.blockedWays);
+
     }, [gameData])
     useEffect(()=> {
         if(standingWalls?.length){
@@ -55,7 +68,7 @@ const Board = (props) => {
                 y = standingWalls[standingWalls.length-1].split('')[3];
             }
     
-            block_boxes_ajacent_to_wall(Number(x), Number(y));
+            setNext(block_boxes_ajacent_to_wall({x, y, blocked, gameRef, selected, next}));
         }
     }, [standingWalls])
     useEffect(()=> {
@@ -67,7 +80,7 @@ const Board = (props) => {
         let arr = [];
         const checkThis = [`${t}${s}`, `${s}${r}`, `${s}${b}`, `${l}${s}`]
         checkThis.forEach(i=> {
-            if(!blocked.includes(i)){
+            if(!blocked?.includes(i)){
                 //i.split
                 let splitedStr = i.split(''); 
                 //join 0+1 and 2+3
@@ -78,138 +91,13 @@ const Board = (props) => {
                 else arr.push(str1);
             }
         })
-        setNext(check_next_collide_with_opponentPawn(arr))
+        setNext(check_next_collide_with_opponentPawn({arr, selected, opponentPawn, blocked}));
     }, [selected])
     //functions
     const 
-    clickBox = (i,j)=> {
-        let s = `${i}${j}`
-        if(!next?.includes(s)) return;
-        
-        // setSelected(`B${i}${j}`);
-
-        if(gameData.player1.name === playerData.name){
-            updateDoc(gameRef, {
-                player1:{
-                    position : `B${i}${j}`,
-                    name: playerData.name,
-                    walls: gameData.player1.walls
-                }
-            })
-        }else{
-            updateDoc(gameRef, {
-            player2:{
-                position : `B${i}${j}`,
-                name: playerData.name,
-                walls: gameData.player2.walls
-            }
-            })
-        }
-    },
-    clickWall = (x,y)=> {
-        if(standingWalls?.length){
-            if(standingWalls?.includes(`W${x}${y}`)) return;
-        }
-        if(gameData?.player1.name === playerData.name && gameData?.player1.walls <= 0) return;
-        if(gameData?.player2.name === playerData.name && gameData?.player2.walls <= 0) return;
-        
-        updateDoc(gameRef, {
-            wallArray:[...standingWalls, `W${x}${y}`]
-            })
-        if(gameData?.player1.name === playerData.name){
-            updateDoc(gameRef, {
-                player1:{
-                    position : gameData.player1.position,
-                    name: playerData.name,
-                    walls: gameData.player1.walls - 1
-                }
-            })
-        }else{
-            updateDoc(gameRef, {
-            player2:{
-                position : gameData.player2.position,
-                name: playerData.name,
-                walls: gameData.player2.walls - 1
-            }
-            })
-        }
-
-    },
-    block_boxes_ajacent_to_wall = (x, y)=> {
-        let blockBox1, blockBox2, newNext = [];
-        //if x%2===0 hWall else vWall
-        if(x%2===1){ //vWall
-            let iLeft = (x+1)/2, jLeft=y, iRight = (x+1)/2, jRight=y+1;
-            blockBox1 = `${iLeft}${jLeft}`;
-            blockBox2 = `${iRight}${jRight}`;
-        }
-        if(x%2===0){ //hWall
-            let iTop = x/2, jTop=y, iBot = (x/2)+1, jBot=y;
-            blockBox1 = `${iTop}${jTop}`;
-            blockBox2 = `${iBot}${jBot}`;
-            }
-        if(!blocked.includes(`${blockBox1}${blockBox2}`)){
-            updateDoc(gameRef, {
-                blockedWays: [...blocked, `${blockBox1}${blockBox2}`]
-            })
-        }
-        
-        //check clicked wall is adjacent to selected box
-        //if(yes) update next boxes
-        if(selected === `B${blockBox1}` || selected === `B${blockBox2}`){
-            console.log('blocking next block too')
-            // setNext()
-            next.forEach(i=> {
-                if(i !== blockBox1 && i !== blockBox2){
-                    newNext.push(i)
-                }
-            })
-            setNext(newNext);
-        }
-    },
-    check_next_collide_with_opponentPawn = arr=> {
-        let x,y, includesBlockedList = false;
-        let oPosition = opponentPawn.position, sPosition = selected.position;
-        const coord = oPosition.split("")[1].concat(oPosition.split("")[2])
-        if(arr.indexOf(coord) >= 0){ //nextBox Collides with oPosition
-            //check if both pawns align is same row or same column
-            if(oPosition[1] === sPosition[1]){//same row
-                console.log('same row')
-                x = oPosition[1];
-                //if oppo is at rhs of slected
-                if(oPosition[2]-sPosition[2] > 0){
-                    y = `${Number(oPosition[2])+1}`;
-                }else{
-                    //else oppo is at lhs of slected
-                    y = `${Number(oPosition[2])-1}`;
-                }
-            }else if(oPosition[2] === sPosition[2]){//same column
-                console.log('same column')
-                y = oPosition[2];
-                //if oppo is at bottom of slected
-                if(oPosition[1]-sPosition[1] > 0){
-                    x = `${Number(oPosition[1])+1}`;
-                }else{
-                    //else oppo is at top of slected
-                    x = `${Number(oPosition[1])-1}`;
-                }
-            }
-            //check if blocked includes xy
-            blocked.forEach(i=> {
-                let b1 = `${i[0]}${i[1]}`, b2 = `${i[2]}${i[3]}`;
-                if(b1 === `${x}${y}` || b2 === `${x}${y}`){
-                    includesBlockedList = true;
-                }
-            })
-            if(includesBlockedList){
-                arr[arr.indexOf(coord)] = null;
-            }else arr[arr.indexOf(coord)] = `${x}${y}`;
-        }
-        return arr;
-    },
     dispBoxes = ()=> {
         let rows = [], i=0;
-        for(let x=1; x<=11; x++){
+        for(let x=1; x<=15; x++){
             if(x%2===1) i++ ;
             rows.push(
                 <div className='row' key={`B${x}`}>
@@ -221,7 +109,7 @@ const Board = (props) => {
     },
     boxRow = (i,x)=> {
         let row = [], j=0, y=0;
-        for(let l=1; l<=11; l++){
+        for(let l=1; l<=15; l++){
             if(l%2 === 1) j++;
             else y++;
             l%2 === 1 ? row.push(box(i,j)) : row.push(wall(x,y,'v'));
@@ -230,7 +118,7 @@ const Board = (props) => {
     },
     wallRow = (x)=> {
         let row = [];
-        for(let y=1; y<=6; y++){
+        for(let y=1; y<=8; y++){
             row.push(wall(x,y,'h'));
         }
         return row;
@@ -249,54 +137,20 @@ const Board = (props) => {
         return (
             <div 
             className={cls} 
-            onClick={()=> clickWall(x,y)}
+            onClick={()=> clickWall({myTurn, x,y, standingWalls, gameData, gameRef, playerData, opponentPawn, blocked, targetRowOfOpponent})}
             key = {`W${x}${y}`}
             ></div>)
     },
     box = (i,j)=> {
         return (<div 
-            className={next?.includes(`${i}${j}`) ? 'next' : 'box'}
+            className={next?.includes(`${i}${j}`) && myTurn ? 'next' : 'box'}
             key={`B${i}${j}`} 
-            onClick={()=> clickBox(i,j)}
+            onClick={()=> clickBox({myTurn ,i, j, gameData, playerData, gameRef, next})}
             >
+                <span className='info'></span>
                 {selected?.position===`B${i}${j}` ? <LensIcon className='pawn'/> : <></>}
                 {opponentPawn?.position===`B${i}${j}` ? <LensIcon className='opponentPawn'/> : <></>}
             </div>)
-    }, 
-    clearBoard = ()=> {
-        if(gameData?.player1.name === playerData.name){
-            updateDoc(gameRef, {
-                player1:{
-                    position : "B64",
-                    name: playerData.name,
-                    walls: 10
-                }
-            })
-            updateDoc(gameRef, {
-            player2:{
-                position : "B14",
-                name: opponent,
-                walls: 10
-            }
-            })
-        }else{
-            updateDoc(gameRef, {
-                player2:{
-                    position : "B14",
-                    name: playerData.name,
-                    walls: 10
-                }
-            })
-            updateDoc(gameRef, {
-            player1:{
-                position : "B64",
-                name: opponent,
-                walls: 10
-            }
-            })
-        }
-        updateDoc(gameRef, { wallArray : [] })
-        updateDoc(gameRef, { blockedWays : [] })
     };
 
     return (
@@ -304,7 +158,8 @@ const Board = (props) => {
             <div className={boardType}>
                 {dispBoxes()}
             </div>
-            <button onClick={()=> clearBoard()}>Clear</button>
+            <p>{myTurn ? 'Your Turn' : "Opponent's Turn"}</p>
+            <button onClick={()=> clearBoard({ gameData, playerData, gameRef, opponent})}>Clear</button>
             <h1>
             {
                 gameData ? gameData.player1.name : null 

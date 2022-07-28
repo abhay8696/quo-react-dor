@@ -40,18 +40,18 @@ const RequestBox = (props) => {
                 id: id,
                 player1: {
                     name: playerData.name,
-                    position: 'B64',
-                    walls:10,
+                    position: 'B84',
+                    walls:12,
                 },
                 player2: {
                     name: requestFrom.name,
                     position: 'B14',
-                    walls: 10
+                    walls: 12
                 },
                 wallArray : [],
                 winner: null,
                 loser: null,
-                
+                turnNo: 1
               })
             
         }else{ //deny request
