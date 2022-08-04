@@ -19,21 +19,19 @@ const Hello = props => {
       handleChecked();
     }, [])
     return (
-        <Slide direction="up" in={checked} {...(checked ? { timeout: 500 } : {})}>
-          <div className='hello'>
-            <Grow
-              in={checked}
-              style={{ transformOrigin: '0 0 0' }}
-              {...(checked ? { timeout: 500 } : {})}
-            >
-              <div className='name'>Hello {playerData.name}!</div>
-            </Grow>
-            <div>Online Players:</div>
-            <PlayerList 
-              onlinePlayers={onlinePlayers}
-              />
-          </div>
-        </Slide>
+      <div className='hello'>
+        <Grow
+          in={checked}
+          style={{ transformOrigin: '0 0 0' }}
+          {...(checked ? { timeout: 500 } : {})}
+        >
+          <div className='name'>Hello {playerData.name}!</div>
+        </Grow>
+        <div>Online Players:</div>
+        <PlayerList 
+          onlinePlayers={onlinePlayers}
+          />
+      </div>
     );
 };
 

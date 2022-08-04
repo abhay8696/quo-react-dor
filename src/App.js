@@ -9,6 +9,7 @@ import PlayerList from './components/playerList';
 import RequestBox from './components/requestBox';
 import PlayComp from './components/playComp';
 import OpponentQuit from './components/opponentQuit';
+import Guide from './components/guide/Guide';
 //firebase
 import db from './Firebase';
 import { collection, onSnapshot, query, doc, updateDoc, getDoc, deleteDoc, getDocs } from 'firebase/firestore';
@@ -133,11 +134,16 @@ const App = ()=> {
         playerData ? 
         <>
         <SideBar  playerData={playerData} onlinePlayers={onlinePlayers} />
-        <EnterName addCurrentPlayerName={addCurrentPlayerName} disappear={true} text={playerData.name}/>
+        {/* <EnterName addCurrentPlayerName={addCurrentPlayerName} disappear={true} text={playerData.name}/> */}
         <button onClick={()=> logout()}className='logout'>Exit App</button>
         </>
         :
         <EnterName addCurrentPlayerName={addCurrentPlayerName}  disappear={false}/>
+      }
+      {
+        playerData && !opponent ?
+        <Guide />
+        : null
       }
       {
         requestDailog ? 

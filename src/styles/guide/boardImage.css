@@ -1,0 +1,48 @@
+.boardImage{
+    background-color: red;
+    /* width: 80vw; */
+}
+.row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box{
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background-color: white;
+    margin: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.horizontalWall{
+    width: 1.5rem;
+    height: 0.1rem;
+    border-radius: 3px;
+    background-color: #fff;
+    opacity: 0.8;
+    opacity: 0.3;
+}
+.verticalWall{
+    height: 1.5rem;
+    width: 0.1rem;
+    border-radius: 3px;
+    background-color: #fff;
+    opacity: 0.8;
+    opacity: 0.3;
+}
+.pawn{
+    color: #843a07;
+}
+.box > svg{
+    font-size: 3.5em;
+}
+.opponentPawn{
+    color: #698407;
+}
+.info{
+    color: #000;
+    position: absolute;
+}
