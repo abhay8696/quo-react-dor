@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { PlayerDataContext } from './contexts/playerDataContext';
 import { OpponentContext } from './contexts/opponentContext';
 //components
+import Hello from './components/hello';
 import EnterName from './components/enterName';
 import PlayerList from './components/playerList';
 import RequestBox from './components/requestBox';
 import PlayComp from './components/playComp';
+import OpponentQuit from './components/opponentQuit';
 //firebase
 import db from './Firebase';
 import { collection, onSnapshot, query, doc, updateDoc, getDoc, deleteDoc, getDocs } from 'firebase/firestore';
@@ -16,6 +18,7 @@ import { getHash } from './functions/helperFunctions';
 //styles
 import './App.css';
 import { async } from '@firebase/util';
+import SideBar from './components/sideBar';
 
 
 const App = ()=> {
@@ -33,17 +36,34 @@ const App = ()=> {
   addCurrentPlayerName = name=> {
     setCurrentPlayerName(name);
   },
-  exitGame = async ()=> {
+  exitGame = async (oppo)=> {
     setOpponent(null);
     setGameData(null);
     //update playingWith on db
     const playerRef = doc(db, "players", playerData.name);
-        await updateDoc(playerRef, {
-            playingWith: {name: null}
-        })
+    await updateDoc(playerRef, {
+        playingWith: {name: null}
+    })
+    if(opponent){
+      const opponentRef = doc(db, "players", opponent)
+      await updateDoc(opponentRef, {
+        exitedByOpponent: true
+      })
+    }
+    //reset playerData
+    const docRef = doc(db, 'players', playerData.name);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setPlayerData(docSnap.data());
+    }
   },
   updateGameData = dataObject=> {
     setGameData(dataObject);
+  },
+  logout = ()=> {
+    setPlayerData(undefined);
+    window.localStorage.setItem("userData", null);
   };
   //life cycle methods
   useEffect(()=> {
@@ -75,14 +95,12 @@ const App = ()=> {
               setOpponent(snap.data().playingWith.name);
             }
           }else setOpponent(null);
-          
         })
     }
   }, [db, playerData])
+  
   useEffect(()=> {
-    if(requestFrom) {
-      if(!requestFrom.name) setRequestDailog(false);
-    }
+    if(!requestFrom || !requestFrom?.name) setRequestDailog(false);
   }, [requestFrom])
   useEffect(()=> {
     if(opponent){
@@ -113,14 +131,13 @@ const App = ()=> {
       <h1>QUO-REACT-DOR</h1>
       {
         playerData ? 
-        <div>
-        <h1>Hello {playerData.name}!</h1>
-        <PlayerList 
-        onlinePlayers={onlinePlayers}
-        />
-        </div>
+        <>
+        <SideBar  playerData={playerData} onlinePlayers={onlinePlayers} />
+        <EnterName addCurrentPlayerName={addCurrentPlayerName} disappear={true} text={playerData.name}/>
+        <button onClick={()=> logout()}className='logout'>Exit App</button>
+        </>
         :
-        <EnterName addCurrentPlayerName={addCurrentPlayerName}/>
+        <EnterName addCurrentPlayerName={addCurrentPlayerName}  disappear={false}/>
       }
       {
         requestDailog ? 
@@ -131,7 +148,12 @@ const App = ()=> {
       }
       {
         opponent && gameData?
-        <PlayComp opponent={opponent} exitGame={exitGame} gameData={gameData} updateGameData={updateGameData}/>
+        <PlayComp 
+        opponent={opponent} 
+        exitGame={exitGame} 
+        gameData={gameData} 
+        updateGameData={updateGameData}
+        />
         : <></>
       }
     {/* </OpponentContext.Provider> */}

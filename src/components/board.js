@@ -15,6 +15,7 @@ const Board = (props) => {
     //states
     const 
     [gameRef, setGameRef] = useState(),
+    [myGameData, setMyGameData] = useState(),
     [selected, setSelected] = useState(),
     [next, setNext] = useState(),
     [standingWalls, setStandingWalls] = useState([]),
@@ -42,11 +43,13 @@ const Board = (props) => {
     }, [])
     useEffect(()=> {
         if(gameData?.player1.name === playerData.name){
+            setMyGameData(gameData.player1)
             setSelected(gameData?.player1);
             setOpponentPawn(gameData?.player2);
             if(gameData.turnNo%2 === 1) setMyturn(true);
             if(gameData.turnNo%2 === 0) setMyturn(false);
         }else{
+            setMyGameData(gameData.player2)
             setSelected(gameData?.player2);
             setOpponentPawn(gameData?.player1);
             if(gameData.turnNo%2 === 1) setMyturn(false);
@@ -156,15 +159,13 @@ const Board = (props) => {
     return (
         <div className=''>
             <div className={boardType}>
+                <div>
+                    Walls : {myGameData?.walls}
+                </div>
                 {dispBoxes()}
             </div>
             <p>{myTurn ? 'Your Turn' : "Opponent's Turn"}</p>
             <button onClick={()=> clearBoard({ gameData, playerData, gameRef, opponent})}>Clear</button>
-            <h1>
-            {
-                gameData ? gameData.player1.name : null 
-            }
-            </h1>
         </div>
     );
 };

@@ -1,0 +1,31 @@
+.dailog{
+    background-color: #d2cb95;
+    border-radius: 1rem;
+    color: #ab3706;
+    padding: 1rem 2rem;
+    position: absolute;
+    bottom: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.dailogMsg{
+    font-size: 1rem;
+}
+.buttons{
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+.dailog button{
+    color:#ab3706;
+    font-size: 2rem;
+    padding: 0;
+    margin-top: 0.5rem;
+}
+button:hover{
+    color: black;
+}

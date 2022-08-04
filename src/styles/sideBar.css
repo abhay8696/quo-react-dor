@@ -1,0 +1,31 @@
+@media only screen and (max-width: 950px) {
+    .sideBar{
+      display: none !important;
+    }
+}
+.playersList{
+  width: 100vw;
+}
+.forMobile{
+  border-radius: 1rem;
+  overflow: auto;
+}
+.forMobile div{
+  background-color: #d2cb95;
+  /* width: 80vw; */
+  color: #ab3706;
+}
+.forMobile .MuiAccordionSummary-root{
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 80vw;
+}
+.accordianSummary div{
+  display: flex;
+  justify-content: space-between;
+}
+@media only screen and (min-width: 951px) {
+  .forMobile{
+    display: none !important;
+  }
+}

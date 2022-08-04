@@ -1,0 +1,19 @@
+.hello{
+    width: 20vw;
+    background-color: #d2cb95;
+    color: #ab3706;
+    font-size: 1rem;
+    border-radius: 1rem;
+    height: 75vh;
+}
+.name{
+    font-size: 2rem;
+    margin: 1rem auto;
+}
+
+/* mobile and tab */
+@media only screen and (max-width: 950px) {
+    .hello{
+        width: 75vw;
+    }
+}
