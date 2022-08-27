@@ -1,7 +1,8 @@
 .dailog{
-    background-color: #d2cb95;
+    background-color: #fff;
     border-radius: 1rem;
-    color: #ab3706;
+    border: 1px solid black;
+    color: #000;
     padding: 1rem 2rem;
     position: absolute;
     bottom: 50%;
@@ -9,9 +10,14 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    z-index: 20;
 }
 .dailogMsg{
     font-size: 1rem;
+}
+.dailogMsg1{
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
 .buttons{
     width: 75%;
@@ -21,11 +27,30 @@
     /* border: 1px solid black; */
 }
 .dailog button{
-    color:#ab3706;
+    color:#000;
     font-size: 2rem;
     padding: 0;
     margin-top: 0.5rem;
+    font-size: 1rem;
 }
-button:hover{
-    color: black;
+.exitButton{
+    border: 1px solid #ab3706;
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem !important;
+}
+/* mobile */
+@media only screen and (max-width: 600px) {
+    .dailog{
+        width: 50vw;
+    }
+    button:active{
+        color: black;
+    }
+    
+}
+/* desktop */
+@media only screen and (min-width: 600px) {
+    button:hover{
+        color: black;
+    }
 }

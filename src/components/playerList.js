@@ -15,6 +15,8 @@ const PlayerList = (props) => {
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
     //states
     const [reqTo, setReqTo] = useState();
+    const [reqTimeOut, setReqTimeOut] = useState();
+    const [cancelRequestTimeOut, setCancelRequestTimeOut] = useState(false);
     //life cycle
     useEffect(()=> {
         const playerSnap = onSnapshot(doc(db, 'players', playerData.name), doc=> {
@@ -26,8 +28,13 @@ const PlayerList = (props) => {
         }
     }, [])
     useEffect(()=> {
-        if(reqTo?.status === 'rejected' || reqTo?.status === 'accepted'){
-            setTimeout(() => {
+        let t;
+        if(reqTo?.status === null && reqTimeOut){
+            clearTimeout(reqTimeOut);
+            setReqTimeOut(undefined);
+        }
+        if(reqTo?.status === 'cancelled' || reqTo?.status === 'rejected' || reqTo?.status === 'accepted'){
+            t = setTimeout(() => {
                 const playerRef = doc(db, 'players', playerData.name);
                 updateDoc(playerRef, {
                     requestTo: {
@@ -36,6 +43,7 @@ const PlayerList = (props) => {
                     }
                 })
             }, 5000);
+            setReqTimeOut(t);
         }
     }, [reqTo])
     //functionsreqTo?.status === 'rejected'
@@ -53,6 +61,23 @@ const PlayerList = (props) => {
                 status: 'pending'
             }
         })
+    },
+    cancelRequest = async opponent=> {
+        console.log(opponent);
+        if(!opponent) return;
+        const opponentRef = doc(db, "players", opponent);
+        const playerDataRef = doc(db, "players", playerData.name);
+        await updateDoc(opponentRef, {
+            requestFrom: {name: null}
+        })
+        //updateDoc of requester. add object replyToRequestBy = {name, hasAccepted  }
+        await updateDoc(playerDataRef, {
+            requestTo: {
+                name: opponent,
+                status: 'cancelled'
+            }
+        });
+        return ;
     },
     reqStatus = (name)=> {
         if(name === reqTo?.name){
@@ -74,8 +99,18 @@ const PlayerList = (props) => {
                     <MdDone/>
                 </span>
             )
+            if(reqTo.status === 'cancelled') return(
+                <span className='requestRejected'>
+                    <span className='reqText'>request cancelled</span>
+                    <MdBlock/>
+                </span>
+            )
         }
         return null;
+    },
+    handleClick = p=> {
+        if(reqTo?.status === 'pending') return cancelRequest(p.name);
+        return sendRequest(p);
     }
     
 
@@ -84,7 +119,7 @@ const PlayerList = (props) => {
         onlinePlayers.forEach(p=> {
             a.push(
                 <div 
-                onClick={()=> sendRequest(p)} 
+                onClick={()=> handleClick(p)} 
                 key={p.name}
                 className='playerName'
                 >

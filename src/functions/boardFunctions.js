@@ -1,11 +1,11 @@
 import { updateDoc, doc } from "firebase/firestore";
 
 export const clickBox = data=> {
-    const {myTurn, i, j, gameData, playerData, gameRef, next} = data;
+    const {myTurn, i, j, gameData, playerData, gameRef, next, oldPosition} = data;
     if(!myTurn) return;
     let s = `${i}${j}`
     if(!next?.includes(s)) return;
-    
+    let myDirection = giveDirection({from: oldPosition, to: `B${i}${j}`});
     
     // setSelected(`B${i}${j}`);
 
@@ -14,7 +14,8 @@ export const clickBox = data=> {
             player1:{
                 position : `B${i}${j}`,
                 name: playerData.name,
-                walls: gameData.player1.walls
+                walls: gameData.player1.walls,
+                myDirection: myDirection
             }
         })
     }else{
@@ -22,7 +23,8 @@ export const clickBox = data=> {
         player2:{
             position : `B${i}${j}`,
             name: playerData.name,
-            walls: gameData.player2.walls
+            walls: gameData.player2.walls,
+            myDirection: myDirection
         }
         })
     }
@@ -35,6 +37,7 @@ export const clickBox = data=> {
 
 export const clickWall = data => {
     let {myTurn, x,y, standingWalls, gameData, gameRef, playerData, opponentPawn, blocked, targetRowOfOpponent} = data;
+    let invalidMove = false;
     if(!myTurn) return;
     if(standingWalls?.length){
         if(standingWalls?.includes(`W${x}${y}`)) return;
@@ -46,6 +49,7 @@ export const clickWall = data => {
         console.log(blocked); 
     }
     let {blockBox1, blockBox2} = find_box_adjacent_to_wall(x,y);
+    
     if(check_possible_ways(opponentPawn.position, [...blocked, `${blockBox1}${blockBox2}`], targetRowOfOpponent
     )){
         updateDoc(gameRef, {
@@ -69,21 +73,22 @@ export const clickWall = data => {
             }
             })
         }
-        console.log(gameData.turnNo)
+        return invalidMove = false;
     }else{
-        console.log("You Cannot Block Opponent Completely!")
+        console.log({a:"You Cannot Block Opponent Completely!", targetRowOfOpponent});
+        return invalidMove = true;
     }
 }
 
 export const find_box_adjacent_to_wall = (x,y)=> {
     let blockBox1, blockBox2;
-    if(x%2===1){ //vWall
-        let iLeft = (x+1)/2, jLeft=y, iRight = (x+1)/2, jRight=y+1;
+    if(x%2===0){ //vWall
+        let iLeft = x/2, jLeft=y, iRight = x/2, jRight=y+1;
         blockBox1 = `${iLeft}${jLeft}`;
         blockBox2 = `${iRight}${jRight}`;
     }
-    if(x%2===0){ //hWall
-        let iTop = x/2, jTop=y, iBot = (x/2)+1, jBot=y;
+    if(x%2===1){ //hWall
+        let iTop = (x-1)/2, jTop=y, iBot = (x+1)/2, jBot=y;
         blockBox1 = `${iTop}${jTop}`;
         blockBox2 = `${iBot}${jBot}`;
     }
@@ -97,7 +102,7 @@ export const check_possible_ways = (position, blocked=[], targetRow)=> {
     console.log('***************checking...****************');
 
     const checkBlocked = (i, j, m, n)=> {
-        console.log('checkin blocked...')
+        // console.log('checkin blocked...')
         console.log(newBlocked)
         for(let l = 0; l < newBlocked.length; l++){
             let b1 = `${newBlocked[l][0]}${newBlocked[l][1]}`, b2 = `${newBlocked[l][2]}${newBlocked[l][3]}`;
@@ -115,8 +120,9 @@ export const check_possible_ways = (position, blocked=[], targetRow)=> {
     
     const findWay = (i,j, visited = [])=> {
         loopNo++;
-        console.log({loopNo, visited, blocked})
-        console.log(`${i}${j}`)
+        // console.log({loopNo, visited, blocked})
+        // console.log(`${i}${j}`)
+        console.log(`at BOX: ${i}${j}`);
         if(i===targetRow) {
             visited = [];
             blocked = [];
@@ -131,17 +137,17 @@ export const check_possible_ways = (position, blocked=[], targetRow)=> {
         let next = [], stop = false;
         let 
         push_box_on_top = ()=> {
-            if(!visited.includes(`${i-1}${j}`) && i-1>=1){
+            if(!visited.includes(`${i-1}${j}`) && i-1>=0){
                 if(!checkBlocked(i, j, i-1, j)) return next.push(`${i-1}${j}`);
             }
         },
         push_box_on_left = ()=> {
-            if(!visited.includes(`${i}${j-1}`) && j-1>=1){
+            if(!visited.includes(`${i}${j-1}`) && j-1>0){
                 if(!checkBlocked(i, j, i, j-1)) return next.push(`${i}${j-1}`);
             }
         },
         push_box_on_right = ()=> {
-            if(!visited.includes(`${i}${j+1}`) && j+1<=8){
+            if(!visited.includes(`${i}${j+1}`) && j+1<8){
                 if(!checkBlocked(i, j, i, j+1)) return next.push(`${i}${j+1}`);
             }
         },
@@ -151,7 +157,7 @@ export const check_possible_ways = (position, blocked=[], targetRow)=> {
             }
         }
 
-        if(targetRow === 1){
+        if(targetRow === 0){
             push_box_on_top();
             push_box_on_right();
             push_box_on_left();
@@ -289,4 +295,32 @@ export const clearBoard = data=> {
     }
     updateDoc(gameRef, { wallArray : [], turnNo: 1 })
     updateDoc(gameRef, { blockedWays : [] })
+}
+
+export const foundWinner = data=> {
+    const { winner, gameRef } = data;
+    updateDoc(gameRef, {
+        winner: winner.name
+    })
+    return;
+}
+
+export const giveDirection = data=> {
+    const { from, to } = data;
+    let i1 = from.split("")[1];
+    let j1 = from.split("")[2];
+    let i2 = to.split("")[1];
+    let j2 = to.split("")[2];
+    // if(boardType === 'normal'){
+        if(i1 > i2) return 'to-up';
+        if(i1 < i2) return 'to-down';
+        if(j1 > j2) return 'to-left';
+        if(j1 < j2) return 'to-right';
+    // }else {//board is inverted
+    //     if(i1 > i2) return 'to-down';
+    //     if(i1 < i2) return 'to-up';
+    //     if(j1 > j2) return 'to-right';
+    //     if(j1 < j2) return 'to-left';
+    // }
+
 }

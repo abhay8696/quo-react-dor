@@ -1,0 +1,107 @@
+.introAnimation{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding-top: 1rem;
+}
+.boxArray1{
+    display: flex;
+    overflow: hidden;
+}
+.boxArray2{
+    display: flex;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0%;
+}
+.introBox1{
+    background-color: #da6d2518;
+    flex-shrink: 0;
+    z-index: 2;
+}
+.introBox2{
+    background-color: #8b00002c;
+    flex-shrink: 0;
+    z-index: 2;
+}
+.circle1{
+    background-color: #da6d2550;
+    animation-name: moveUp;
+    bottom: 0;
+    z-index: 0;
+}
+.circle2{
+    background-color:  #8b000060;
+    animation-name: moveDown;
+    right: 0;
+    z-index: 0;
+}
+.circle1, .circle2{
+    position: inherit;
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-delay: 1000ms;
+}
+
+@keyframes moveUp {
+    0%{
+        bottom: 0%;
+        opacity: 1;
+    }
+    75%{
+        opacity: 1;
+    }
+    100%{
+        bottom: calc(100% - 1rem);
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+@keyframes moveDown {
+    0%{
+        bottom: calc(100% - 3rem);
+        opacity: 1;
+    }
+    75%{
+        opacity: 1;
+    }
+    100%{
+        bottom: calc(0% - 1rem);
+        /* transform: translateY(-100%); */
+        opacity: 0;
+    }
+}
+
+/* mobile */
+@media only screen and (max-width: 900px) {
+    .circle1, .circle2{
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        /* margin-left: 0.5rem; */
+    }
+    .introBox1, .introBox2{
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 0.3rem;
+        margin-right: 0.5rem;
+    }
+}
+
+/* desktops */
+@media only screen and (min-width: 901px) {
+    .circle1, .circle2{
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+    }
+    .introBox1, .introBox2{
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 0.3rem;
+        margin-right: 0.5rem;
+    }
+}

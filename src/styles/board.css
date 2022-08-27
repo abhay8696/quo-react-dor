@@ -1,76 +1,262 @@
-.boardInverted{
+.board {
+    /* background-color: #fff;  */
+}
+
+.boardInverted {
     transform: rotate(180deg);
 }
-.row{
+
+.row {
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
-.box{
+
+.box1 {
+    background-color: #d2cb95;
+}
+
+.box2 {
+    background-color: #fff;
+    position: relative;
+}
+
+.winnerBox1 {
+    background-color: #da6d25;
+}
+.winnerBox2 {
+    background-color: #8b0000;
+}
+
+.targetBox1 {
+    background-color: #da6d25;
+}
+
+.targetBox2 {
+    background-color: #8b0000;
+}
+
+.box1,
+.box2,
+.winnerBox1,
+.winnerBox2,
+.targetBox1,
+.targetBox2 {
     width: 4rem;
     height: 4rem;
-    background-color: white;
     margin: 0.3rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
 }
-.next{
-    width: 4rem;
-    height: 4rem;
-    background-color: rgb(247, 193, 148);
-    margin: 0.3rem;
-    border-radius: 5px;
-}
-.horizontalWall{
-    width: 4.5rem;
-    height: 0.3rem;
-    border-radius: 3px;
-    background-color: #fff;
-    opacity: 0.8;
-    opacity: 0.3;
-}
-.selectedHorizontalWall{
-    width: 4.5rem;
-    height: 0.3rem;
-    border-radius: 3px;
-    background-color: #843a07;
-    /* opacity: 0.8; */
-}
-.verticalWall{
-    height: 4.5rem;
-    width: 0.3rem;
-    border-radius: 3px;
-    background-color: #fff;
-    opacity: 0.8;
-    opacity: 0.3;
-}
-.selectedVerticalWall{
-    height: 4.5rem;
-    width: 0.3rem;
-    border-radius: 3px;
-    background-color: #843a07;
-    /* opacity: 0.8; */
-}
-.verticalWall:hover{
-    background-color: #843a07;
-    cursor: pointer;
-}
-.horizontalWall:hover{
-    background-color: #843a07;
-    cursor: pointer;
-}
-.pawn{
-    color: #843a07;
-}
-.box > svg{
+
+.next,
+.targetBox1,
+.targetBox2 {
+    color: rgb(241, 187, 151);
     font-size: 3.5em;
 }
-.opponentPawn{
-    color: #698407;
+
+.next2 {
+    color: rgba(241, 187, 151, 0.3);
+    font-size: 3.5em;
 }
-.info{
+
+.horizontalWall {
+    width: 4.5rem;
+    height: 0.3rem;
+    border-radius: 3px;
+    background-color: #fff;
+    opacity: 0.8;
+    opacity: 0.3;
+}
+
+.selectedHorizontalWall,
+.selectedVerticalWall {
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.selectedHorizontalWall {
+    width: 4.5rem;
+    height: 0.3rem;
+    /* opacity: 0.8; */
+}
+
+.verticalWall {
+    height: 4.5rem;
+    width: 0.3rem;
+    border-radius: 3px;
+    background-color: #fff;
+    opacity: 0.8;
+    opacity: 0.3;
+}
+
+.selectedVerticalWall {
+    height: 4.5rem;
+    width: 0.3rem;
+    /* opacity: 0.8; */
+}
+
+.verticalWall:hover {
+    background-color: #da6d25;
+    cursor: pointer;
+}
+
+.horizontalWall:hover {
+    background-color: #da6d25;
+    cursor: pointer;
+}
+
+.pawn {
+    color: #da6d25;
+    position: absolute;
+    z-index: 2;
+}
+
+.opponentPawn {
+    color: #8b0000;
+    position: absolute;
+    z-index: 2;
+}
+
+.info {
     color: #000;
     position: absolute;
+}
+#to-up1, #to-up2{
+    animation-name: moveUpMobile;
+    /* animation-iteration-count: infinite; */
+}
+#to-down1, #to-down2{
+    animation-name: moveDownMobile;
+    /* animation-iteration-count: infinite; */
+}
+#to-right1, #to-right2{
+    animation-name: moveRightMobile;
+    /* animation-iteration-count: infinite; */
+}
+#to-left1, #to-left2{
+    animation-name: moveLeftMobile;
+    /* animation-iteration-count: infinite; */
+}
+#to-up1, #to-left1, #to-right1, #to-down1, #to-up2, #to-left2, #to-right2, #to-down2{
+    -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
+    -moz-animation-fill-mode: forwards; /* FF 5+ */
+    -o-animation-fill-mode: forwards; /* Not implemented yet */
+    -ms-animation-fill-mode: forwards; /* IE 10+ */
+    animation-fill-mode: forwards;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
+}
+
+/* mobile */
+@media only screen and (max-width: 900px) {
+    .board {
+        margin: 0.5rem auto;
+    }
+    .box1,
+    .box2,
+    .next,
+    .next2,
+    .winnerBox1,
+    .winnerBox2,
+    .targetBox1,
+    .targetBox2 {
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 0.3rem;
+    }
+
+    .verticalWall,
+    .selectedVerticalWall {
+        height: 2.6rem;
+        width: 0.3rem;
+    }
+
+    .horizontalWall,
+    .selectedHorizontalWall {
+        width: 2.6rem;
+        height: 0.3rem;
+    }
+
+    .box1>svg,
+    .box2>svg,
+    .targetBox1>svg,
+    .targetBox2>svg {
+        font-size: 2.5rem;
+    }
+}
+
+
+/* desktops */
+@media only screen and (min-width: 901px) {
+    .board {
+        margin: 0 !important;
+    }
+
+    .box1,
+    .box2,
+    .next,
+    .next2,
+    .winnerBox1,
+    .winnerBox2,
+    .targetBox1,
+    .targetBox2 {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .verticalWall,
+    .selectedVerticalWall {
+        height: 3.5rem;
+        width: 0.3rem;
+    }
+
+    .horizontalWall,
+    .selectedHorizontalWall {
+        width: 3.5rem;
+        height: 0.3rem;
+    }
+
+    .box1>svg,
+    .box2>svg,
+    .targetBox1>svg,
+    .targetBox2>svg {
+        font-size: 3.5rem;
+    }
+}
+
+@keyframes moveUpMobile {
+    from {
+        bottom: -3.5rem;
+    }
+    to {
+        bottom: 0;
+    }
+}
+@keyframes moveLeftMobile {
+    from {
+        right: -3.5rem;
+    }
+    to {
+        right: 0;
+    }
+}
+@keyframes moveRightMobile {
+    from {
+        left: -3.5rem;
+    }
+    to {
+        left: 0;
+    }
+}
+@keyframes moveDownMobile {
+    from {
+        bottom: 3.5rem;
+    }
+    to {
+        bottom: 0;
+    }
 }

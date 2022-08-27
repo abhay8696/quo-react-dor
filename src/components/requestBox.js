@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 //firebase
 import db from '../Firebase';
 import { collection, onSnapshot, query, doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
@@ -10,10 +10,14 @@ import { getHash } from '../functions/helperFunctions';
 //styles
 import '../styles/dailog.css'
 import { MdDone, MdClose } from 'react-icons/md'
+//mui
+import { Zoom } from '@mui/material';
 
 const RequestBox = (props) => {
     //context
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
+    //states
+    const [checked, setChecked] = useState(false);
 
     let timeOut;
     // const [opponent, setOpponent] = useContext(OpponentContext);
@@ -21,12 +25,15 @@ const RequestBox = (props) => {
     const { requestFrom } = props;
     //life cycle
     useEffect(()=> {
-        timeOut = setTimeout(() => {
-            if(playerData && requestFrom) reject();
-        }, 15000);
-
+        // timeOut = setTimeout(() => {
+        //     if(playerData && requestFrom){
+        //         handleZoom(false);
+        //         reject();
+        //     }
+        // }, 15000);
+        handleZoom(true);
         return ()=> {
-            clearTimeout(timeOut);
+            // clearTimeout(timeOut);
         }
     }, [])
     //functions
@@ -63,7 +70,7 @@ const RequestBox = (props) => {
                 id: id,
                 player1: {
                     name: playerData.name,
-                    position: 'B84',
+                    position: 'B74',
                     walls:12,
                 },
                 player2: {
@@ -101,18 +108,21 @@ const RequestBox = (props) => {
                 status: 'rejected'
             }
         });
-    }
+    },
+    handleZoom = (val) => {
+        setChecked((prev) => val);
+    };
 
     return (
-        requestFrom ?
+        <Zoom in={checked}>
         <div className='dailog'>
-            <div className='dailogMsg'>You Have Request From {requestFrom.name}</div>
+            <div className='dailogMsg'>You Have Request From {requestFrom?.name}</div>
             <div className='buttons'>
-                <button onClick={()=> requestFunc(true)}><MdDone/></button>
-                <button onClick={()=> requestFunc(false)}><MdClose/></button>
+                <button onClick={()=> {handleZoom(false);requestFunc(true)}}><MdDone/></button>
+                <button onClick={()=> {handleZoom(false);requestFunc(false)}}><MdClose/></button>
             </div>
         </div>
-        : <></>
+        </Zoom>
     );
 };
 

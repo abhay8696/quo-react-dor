@@ -1,48 +1,109 @@
 .boardImage{
-    background-color: red;
-    /* width: 80vw; */
+    width: 17rem;
 }
-.row{
+.wrong_v_wall, .wrong_h_wall{
+    position: relative;
+    opacity: 1 !important;
+}
+.wrong{
+    position: absolute;
+    color: rgb(168, 0, 0);
+    font-weight: bolder;
+    font-size: 2rem;
+    right: 0rem;
+}
+.iboxRow, .iwallRow{
     display: flex;
-    justify-content: center;
     align-items: center;
 }
-.box{
-    margin: 0;
+.iboxRow{
+    justify-content: center;
+}   
+.iwallRow{
+    justify-content: space-around;
+}
+.ibox, .start_finish, .boxHighlighted, .iFinBox1, .iFinBox2{
     width: 3rem;
     height: 3rem;
-    background-color: white;
     margin: 0.3rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 5px;
 }
-.horizontalWall{
-    width: 1.5rem;
-    height: 0.1rem;
+.ibox{
+    background-color:  rgba(255, 255, 255, 0.80);
+}
+.start_finish{
+    background-color: #fff;
+}
+.boxHighlighted{
+    background-color: rgb(226, 98, 12);
+}
+.iFinBox1{
+    background-color: rgb(226, 98, 12);
+}
+.iFinBox2{
+    background-color: #911B01;
+}
+.horizontal_wall, .vertical_wall, .wrong_v_wall, .wrong_h_wall{
     border-radius: 3px;
     background-color: #fff;
     opacity: 0.8;
     opacity: 0.3;
 }
-.verticalWall{
-    height: 1.5rem;
-    width: 0.1rem;
-    border-radius: 3px;
-    background-color: #fff;
-    opacity: 0.8;
-    opacity: 0.3;
+.horizontal_wall, .hideHorizontalWall, .wrong_h_wall{
+    width: 3rem;
+    height: 0.3rem;
 }
-.pawn{
-    color: #843a07;
+.vertical_wall, .wrong_v_wall{
+    height: 3rem;
+    width: 0.3rem;
 }
-.box > svg{
-    font-size: 3.5em;
+.pawn1{
+    color: rgb(132, 58, 7);
+    display: flex;
 }
-.opponentPawn{
-    color: #698407;
+.pawn2{
+    color: #911B01;
+    display: flex;
 }
 .info{
     color: #000;
     position: absolute;
+}
+
+/* mobile */
+@media only screen and (max-width: 600px) {
+    .boardImage{
+        width: 13rem;
+    }
+    .ibox, .start_finish, .boxHighlighted, .iFinBox1, .iFinBox2{
+        width: 2rem;
+        height: 2rem;
+        margin: 0.3rem;
+    }
+    .pawn1 svg, .pawn2 svg{
+        width: 2rem;
+        height: 2rem;
+    }
+    .horizontal_wall{
+        width: 2rem;
+        height: 0.2rem;
+        margin-left: 0.4rem;
+        margin-right: 0.4rem;
+    }
+    .vertical_wall{
+        height: 2rem;
+        width: 0.2rem;
+        margin: 0;
+    }
+}
+
+/* desktops */
+@media only screen and (min-width: 601px) {
+    .pawn1 svg, .pawn2 svg{
+        width: 3rem;
+        height: 3rem;
+    }
 }

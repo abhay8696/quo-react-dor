@@ -1,7 +1,121 @@
 .playComp{
-    /* background-color: rebeccapurple; */
-    padding: 1rem;
+    /* padding: 1rem; */
+    display: flex;
+    box-sizing: border-box;
+}
+.loadingDiv{
+    position: absolute;
+    top: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: red;
+}
+.loadingDiv > svg{
+    font-size: 5rem;
+    font-weight: 100;
+}
+.myInfo, .opponentInfo{
+    color: 'white';
+}
+.oppoInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* color: #8b0000; */
+}
+.meInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* color: #da6d25; */
+}
+.oppoCircle, .myCircle{
+    border-radius: 50%;
+}
+.oppoCircle{
+    background-color: #8b0000;
+    margin-right: 0.2rem;
+}
+.myCircle{
+    background-color: #da6d25;
+    margin-left: 0.2rem;
+}
+.opponentInfo, .myInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.opponentInfo{
+    align-items: flex-start;
+}
+.myInfo{
+    align-items: flex-end;
+    
+}
+.giveUp{
+  position: fixed;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  font-size: 1rem;
+  z-index: 20;
+  background-color: rgb(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+}
+.infoName{
+    font-size: 1.2rem;
+    /* font-weight: 500; */
+}
+.wallInfo{
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+/* mobile */
+@media only screen and (max-width: 900px) {
+    .playComp{
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        box-sizing: border-box;
+    }
+    .myInfo, .opponentInfo{
+        width: 100%;
+    }
+    .opponentInfo{
+        justify-content: flex-start;
+        padding-left: 0.5rem;
+    }
+    .myInfo{
+        justify-content: flex-end;
+        padding-right: 0.5rem;
+    }
+    .oppoCircle, .myCircle{
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+/* desktop */
+@media only screen and (min-width: 901px) {
+    .playComp{
+        justify-content: center;
+        width: 100%;
+    }
+    .oppoCircle, .myCircle{
+        width: 3rem;
+        height: 3rem;
+    }
+    .opponentInfo, .myInfo{
+        /* width: 10%; */
+        margin: 0.3rem auto;
+        padding: 0.5rem;
+    }
+    .opponentInfo{
+        align-self: flex-start;
+    }
+    .myInfo{
+        align-self: flex-end;
+    }
 }

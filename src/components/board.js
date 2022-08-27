@@ -1,63 +1,80 @@
 import React, { useEffect, useState } from 'react';
 //firebase
 import db from '../Firebase';
-import { doc, query, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 //functions
-import { block_boxes_ajacent_to_wall, check_next_collide_with_opponentPawn, clearBoard, clickBox, clickWall, find_box_adjacent_to_wall } from '../functions/boardFunctions';
+import { foundWinner, block_boxes_ajacent_to_wall, check_next_collide_with_opponentPawn, clearBoard, clickBox, clickWall, find_box_adjacent_to_wall, giveDirection } from '../functions/boardFunctions';
 //styles
 import '../styles/board.css'
 //icons
 import pawn from '../../src/icons/pawn.svg'
 import StarsIcon from '@mui/icons-material/Stars';
 import LensIcon from '@mui/icons-material/Lens';
-import { selectClasses } from '@mui/material';
+import { Zoom, selectClasses } from '@mui/material';
 const Board = (props) => {
     //states
     const 
     [gameRef, setGameRef] = useState(),
-    [myGameData, setMyGameData] = useState(),
     [selected, setSelected] = useState(),
     [next, setNext] = useState(),
     [standingWalls, setStandingWalls] = useState([]),
     [blocked, setBlocked] = useState([]),
     [boardType, setBoardType] = useState('normal'),
     [opponentPawn, setOpponentPawn] = useState(),
-    [targetRowOfOpponent, setTargetRowOfOpponent] = useState(1),
-    [myTurn, setMyturn] = useState(false);
+    [targetRowOfOpponent, setTargetRowOfOpponent] = useState(),
+    [myTargetRow, setMyTargetRow] = useState(8),
+    [zoom, setZoom] = useState(false),
+    [zoom2, setZoom2] = useState(false),
+    [inValidMove, setInValidMove] = useState(false);
+    // [winner, setwinner] = useState(false);
     //props
-    const { gameData, playerData, opponent } = props;
+    const { gameData, playerData, opponent, myTurn, updateGameData, winner } = props;
     //life cycle
     useEffect(()=> {
-        if(gameData?.player1.name === playerData.name){
-            setBoardType('normal');
-            setTargetRowOfOpponent(8);
-        }else {
-            setBoardType('boardInverted');
-            setTargetRowOfOpponent(1);
+        let unsub = onSnapshot(doc(db, "liveGames", `${gameData?.id}`), (doc) => {
+            console.log('snapshot taken');
+            console.log(doc.data());
+            updateGameData(doc.data())
+        });
+        console.log('board mounted')
+        if(gameData && playerData){
+            if(gameData.player1.name === playerData.name){
+                setBoardType('normal');
+                setTargetRowOfOpponent(8);
+                setMyTargetRow(0);
+            }else {
+                setBoardType('boardInverted');
+                console.log('board normaled')
+                setTargetRowOfOpponent(0);
+                setMyTargetRow(8);
+            }
         }
 
+        handleZoom(true);
         setGameRef(doc(db, "liveGames", `${gameData?.id}`));
         
         return ()=> {
+            unsub();
         }
     }, [])
     useEffect(()=> {
         if(gameData?.player1.name === playerData.name){
-            setMyGameData(gameData.player1)
-            setSelected(gameData?.player1);
             setOpponentPawn(gameData?.player2);
-            if(gameData.turnNo%2 === 1) setMyturn(true);
-            if(gameData.turnNo%2 === 0) setMyturn(false);
+            setSelected(gameData?.player1);
+            //check if opponent has reached
+            if(Number(gameData?.player2?.position.split("")[1]) === targetRowOfOpponent){
+                foundWinner({winner:gameData?.player2, gameRef});
+            }
         }else{
-            setMyGameData(gameData.player2)
-            setSelected(gameData?.player2);
             setOpponentPawn(gameData?.player1);
-            if(gameData.turnNo%2 === 1) setMyturn(false);
-            if(gameData.turnNo%2 === 0) setMyturn(true);
+            setSelected(gameData?.player2);
+            //check if opponent has reached
+            if(Number(gameData?.player1?.position.split("")[1]) === targetRowOfOpponent){
+                foundWinner({winner:gameData?.player1, gameRef});
+            }
         }
         setStandingWalls(gameData?.wallArray);
         setBlocked(gameData?.blockedWays);
-
     }, [gameData])
     useEffect(()=> {
         if(standingWalls?.length){
@@ -94,17 +111,44 @@ const Board = (props) => {
                 else arr.push(str1);
             }
         })
-        setNext(check_next_collide_with_opponentPawn({arr, selected, opponentPawn, blocked}));
+        if(winner){
+            setNext(undefined);
+        }else setNext(check_next_collide_with_opponentPawn({arr, selected, opponentPawn, blocked}));
+        
     }, [selected])
+    useEffect(()=> {
+        if(winner){ 
+            // handleZoom(false);
+            handleZoom2(true);
+            console.log(winner);
+        }
+    }, [winner])
+    useEffect(()=> {
+        if(inValidMove === true){
+            alert("invalid move!", setInValidMove(false));
+        }
+    }, [inValidMove])
     //functions
     const 
     dispBoxes = ()=> {
         let rows = [], i=0;
-        for(let x=1; x<=15; x++){
+        for(let x=0; x<=16; x++){
             if(x%2===1) i++ ;
+            // if(x===0 || x===16){
+            //     rows.push(
+            //         <div className='row' key={`B${x}`}>{boxRow(i,x)}</div>
+            //     )
+            // }else if(x===14){
+            //     rows.push(null);
+            // }else{
+            // rows.push(
+            //     <div className='row' key={`B${x}`}>
+            //         { x%2 === 1 ? boxRow(i,x) : wallRow(x) } 
+            //     </div>
+            // )}
             rows.push(
                 <div className='row' key={`B${x}`}>
-                    { x%2 === 1 ? boxRow(i,x) : wallRow(x) } 
+                    { x%2 === 0 ? boxRow(i,x) : wallRow(x) } 
                 </div>
             )
         }
@@ -112,22 +156,32 @@ const Board = (props) => {
     },
     boxRow = (i,x)=> {
         let row = [], j=0, y=0;
-        for(let l=1; l<=15; l++){
+        for(let l=1; l<=13; l++){
             if(l%2 === 1) j++;
-            else y++;
+            else y = y+1;
             l%2 === 1 ? row.push(box(i,j)) : row.push(wall(x,y,'v'));
         }
+        // if(!winner){
+        // }else{
+        //     for(let l=1; l<=13; l++){
+        //         if(l%2 === 1) j++;
+        //         else y++;
+        //         l%2 === 1 ? row.push(winnerBox(i,j)) : row.push(wall(x,y,'v'));
+        //     }
+        // }
         return row;
     },
     wallRow = (x)=> {
         let row = [];
-        for(let y=1; y<=8; y++){
+        for(let y=1; y<=7; y++){
             row.push(wall(x,y,'h'));
         }
         return row;
     },
     wall = (x,y, type)=> {
+        // if(x===0 || x===16) return null;
         let cls;
+        const t = 50*x+y;
         if(type==='v'){
             if(standingWalls?.includes(`W${x}${y}`)){
                 cls = 'selectedVerticalWall'
@@ -137,35 +191,85 @@ const Board = (props) => {
                 cls = 'selectedHorizontalWall'
             }else cls = 'horizontalWall';
         }
-        return (
+        return(
+        <Zoom in={zoom} timeout={t} key = {`W${x}${y}`}>
             <div 
             className={cls} 
-            onClick={()=> clickWall({myTurn, x,y, standingWalls, gameData, gameRef, playerData, opponentPawn, blocked, targetRowOfOpponent})}
-            key = {`W${x}${y}`}
-            ></div>)
+            onClick={()=> {
+                let val = clickWall({myTurn, x,y, standingWalls, gameData, gameRef, playerData, opponentPawn, blocked, targetRowOfOpponent});
+                console.log(val);
+                setInValidMove(val);
+            }}
+            
+            ></div>
+        </Zoom>
+        )
     },
     box = (i,j)=> {
-        return (<div 
-            className={next?.includes(`${i}${j}`) && myTurn ? 'next' : 'box'}
-            key={`B${i}${j}`} 
-            onClick={()=> clickBox({myTurn ,i, j, gameData, playerData, gameRef, next})}
+        const t = 250*i+j;
+        return (
+        <Zoom in={zoom} timeout={t} key={`B${i}${j}`} >
+        {
+        !winner ?
+            <div 
+            className={boxClassName(i,j)}
+            onClick={()=>{  handleBoxClick(i,j)}}
             >
-                <span className='info'></span>
-                {selected?.position===`B${i}${j}` ? <LensIcon className='pawn'/> : <></>}
-                {opponentPawn?.position===`B${i}${j}` ? <LensIcon className='opponentPawn'/> : <></>}
-            </div>)
-    };
+                {/* <span className='info'>{i}{j}</span> */}
+                {
+                    next?.includes(`${i}${j}`) && myTurn ?
+                    <LensIcon className={(i===0 || i===8)?'next2':'next'}/> : <></>
+                }
+                {selected?.position===`B${i}${j}` ? <LensIcon className='pawn' id={`${selected?.myDirection}1`}/> : <></>}
+                {opponentPawn?.position===`B${i}${j}` ? <LensIcon className='opponentPawn' id={`${opponentPawn?.myDirection}2`}/> : <></>}
+            </div>
+        :
+            <>
+            <Zoom in={zoom2} timeout={t} key={`B${i}${j}`} >
+                <div 
+                className={winner===playerData?.name ? 'winnerBox1' : 'winnerBox2'}
+                >
+                </div>
+            </Zoom>
+            </>
+        }
+        </Zoom>
+        )
+    },
+    handleBoxClick = (i,j)=> {
+        // if(next?.includes(`${i}${j}`) && myTurn){
+        //     setMyDirection(giveDirection({
+        //         from: selected?.position, 
+        //         to: `B${i}${j}`,
+        //         boardType
+        //     }));
+        // }
+        clickBox({myTurn ,i, j, gameData, playerData, gameRef, next, oldPosition: selected?.position});
+    },
+    handleZoom = (val) => {
+        setZoom((prev) => val);
+    },
+    handleZoom2 = (val) => {
+        setZoom2((prev) => val);
+    },
+    boxClassName = (i,j)=> {
+        if(i===0 || i===8) {
+            if(i === myTargetRow){
+                return 'targetBox1';
+            }
+            if(i === targetRowOfOpponent){
+                return 'targetBox2';
+            }
+        }
+        return 'box2';
+    }
 
     return (
-        <div className=''>
+        <div className='board'>
             <div className={boardType}>
-                <div>
-                    Walls : {myGameData?.walls}
-                </div>
                 {dispBoxes()}
             </div>
-            <p>{myTurn ? 'Your Turn' : "Opponent's Turn"}</p>
-            <button onClick={()=> clearBoard({ gameData, playerData, gameRef, opponent})}>Clear</button>
+            {/* <button onClick={()=> clearBoard({ gameData, playerData, gameRef, opponent})}>Clear</button> */}
         </div>
     );
 };

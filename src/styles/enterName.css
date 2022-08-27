@@ -1,59 +1,128 @@
-.enterName{
-    max-width: 50%;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
+.enterName {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  width: 100vw;
+  height: 90vh;
+  z-index: 1;
 }
-.msg{
-    opacity: 0.8;
-    font-size: 0.9rem;
+
+.msg {
+  font-weight: 300;
+  font-size: 0.9rem;
 }
-.form{
-    width: 100%;
+#msgIn {
+  animation-duration: 250ms;
 }
-.text{
-    max-width: 100%;
-    text-align: center;
-    font-size: 1rem;
+#msgOut {
+  animation-duration: 250ms;
 }
-.input{
-    background-color: rgba(210,203,149,0.5);
-    border-radius: 1rem;
-    outline: none;
-    border: none;
-    font-size: 2rem;
-    color: #ab3706;
-    text-align: center;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
+
+.form {
+  max-width: 50%;
+  z-index: 2;
 }
-::placeholder {
-  color: #3e5d56;
-  font-size: 5vw;
+
+.text {
+  max-width: 100%;
+  text-align: center;
+  font-size: 1rem;
+}
+#textIn {
+  animation-duration: 500ms;
+}
+#textOut {
+  animation-duration: 500ms;
+}
+
+.input {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+  outline: none;
+  border: none;
+  font-size: 2rem;
+  color: #fff;
+  text-align: center;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+#inputIn {
+  animation-duration: 1000ms;
+}
+#inputOut {
+  animation-duration: 1000ms;
+}
+#arrowIn {
+  animation-duration: 1000ms;
+}
+#arrowOut {
+  animation-duration: 1000ms;
+}
+#msgIn,
+#textIn,
+#inputIn,
+#arrowIn {
+  animation-name: fadeIn;
+}
+#msgOut,
+#textOut,
+#inputOut,
+#arrowOut {
+  animation-name: fadeOut;
+  -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
+  -moz-animation-fill-mode: forwards; /* FF 5+ */
+  -o-animation-fill-mode: forwards; /* Not implemented yet */
+  -ms-animation-fill-mode: forwards; /* IE 10+ */
+  animation-fill-mode: forwards;
 }
 
 /* mobile */
 @media only screen and (max-width: 600px) {
-    .input{
-        /* background-color: red; */
-        border-radius: 0.8rem;
-        padding: 0.5rem;
-        margin: 0.5rem;
-    }
-    .arrow{
-        font-size: 1rem;
-    }
+  .input {
+    border-radius: 0.8rem;
+    padding: 0.5rem;
+    margin: 0.5rem auto;
+  }
+
+  .arrow {
+    font-size: 1rem;
+  }
 }
 
 /* desktops */
 @media only screen and (min-width: 601px) {
-    .input{
-        padding: 1rem;
-        margin: 1rem;
-    }
+  .input {
+    padding: 1rem;
+    margin: 1rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.1);
+    transform-origin: top left;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: top left;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: top left;
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.1);
+    transform-origin: top left;
+  }
 }

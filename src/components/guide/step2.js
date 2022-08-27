@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 //styles
-import '../../styles/guide/step1.css'
+import '../../styles/guide/step2.css'
 //components
 import BoardImage from './boardImage';
 //mui
 import { Grow } from '@mui/material';
 
-const Step1 = () => {
+const Step2 = () => {
     //states
     const [grow, setGrow] = useState(false);
 
@@ -25,15 +25,19 @@ const Step1 = () => {
         <Grow
         in={grow}
         style={{ transformOrigin: '0 0 0' }}
-        {...(grow ? { timeout: 1000 } : {})}
+        {...(grow ? { timeout: 1500 } : {})}
         >
-        <div className='stepBody'>
-            <span className='start'>Start Here</span>
-            <BoardImage noWalls = {true} start_finish = {true}/>
-            <span className='finish'>Finish Here</span>
-        </div>
+            <div className='step2Body'>
+                <div className='board'>
+                <BoardImage noWalls = {true} moves = {true}/>
+                </div>
+                <span className='step2_text'>Pawn Can Move One Step In Adjacent Sqaures </span>
+                {/* <div className='board'>
+                <BoardImage noWalls = {true} moves2 = {true}/>
+                </div> */}
+            </div>
         </Grow>
     );
 };
 
-export default Step1;
+export default Step2;
