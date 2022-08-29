@@ -1,8 +1,7 @@
 .App {
   text-align: center;
-  background-color:#000;
   color: whitesmoke;
-  height: 100vh;
+  max-height: 100vh;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -11,6 +10,8 @@
   position: relative;
   box-sizing: border-box;
   /* overflow: hidden; */
+  /* background-color: blue; */
+  height: 100vh;
 }
 .appHead{
   /* background-color: aqua; */
@@ -18,13 +19,14 @@
   flex-direction: column;
   justify-content: flex-start;
   margin-bottom: 0.5rem;
+  flex: 1;
+  /* background-color: rgb(201, 20, 20); */
 }
 .appHead h1{
   font-weight: 400;
   margin: 0;
   padding: 0.5rem 0;
   font-size: 2rem;
-  /* background-color: #eee; */
 }
 p{
   margin: 0;
@@ -33,10 +35,11 @@ p{
 .body{
   width: 100%;  
   display: flex;
-  flex: 1;
+  flex: 20;
   box-sizing: border-box;
   position: relative;
   z-index: 2;
+  /* background-color: #d2cb95; */
 }
 .sideBar{
   /* position: fixed; */
@@ -71,7 +74,8 @@ button{
   h1{
     margin: 0;
     font-size: 10vw;
-    padding: 1rem 0;
+    /* background-color: rebeccapurple; */
+    /* padding: 1rem 0; */
   }
   .logout{
     right: 0rem;

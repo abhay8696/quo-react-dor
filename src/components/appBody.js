@@ -76,10 +76,13 @@ const AppBody = props => {
     return (
         <>
         <div className='body'>
-            <SideBar  playerData={playerData}/>
+            {/* <SideBar  playerData={playerData}/> */}
             {
             !gameData ? 
+            <>
+            <SideBar  playerData={playerData}/>
             <button onClick={()=> logout()}className='logout'><MdLogout/>signout</button>
+            </>
             : null
             }
             {
@@ -92,6 +95,7 @@ const AppBody = props => {
             />
             : 
             <Guide opponent={opponent}/> 
+            // null
             }
         </div>
         <EnterName disappear={true} text={playerData.name}/> 

@@ -1,4 +1,4 @@
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 900px) {
     .sideBar{
       display: none !important;
     }
@@ -24,7 +24,7 @@
   /* background-color: #d2cb95;
   color: #ab3706; */
 }
-@media only screen and (min-width: 951px) {
+@media only screen and (min-width: 901px) {
   .forMobile{
     display: none !important;
   }

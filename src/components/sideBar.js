@@ -78,7 +78,7 @@ const SideBar = (props) => {
     //functions
     const handleChecked = val => setChecked((prev) => val);
     return (
-        <div style={tempStyle}>
+        <>
         <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
             <div className='forMobile'>
                 <Accordion expanded={expanded === 'panel1'} onChange={handleAccordian('panel1')} TransitionProps={{ unmountOnExit: true }}>
@@ -109,7 +109,7 @@ const SideBar = (props) => {
             </div>
         </Grow>
         
-        </div>
+        </>
     );
 };
 

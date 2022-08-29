@@ -14,7 +14,7 @@
 .boxArray2{
     display: flex;
     overflow: hidden;
-    position: absolute;
+    position: fixed;
     bottom: 0%;
 }
 .introBox1{
