@@ -14,7 +14,7 @@
     text-align: left;
 }
 /* mobile */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
     .guide{
         margin: 1rem 1rem 0 1rem;
     }
@@ -27,7 +27,7 @@
     }
 }
 /* desktops */
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 901px) {
     /* .guide{
     } */
     .header{
