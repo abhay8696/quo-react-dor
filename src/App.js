@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 //contexts
 import { PlayerDataContext } from './contexts/playerDataContext';
 import { OpponentContext } from './contexts/opponentContext';
+import { OfflineContext } from './contexts/offlineCOntext';
 //components
 import Hello from './components/hello';
 import EnterName from './components/enterName';
@@ -26,6 +27,7 @@ import AppBody from './components/appBody';
 const App = ()=> {
   //states
   const [playerData, setPlayerData] = useState();
+  const [offlineMode, setOfflineMode] = useState(false);
   const [opponent, setOpponent] = useState();
   const [requestDailog, setRequestDailog] = useState(false);
   const [requestFrom, setRequestFrom] = useState();
@@ -67,6 +69,7 @@ const App = ()=> {
   return (
     <div className="App">
       <PlayerDataContext.Provider value={[playerData, setPlayerData]}>
+      <OfflineContext.Provider value={[offlineMode, setOfflineMode]}>
         <div className='appHead'>
         <h1>QUO-REACT-DOR</h1>
         {/* <p>A QUORIDOR GAME</p> */}
@@ -87,6 +90,7 @@ const App = ()=> {
         {
           requestDailog ? <RequestBox requestFrom={requestFrom} playerData={playerData} /> : <></>
         }
+    </OfflineContext.Provider>
     </PlayerDataContext.Provider>
     </div>
   );

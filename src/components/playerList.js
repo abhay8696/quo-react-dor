@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 //contexts
 import { PlayerDataContext } from '../contexts/playerDataContext';
+import { OfflineContext } from '../contexts/offlineCOntext';
 //firebase
 import db from '../Firebase';
 import {getDocs, collection, onSnapshot, query, doc, updateDoc} from 'firebase/firestore';
@@ -13,6 +14,7 @@ const PlayerList = (props) => {
     const { currentPlayerName, onlinePlayers, offline } = props;
     //contexts
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
+    const [offlineMode, setOfflineMode] = useContext(OfflineContext);
     //states
     const [reqTo, setReqTo] = useState();
     const [reqTimeOut, setReqTimeOut] = useState();
@@ -137,6 +139,7 @@ const PlayerList = (props) => {
             {
                 offline ? 
                 <div 
+                onClick={()=> setOfflineMode(!offlineMode)}
                 className='playerName'
                 >
                     1 vs 1

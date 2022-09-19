@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 //contexts
 import { PlayerDataContext } from '../contexts/playerDataContext';
+import { OfflineContext } from '../contexts/offlineCOntext';
+//components
 import EnterName from './enterName';
 import Guide from './guide/Guide';
 import PlayComp from './playComp';
@@ -18,6 +20,7 @@ const AppBody = props => {
     const [gameData, setGameData] = useState(null);
     //context
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
+    const [offlineMode, setOfflineMode] = useContext(OfflineContext);
     //useeffect
     useEffect(()=> {
         // if(playerData){
@@ -72,6 +75,21 @@ const AppBody = props => {
         setGameData(null);
         console.log(`source: ${source}`);
         
+    },
+
+    gameMode = ()=> {
+        if(offlineMode || playerData?.playingWith?.name){
+            if(offlineMode) return <h1>OFFLINE MODE</h1>
+            if(playerData?.playingWith?.name){
+                return( <PlayComp 
+                opponent={playerData?.playingWith?.name} 
+                exitMatch={exitMatch} 
+                gameData={gameData} 
+                updateGameData={updateGameData}
+                />)
+            }
+        }
+        return <Guide/> 
     }
     return (
         <>
@@ -85,6 +103,17 @@ const AppBody = props => {
             </>
             : null
             }
+            {gameMode()}
+        </div>
+        <EnterName disappear={true} text={playerData.name}/> 
+        </>
+    );
+};
+
+export default AppBody;
+
+/* 
+
             {
             playerData?.playingWith?.name ? 
             <PlayComp 
@@ -97,10 +126,4 @@ const AppBody = props => {
             <Guide opponent={opponent}/> 
             // null
             }
-        </div>
-        <EnterName disappear={true} text={playerData.name}/> 
-        </>
-    );
-};
-
-export default AppBody;
+*/
