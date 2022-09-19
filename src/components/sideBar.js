@@ -108,7 +108,6 @@ const SideBar = (props) => {
                 />
             </div>
         </Grow>
-        
         </>
     );
 };

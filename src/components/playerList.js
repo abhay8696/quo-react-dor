@@ -10,7 +10,7 @@ import { MdHourglassEmpty, MdBlock, MdDone } from 'react-icons/md'
 
 const PlayerList = (props) => {
     //props
-    const { currentPlayerName, onlinePlayers } = props;
+    const { currentPlayerName, onlinePlayers, offline } = props;
     //contexts
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
     //states
@@ -134,6 +134,15 @@ const PlayerList = (props) => {
     return (
         <div className='playerList'>
             { onlinePlayers ? dispOnlinePlayers() : <></>}
+            {
+                offline ? 
+                <div 
+                className='playerName'
+                >
+                    1 vs 1
+                </div>
+                : null
+            }
         </div>
     );
 };

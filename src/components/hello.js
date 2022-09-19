@@ -31,6 +31,12 @@ const Hello = props => {
         <PlayerList 
           onlinePlayers={onlinePlayers}
           />
+        <div>
+          <div>Play Offline</div>
+          <PlayerList 
+          offline={true}
+          />
+        </div>
       </div>
     );
 };
