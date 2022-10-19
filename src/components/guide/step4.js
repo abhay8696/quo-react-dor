@@ -6,7 +6,8 @@ import BoardImage from './boardImage';
 //mui
 import { Grow } from '@mui/material';
 
-const Step4 = () => {
+const Step4 = props => {
+    const { disappearThis } = props;
     //states
     const [grow, setGrow] = useState(false);
 
@@ -23,7 +24,7 @@ const Step4 = () => {
     }
     return (
         <Grow
-        in={grow}
+        in={disappearThis ? null : grow}
         style={{ transformOrigin: '0 0 0' }}
         {...(grow ? { timeout: 2500 } : {})}
         >

@@ -92,6 +92,21 @@
   .arrow {
     font-size: 1rem;
   }
+
+  .offlineComp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 50%;
+  }
+  .offlineComp input{
+    font-size: 1.5rem;
+  }
+  .offlineTitle{
+    font-size: 1.5rem;
+
+  }
 }
 
 /* desktops */

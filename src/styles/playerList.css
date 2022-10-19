@@ -4,7 +4,6 @@
         max-height: 20vh;
         padding: 0;
     }
-    
 }
 @media only screen and (max-width: 600px) {
     /* for mobile */
@@ -20,17 +19,25 @@
         border-bottom: 1px solid white;
         color: black;
     }
+    .playerName{
+        font-size: 0.8rem;
+    }
 }
 @media only screen and (min-width: 951px) {
     /* for desktop */
     .playerList{
         padding: 0 1rem;
     }
-    
+    .online-offline{
+        text-align: center;
+    }
 }
 .playerList{
     text-align: left;
     overflow-y: auto;
+}
+.divOffline{
+    margin-bottom: 1rem;
 }
 .playerName{
     padding-top: 0.5rem;

@@ -18,7 +18,7 @@
 .forMobile{
   border-radius: 1rem;
   overflow: auto;
-  margin: auto 1rem;
+  margin: 0 1rem;
 }
 .forMobile div{
   /* background-color: #d2cb95;

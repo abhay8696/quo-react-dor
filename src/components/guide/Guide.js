@@ -10,7 +10,8 @@ import '../../styles/guide/guide.css'
 //mui
 import { Grow } from '@mui/material';
 
-const Guide = () => {
+const Guide = props => {
+    const { disappearThis } = props;
     //states
     const [grow, setGrow] = useState(false);
 
@@ -36,11 +37,11 @@ const Guide = () => {
                 <div className='header'>How To Play?</div>
             </Grow>
             <div className='guideBody'>
-                <Step1/>
-                <Step2/>
+                <Step1 disappearThis={disappearThis}/>
+                <Step2 disappearThis={disappearThis}/>
                 <div className='combinedSteps'>
-                    <Step3/>
-                    <Step4/>
+                    <Step3 disappearThis={disappearThis}/>
+                    <Step4 disappearThis={disappearThis}/>
                 </div>
                 <Step5/>
                 <StepWinner/>

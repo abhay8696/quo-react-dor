@@ -135,17 +135,17 @@ const PlayerList = (props) => {
     }
     return (
         <div className='playerList'>
-            { onlinePlayers ? dispOnlinePlayers() : <></>}
-            {
-                offline ? 
+            <div className='divOffline'>
+                <div className='online-offline'>Play Offline</div>
                 <div 
                 onClick={()=> setOfflineMode(!offlineMode)}
                 className='playerName'
                 >
                     1 vs 1
                 </div>
-                : null
-            }
+            </div>
+            <div className='online-offline'>Online Players</div>
+            { onlinePlayers ? dispOnlinePlayers() : <></>}
         </div>
     );
 };

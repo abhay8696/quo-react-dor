@@ -27,16 +27,9 @@ const Hello = props => {
         >
           <div className='name'>Hello {playerData.name}!</div>
         </Grow>
-        <div>Online Players:</div>
         <PlayerList 
           onlinePlayers={onlinePlayers}
           />
-        <div>
-          <div>Play Offline</div>
-          <PlayerList 
-          offline={true}
-          />
-        </div>
       </div>
     );
 };

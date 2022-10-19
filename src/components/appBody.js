@@ -12,6 +12,7 @@ import db from '../Firebase';
 import { collection, onSnapshot, query, doc, updateDoc, getDoc, deleteDoc, getDocs } from 'firebase/firestore';
 //icons
 import { MdLogout } from 'react-icons/md';
+import OfflineComp from './offlineMode/offlineComp';
 
 const AppBody = props => {
     //props
@@ -79,7 +80,14 @@ const AppBody = props => {
 
     gameMode = ()=> {
         if(offlineMode || playerData?.playingWith?.name){
-            if(offlineMode) return <h1>OFFLINE MODE</h1>
+            if(offlineMode) {
+                return (
+                <OfflineComp
+                exitMatch={exitMatch} 
+                gameData={gameData} 
+                updateGameData={updateGameData}
+                />)
+            }
             if(playerData?.playingWith?.name){
                 return( <PlayComp 
                 opponent={playerData?.playingWith?.name} 
@@ -89,7 +97,7 @@ const AppBody = props => {
                 />)
             }
         }
-        return <Guide/> 
+        return <Guide disappearThis={false}/> 
     }
     return (
         <>
