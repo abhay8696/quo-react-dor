@@ -8,6 +8,7 @@ import '../../styles/enterName.css'
 
 import { FaArrowRight } from "react-icons/fa";
 import Board from '../board';
+import Board2 from './board2';
 
 const OfflineComp = props => {
     const { exitMatch, gameData, updateGameData } = props;
@@ -71,7 +72,7 @@ const OfflineComp = props => {
     
     return (<>
         {gameData ? 
-            <h1>BOARD</h1>
+            <Board2 gameData={gameData} playerData={playerData}/>
         : 
             displayInputs()
         }
