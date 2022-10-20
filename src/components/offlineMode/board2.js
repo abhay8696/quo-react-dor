@@ -76,15 +76,18 @@ const Board2 = props => {
     },
     box = (i,j)=> {
         const t = 250*i+j;
+        let oldPosition;
+        if(turnNo%2===1) oldPosition = gameData?.player1?.position;
+        else oldPosition = gameData?.player2?.position;
         return (
         <Zoom in={zoom} timeout={t} key={`B${i}${j}`} >
         {
         !winner ?
             <div 
             className={boxClassName({ i, targetRowOfP1, targetRowOfP2 })}
-            onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2 })}
+            onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2, oldPosition })}
             >
-                {/* <span className='info'>{i}{j}</span> */}
+                <span className='info'>{i}{j}</span>
                 {
                     next1?.includes(`${i}${j}`) && turnNo%2===1 ?
                     <LensIcon className='next'/> : <></>
@@ -93,8 +96,8 @@ const Board2 = props => {
                     next2?.includes(`${i}${j}`) && turnNo%2===0 ?
                     <LensIcon className='next2'/> : <></>
                 }
-                {player1?.position===`B${i}${j}` ? <LensIcon className='pawn'/> : <></>}
-                {player2?.position===`B${i}${j}` ? <LensIcon className='pawn2'/> : <></>}
+                {player1?.position===`B${i}${j}` ? <LensIcon className='pawn' id={`${player1?.myDirection}1`}/> : <></>}
+                {player2?.position===`B${i}${j}` ? <LensIcon className='opponentPawn' id={`${player2?.myDirection}2`}/> : <></>}
             </div>
         :
             <>

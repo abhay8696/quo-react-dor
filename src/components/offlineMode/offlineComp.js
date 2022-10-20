@@ -57,11 +57,13 @@ const OfflineComp = props => {
                 name: name1,
                 position: 'B74',
                 walls:12,
+                myDirection: ''
             },
             player2: {
                 name: name2,
                 position: 'B14',
-                walls: 12
+                walls: 12,
+                myDirection: ''
             },
             wallArray : [],
             winner: null,

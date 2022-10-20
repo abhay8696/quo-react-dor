@@ -1,30 +1,34 @@
-import { check_possible_ways, find_box_adjacent_to_wall } from "./boardFunctions";
+import { check_possible_ways, find_box_adjacent_to_wall, giveDirection } from "./boardFunctions";
 
 export const
 clickBox2 = data=> {
-    const { i, j, gameData, updateGameData, next1, next2 } = data;
+    const { i, j, gameData, updateGameData, next1, next2, oldPosition } = data;
     let {player1, player2, turnNo, wallArray, winner, loser, blockedWays} = gameData;
-    let newPos1=player1?.position, newPos2=player2.position;
+    let newPos1=player1?.position, newPos2=player2.position, movingDirection1, movingDirection2;
     if(turnNo%2===1){
         if(!next1.includes(`${i}${j}`)) return;
         newPos1 = `B${i}${j}`;
         console.log(newPos1);
+        movingDirection1 = giveDirection({from:oldPosition, to: newPos1});
     }
     if(turnNo%2===0){
         if(!next2.includes(`${i}${j}`)) return;
         newPos2 = `B${i}${j}`;
         console.log(newPos2);
+        movingDirection2 = giveDirection({from:oldPosition, to: newPos2});
     }
     updateGameData({
         player1: {
             name: player1?.name,
             position: newPos1,
             walls:player1?.walls,
+            myDirection: movingDirection1
         },
         player2: {
             name: player2?.name,
             position: newPos2,
-            walls: player2?.walls
+            walls: player2?.walls,
+            myDirection: movingDirection2
         },
         wallArray : wallArray,
         winner: winner,
@@ -35,7 +39,7 @@ clickBox2 = data=> {
 },
 clickWall2 = data=> {
     const {x,y,gameData,updateGameData,targetRowOfP1,targetRowOfP2} = data;
-    let {player1, player2, turnNo, wallArray, winner, loser, blockedWays} = gameData;
+    let {player1, player2, turnNo, wallArray, winner, loser, blockedWays, myDirection} = gameData;
     let player, opponent, opponentTargetRow
     // console.log(x,y, gameData);
     //check whose turn
@@ -59,12 +63,14 @@ clickWall2 = data=> {
             name: player1?.name,
             position: player1?.position,
             walls: player1?.walls-1,
+            myDirection
         }
     }else{
         player2 = {
             name: player2?.name,
             position: player2?.position,
             walls: player2?.walls-1,
+            myDirection
         }
     }
     //update blocked boxes
