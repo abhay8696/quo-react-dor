@@ -66,7 +66,8 @@ const OfflineComp = props => {
             wallArray : [],
             winner: null,
             loser: null,
-            turnNo: 1
+            turnNo: 1,
+            blockedWays: []
           })
     };
     

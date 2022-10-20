@@ -1,7 +1,9 @@
+import { find_box_adjacent_to_wall } from "./boardFunctions";
+
 export const
 clickBox2 = data=> {
     const { i, j, gameData, updateGameData, next1, next2 } = data;
-    let {player1, player2, turnNo, wallArray, winner, loser} = gameData;
+    let {player1, player2, turnNo, wallArray, winner, loser, blockedWays} = gameData;
     let newPos1=player1?.position, newPos2=player2.position;
     if(turnNo%2===1){
         if(!next1.includes(`${i}${j}`)) return;
@@ -27,12 +29,13 @@ clickBox2 = data=> {
         wallArray : wallArray,
         winner: winner,
         loser: loser,
-        turnNo: turnNo+1
+        turnNo: turnNo+1,
+        blockedWays: blockedWays
     })
 },
 clickWall2 = data=> {
-    const {x,y,gameData,updateGameData} = data;
-    let {player1, player2, turnNo, wallArray, winner, loser} = gameData;
+    const {x,y,gameData,updateGameData,blocked} = data;
+    let {player1, player2, turnNo, wallArray, winner, loser, blockedWays} = gameData;
     let player;
     console.log(x,y, gameData);
     //check whose turn
@@ -41,7 +44,7 @@ clickWall2 = data=> {
     if(player?.walls<=0) return console.log('0 walls left');
     //check wall already built, if true return
     if(gameData?.wallArray.includes(`${x}${y}`)) return;
-    //update gamedata
+    //update player info
     if(turnNo%2===1){
         player1 = {
             name: player1?.name,
@@ -55,14 +58,17 @@ clickWall2 = data=> {
             walls: player2?.walls-1,
         }
     }
-    
+    //update blocked boxes
+    let {blockBox1, blockBox2} = find_box_adjacent_to_wall(x,y);
+    //update gameData
     updateGameData({
         player1: player1,
         player2: player2,
         wallArray : [...wallArray, `${x}${y}`],
         winner: winner,
         loser: loser,
-        turnNo: turnNo+1
+        turnNo: turnNo+1,
+        blockedWays: [...blockedWays, `${blockBox1}${blockBox2}`]
     })
 },
 updateNext = player=> {
@@ -76,7 +82,7 @@ updateNext = player=> {
 },
 boxClassName = data=> {
     const { i, targetRowOfP1, targetRowOfP2 } = data;
-    console.log(data);
+    
     if(i===0 || i===8) {
         if(i === targetRowOfP1){
             return 'targetBox1';

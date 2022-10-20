@@ -19,7 +19,8 @@ const Board2 = props => {
     [zoom, setZoom] = useState(false),
     [zoom2, setZoom2] = useState(false),
     [targetRowOfP1, setTargetRowOfP1] = useState(0),
-    [targetRowOfP2, setTargetRowOfP2] = useState(8);
+    [targetRowOfP2, setTargetRowOfP2] = useState(8),
+    [blocked, setBlocked] = useState([]);
     //life cycle
     useEffect(()=> {
         handleZoom(true);
@@ -68,7 +69,7 @@ const Board2 = props => {
         <Zoom in={zoom} timeout={t} key = {`W${x}${y}`}>
             <div 
             className={wallClassName({x,y,type,wallArray})} 
-            onClick={()=> clickWall2({x,y,gameData,updateGameData})}
+            onClick={()=> clickWall2({x,y,gameData,updateGameData,blocked})}
             ></div>
         </Zoom>
         )
@@ -83,7 +84,7 @@ const Board2 = props => {
             className={boxClassName({ i, targetRowOfP1, targetRowOfP2 })}
             onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2 })}
             >
-                {/* <span className='info'>{i}{j}</span> */}
+                <span className='info'>{i}{j}</span>
                 {
                     next1?.includes(`${i}${j}`) && turnNo%2===1 ?
                     <LensIcon className='next'/> : <></>
