@@ -5,19 +5,17 @@ import LensIcon from '@mui/icons-material/Lens';
 //styles
 import '../../styles/board.css'
 import { block_boxes_ajacent_to_wall } from '../../functions/boardFunctions';
-import { boxClassName, clickBox2, clickWall2, updateNext } from '../../functions/board2Functions';
+import { boxClassName, clickBox2, clickWall2, updateNext, wallClassName } from '../../functions/board2Functions';
 
 
 const Board2 = props => {
     //props
     const { gameData, winner, playerData, updateGameData } = props;
     const { player1, player2, turnNo } = gameData;
+    //states
     const
-    [selected1, setSelected1] = useState(),
-    [selected2, setSelected2] = useState(),
     [next1, setNext1] = useState(['64','75', '84', '73']),
     [next2, setNext2] = useState(['24', '13', '04', '15']),
-    [standingWalls, setStandingWalls] = useState([]),
     [zoom, setZoom] = useState(false),
     [zoom2, setZoom2] = useState(false),
     [targetRowOfP1, setTargetRowOfP1] = useState(0),
@@ -25,8 +23,6 @@ const Board2 = props => {
     //life cycle
     useEffect(()=> {
         handleZoom(true);
-        setSelected1(player1?.position);
-        setSelected2(player2?.position);
     }, [])
     useEffect(()=> {
         setNext1(updateNext(player1));
@@ -66,27 +62,13 @@ const Board2 = props => {
     },
     wall = (x,y, type)=> {
         // if(x===0 || x===16) return null;
-        let cls;
         const t = 50*x+y;
-        if(type==='v'){
-            if(standingWalls?.includes(`W${x}${y}`)){
-                cls = 'selectedVerticalWall'
-            }else cls = 'verticalWall';
-        }else {
-            if(standingWalls?.includes(`W${x}${y}`)){
-                cls = 'selectedHorizontalWall'
-            }else cls = 'horizontalWall';
-        }
+        let wallArray = gameData?.wallArray;
         return(
         <Zoom in={zoom} timeout={t} key = {`W${x}${y}`}>
             <div 
-            className={cls} 
-            onClick={()=> {
-                let val = clickWall2({x,y,gameData,updateGameData});
-                // console.log(val);
-                // setInValidMove(val);
-            }}
-            
+            className={wallClassName({x,y,type,wallArray})} 
+            onClick={()=> clickWall2({x,y,gameData,updateGameData})}
             ></div>
         </Zoom>
         )
@@ -99,7 +81,7 @@ const Board2 = props => {
         !winner ?
             <div 
             className={boxClassName({ i, targetRowOfP1, targetRowOfP2 })}
-            onClick={()=>clickBox2({ i, j, player1, player2, turnNo, updateGameData, next1, next2 })}
+            onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2 })}
             >
                 {/* <span className='info'>{i}{j}</span> */}
                 {

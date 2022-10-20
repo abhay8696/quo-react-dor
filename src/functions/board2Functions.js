@@ -1,6 +1,7 @@
 export const
 clickBox2 = data=> {
-    const { i, j, player1, player2, turnNo, updateGameData, next1, next2 } = data;
+    const { i, j, gameData, updateGameData, next1, next2 } = data;
+    let {player1, player2, turnNo, wallArray, winner, loser} = gameData;
     let newPos1=player1?.position, newPos2=player2.position;
     if(turnNo%2===1){
         if(!next1.includes(`${i}${j}`)) return;
@@ -16,22 +17,22 @@ clickBox2 = data=> {
         player1: {
             name: player1?.name,
             position: newPos1,
-            walls:12,
+            walls:player1?.walls,
         },
         player2: {
             name: player2?.name,
             position: newPos2,
-            walls: 12
+            walls: player2?.walls
         },
-        wallArray : [],
-        winner: null,
-        loser: null,
+        wallArray : wallArray,
+        winner: winner,
+        loser: loser,
         turnNo: turnNo+1
     })
 },
 clickWall2 = data=> {
     const {x,y,gameData,updateGameData} = data;
-    let {player1, player2, wallArray, turnNo} = gameData;
+    let {player1, player2, turnNo, wallArray, winner, loser} = gameData;
     let player;
     console.log(x,y, gameData);
     //check whose turn
@@ -59,8 +60,8 @@ clickWall2 = data=> {
         player1: player1,
         player2: player2,
         wallArray : [...wallArray, `${x}${y}`],
-        winner: null,
-        loser: null,
+        winner: winner,
+        loser: loser,
         turnNo: turnNo+1
     })
 },
@@ -75,6 +76,7 @@ updateNext = player=> {
 },
 boxClassName = data=> {
     const { i, targetRowOfP1, targetRowOfP2 } = data;
+    console.log(data);
     if(i===0 || i===8) {
         if(i === targetRowOfP1){
             return 'targetBox1';
@@ -84,4 +86,16 @@ boxClassName = data=> {
         }
     }
     return 'box2';
+},
+wallClassName = data=> {
+    const {x,y,type, wallArray} = data;
+    if(type==='v'){
+        if(wallArray?.includes(`${x}${y}`)){
+            return 'selectedVerticalWall'
+        }else return 'verticalWall';
+    }else {
+        if(wallArray?.includes(`${x}${y}`)){
+            return 'selectedHorizontalWall'
+        }else return 'horizontalWall';
+    }
 }
