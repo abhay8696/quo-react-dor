@@ -5,6 +5,7 @@ import LensIcon from '@mui/icons-material/Lens';
 //styles
 import '../../styles/board.css'
 import { block_boxes_ajacent_to_wall } from '../../functions/boardFunctions';
+import { boxClassName, clickBox2, clickWall2, updateNext } from '../../functions/board2Functions';
 
 
 const Board2 = props => {
@@ -28,27 +29,11 @@ const Board2 = props => {
         setSelected2(player2?.position);
     }, [])
     useEffect(()=> {
-        updateNext1();
-        updateNext2();
+        setNext1(updateNext(player1));
+        setNext2(updateNext(player2));
     }, [gameData])
     //functions
     const 
-    updateNext1 = ()=> {
-        const i = Number(player1?.position?.split('')[1]);
-        const j = Number(player1?.position?.split('')[2]);
-        let s = `${i}${j}`
-        
-        let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
-        setNext1([`${t}`, `${r}`, `${b}`, `${l}`]);
-    },
-    updateNext2 = ()=> {
-        const i = Number(player2?.position?.split('')[1]);
-        const j = Number(player2?.position?.split('')[2]);
-        let s = `${i}${j}`
-        
-        let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
-        setNext2([`${t}`, `${r}`, `${b}`, `${l}`]);
-    },
     dispBoxes = ()=> {
         let rows = [], i=0;
         for(let x=0; x<=16; x++){
@@ -97,7 +82,7 @@ const Board2 = props => {
             <div 
             className={cls} 
             onClick={()=> {
-                // let val = clickWall({myTurn, x,y, standingWalls, gameData, gameRef, playerData, opponentPawn, blocked, targetRowOfOpponent});
+                let val = clickWall2({x,y,gameData,updateGameData});
                 // console.log(val);
                 // setInValidMove(val);
             }}
@@ -113,10 +98,10 @@ const Board2 = props => {
         {
         !winner ?
             <div 
-            className={boxClassName(i,j)}
-            onClick={()=>clickBoxOffline(i,j)}
+            className={boxClassName({ i, targetRowOfP1, targetRowOfP2 })}
+            onClick={()=>clickBox2({ i, j, player1, player2, turnNo, updateGameData, next1, next2 })}
             >
-                <span className='info'>{i}{j}</span>
+                {/* <span className='info'>{i}{j}</span> */}
                 {
                     next1?.includes(`${i}${j}`) && turnNo%2===1 ?
                     <LensIcon className='next'/> : <></>
@@ -146,46 +131,6 @@ const Board2 = props => {
     },
     handleZoom2 = (val) => {
         setZoom2((prev) => val);
-    },
-    boxClassName = (i,j)=> {
-        if(i===0 || i===8) {
-            if(i === targetRowOfP1){
-                return 'targetBox1';
-            }
-            if(i === targetRowOfP2){
-                return 'targetBox2';
-            }
-        }
-        return 'box2';
-    },
-    clickBoxOffline = (i,j)=> {
-        let newPos1=player1?.position, newPos2=player2.position;
-        if(turnNo%2===1){
-            if(!next1.includes(`${i}${j}`)) return;
-            newPos1 = `B${i}${j}`;
-            console.log(newPos1);
-        }
-        if(turnNo%2===0){
-            if(!next2.includes(`${i}${j}`)) return;
-            newPos2 = `B${i}${j}`;
-            console.log(newPos2);
-        }
-        updateGameData({
-            player1: {
-                name: player1?.name,
-                position: newPos1,
-                walls:12,
-            },
-            player2: {
-                name: player2?.name,
-                position: newPos2,
-                walls: 12
-            },
-            wallArray : [],
-            winner: null,
-            loser: null,
-            turnNo: turnNo+1
-        })
     }
 
     return (
