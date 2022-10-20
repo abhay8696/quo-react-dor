@@ -103,7 +103,7 @@ export const check_possible_ways = (position, blocked=[], targetRow)=> {
 
     const checkBlocked = (i, j, m, n)=> {
         // console.log('checkin blocked...')
-        console.log(newBlocked)
+        // console.log(newBlocked)
         for(let l = 0; l < newBlocked.length; l++){
             let b1 = `${newBlocked[l][0]}${newBlocked[l][1]}`, b2 = `${newBlocked[l][2]}${newBlocked[l][3]}`;
             if(b1 === `${i}${j}` && b2 === `${m}${n}`){
@@ -122,7 +122,7 @@ export const check_possible_ways = (position, blocked=[], targetRow)=> {
         loopNo++;
         // console.log({loopNo, visited, blocked})
         // console.log(`${i}${j}`)
-        console.log(`at BOX: ${i}${j}`);
+        // console.log(`at BOX: ${i}${j}`);
         if(i===targetRow) {
             visited = [];
             blocked = [];

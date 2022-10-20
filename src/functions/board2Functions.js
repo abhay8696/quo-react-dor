@@ -1,4 +1,4 @@
-import { find_box_adjacent_to_wall } from "./boardFunctions";
+import { check_possible_ways, find_box_adjacent_to_wall } from "./boardFunctions";
 
 export const
 clickBox2 = data=> {
@@ -34,12 +34,21 @@ clickBox2 = data=> {
     })
 },
 clickWall2 = data=> {
-    const {x,y,gameData,updateGameData,blocked} = data;
+    const {x,y,gameData,updateGameData,targetRowOfP1,targetRowOfP2} = data;
     let {player1, player2, turnNo, wallArray, winner, loser, blockedWays} = gameData;
-    let player;
-    console.log(x,y, gameData);
+    let player, opponent, opponentTargetRow
+    // console.log(x,y, gameData);
     //check whose turn
-    gameData?.turnNo%2===1 ? player = gameData?.player1 : player = gameData?.player2;
+    // gameData?.turnNo%2===1 ? player = gameData?.player1 : player = gameData?.player2;
+    if(gameData?.turnNo%2===1){
+        player = gameData?.player1;
+        opponent = gameData?.player2;
+        opponentTargetRow = targetRowOfP2;
+    }else{
+        player = gameData?.player2;
+        opponent = gameData?.player1;
+        opponentTargetRow = targetRowOfP1;
+    }
     //check remaining walls, if 0 return
     if(player?.walls<=0) return console.log('0 walls left');
     //check wall already built, if true return
@@ -60,25 +69,35 @@ clickWall2 = data=> {
     }
     //update blocked boxes
     let {blockBox1, blockBox2} = find_box_adjacent_to_wall(x,y);
-    //update gameData
-    updateGameData({
-        player1: player1,
-        player2: player2,
-        wallArray : [...wallArray, `${x}${y}`],
-        winner: winner,
-        loser: loser,
-        turnNo: turnNo+1,
-        blockedWays: [...blockedWays, `${blockBox1}${blockBox2}`]
-    })
+    //if wall doesn't isolate pawn from all sides update gameData
+    if(check_possible_ways(opponent?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], opponentTargetRow)){
+        console.log({p:opponent?.position, opponentTargetRow, ways:[...gameData?.blockedWays, `${blockBox1}${blockBox2}`]})
+        updateGameData({
+            player1: player1,
+            player2: player2,
+            wallArray : [...wallArray, `${x}${y}`],
+            winner: winner,
+            loser: loser,
+            turnNo: turnNo+1,
+            blockedWays: [...blockedWays, `${blockBox1}${blockBox2}`]
+        })
+    }else{
+        console.log({a:"You Cannot Block Opponent Completely!", opponentTargetRow});
+        // return invalidMove = true;
+    }
 },
-updateNext = player=> {
+updateNext = (player, blockedWays)=> {
     const i = Number(player?.position?.split('')[1]);
     const j = Number(player?.position?.split('')[2]);
-    let s = `${i}${j}`
+    let s = `${i}${j}`, arr = [];
     
     let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
-    
-    return [`${t}`, `${r}`, `${b}`, `${l}`];
+    let next = [`${t}${s}`, `${s}${r}`, `${s}${b}`, `${l}${s}`];
+    if(!blockedWays.includes(next[0])) arr.push(t);
+    if(!blockedWays.includes(next[1])) arr.push(r);
+    if(!blockedWays.includes(next[2])) arr.push(b);
+    if(!blockedWays.includes(next[3])) arr.push(l);
+    return arr;
 },
 boxClassName = data=> {
     const { i, targetRowOfP1, targetRowOfP2 } = data;
