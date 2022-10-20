@@ -4,28 +4,51 @@ import { Zoom } from '@mui/material';
 import LensIcon from '@mui/icons-material/Lens';
 //styles
 import '../../styles/board.css'
+import { block_boxes_ajacent_to_wall } from '../../functions/boardFunctions';
 
 
 const Board2 = props => {
     //props
-    const { gameData, winner, playerData } = props;
-    const { player1, player2 } = gameData;
+    const { gameData, winner, playerData, updateGameData } = props;
+    const { player1, player2, turnNo } = gameData;
     const
-    [selected, setSelected] = useState(),
+    [selected1, setSelected1] = useState(),
     [selected2, setSelected2] = useState(),
+    [next1, setNext1] = useState(['64','75', '84', '73']),
+    [next2, setNext2] = useState(['24', '13', '04', '15']),
     [standingWalls, setStandingWalls] = useState([]),
     [zoom, setZoom] = useState(false),
     [zoom2, setZoom2] = useState(false),
     [targetRowOfP1, setTargetRowOfP1] = useState(0),
-    [targetRowOfP2, setTargetRowOfP2] = useState(8),
-    [myTargetRow, setMyTargetRow] = useState(8);
+    [targetRowOfP2, setTargetRowOfP2] = useState(8);
     //life cycle
     useEffect(()=> {
-
         handleZoom(true);
+        setSelected1(player1?.position);
+        setSelected2(player2?.position);
     }, [])
+    useEffect(()=> {
+        updateNext1();
+        updateNext2();
+    }, [gameData])
     //functions
     const 
+    updateNext1 = ()=> {
+        const i = Number(player1?.position?.split('')[1]);
+        const j = Number(player1?.position?.split('')[2]);
+        let s = `${i}${j}`
+        
+        let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
+        setNext1([`${t}`, `${r}`, `${b}`, `${l}`]);
+    },
+    updateNext2 = ()=> {
+        const i = Number(player2?.position?.split('')[1]);
+        const j = Number(player2?.position?.split('')[2]);
+        let s = `${i}${j}`
+        
+        let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
+        setNext2([`${t}`, `${r}`, `${b}`, `${l}`]);
+    },
     dispBoxes = ()=> {
         let rows = [], i=0;
         for(let x=0; x<=16; x++){
@@ -91,12 +114,16 @@ const Board2 = props => {
         !winner ?
             <div 
             className={boxClassName(i,j)}
-            // onClick={()=>{  handleBoxClick(i,j)}}
+            onClick={()=>clickBoxOffline(i,j)}
             >
-                {/* <span className='info'>{i}{j}</span> */}
+                <span className='info'>{i}{j}</span>
                 {
-                    // next?.includes(`${i}${j}`) && myTurn ?
-                    // <LensIcon className={(i===0 || i===8)?'next2':'next'}/> : <></>
+                    next1?.includes(`${i}${j}`) && turnNo%2===1 ?
+                    <LensIcon className='next'/> : <></>
+                }
+                {
+                    next2?.includes(`${i}${j}`) && turnNo%2===0 ?
+                    <LensIcon className='next2'/> : <></>
                 }
                 {player1?.position===`B${i}${j}` ? <LensIcon className='pawn'/> : <></>}
                 {player2?.position===`B${i}${j}` ? <LensIcon className='pawn2'/> : <></>}
@@ -130,14 +157,42 @@ const Board2 = props => {
             }
         }
         return 'box2';
-    };
+    },
+    clickBoxOffline = (i,j)=> {
+        let newPos1=player1?.position, newPos2=player2.position;
+        if(turnNo%2===1){
+            if(!next1.includes(`${i}${j}`)) return;
+            newPos1 = `B${i}${j}`;
+            console.log(newPos1);
+        }
+        if(turnNo%2===0){
+            if(!next2.includes(`${i}${j}`)) return;
+            newPos2 = `B${i}${j}`;
+            console.log(newPos2);
+        }
+        updateGameData({
+            player1: {
+                name: player1?.name,
+                position: newPos1,
+                walls:12,
+            },
+            player2: {
+                name: player2?.name,
+                position: newPos2,
+                walls: 12
+            },
+            wallArray : [],
+            winner: null,
+            loser: null,
+            turnNo: turnNo+1
+        })
+    }
 
     return (
         <div className='board'>
             <div className='normal'>
                 {dispBoxes()}
             </div>
-            {/* <button onClick={()=> clearBoard({ gameData, playerData, gameRef, opponent})}>Clear</button> */}
         </div>
     );
 };

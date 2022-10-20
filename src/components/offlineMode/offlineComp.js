@@ -72,7 +72,7 @@ const OfflineComp = props => {
     
     return (<>
         {gameData ? 
-            <Board2 gameData={gameData} playerData={playerData}/>
+            <Board2 gameData={gameData} playerData={playerData} updateGameData={updateGameData}/>
         : 
             displayInputs()
         }
