@@ -118,3 +118,7 @@
         align-self: flex-end;
     }
 }
+
+#opponentInfoOFFLINE .oppoInfo{
+    transform: rotate(180deg);
+}

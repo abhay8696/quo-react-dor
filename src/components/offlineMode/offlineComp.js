@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 //contexts
 import { PlayerDataContext } from '../../contexts/playerDataContext';
 //components
@@ -6,6 +6,7 @@ import Guide from '../guide/Guide';
 //styles
 import '../../styles/enterName.css'
 
+import { Slide, Zoom } from '@mui/material';
 import { FaArrowRight } from "react-icons/fa";
 import Board from '../board';
 import Board2 from './board2';
@@ -17,6 +18,15 @@ const OfflineComp = props => {
     //states
     const [name1, setName1] = useState(playerData?.name);
     const [name2, setName2] = useState('');
+    const[slide, setslide] = useState(false);
+    const[zoom, setZoom] = useState(false);
+    const[zoomOut, setZoomOut] = useState(true);
+    //variables
+    // const {player1,player2} = gameData;
+    //life cycle
+    useEffect(()=> {
+        handleSlide(true);
+    },[])
     //functions
     const 
     displayInputs = ()=> {
@@ -71,11 +81,38 @@ const OfflineComp = props => {
             turnNo: 1,
             blockedWays: []
           })
-    };
+    },
+    handleSlide = val=> {
+        setslide(prev=> val)
+    }
     
     return (<>
         {gameData ? 
+        <>
+            <Slide in={slide} timeout={1000}>
+            <div className='opponentInfo' id='opponentInfoOFFLINE'>
+                <span className='oppoCircle'></span>
+                <span className='oppoInfo'>
+                <span className='infoName'>
+                    {name2}
+                </span>
+                <span className='wallInfo'>Walls: {gameData?.player2?.walls}</span>
+                </span>
+            </div>
+            </Slide>
             <Board2 gameData={gameData} playerData={playerData} updateGameData={updateGameData}/>
+            <Slide in={slide} timeout={1000}>
+            <div className='myInfo'>
+                <span className='meInfo'>
+                <span className='infoName'>
+                    {name1}
+                </span>
+                <span className='wallInfo'>Walls: {gameData?.player1?.walls}</span>
+                </span>
+                <span className='myCircle'></span>
+            </div>
+            </Slide>
+        </>
         : 
             displayInputs()
         }

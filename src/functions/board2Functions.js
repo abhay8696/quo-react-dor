@@ -60,22 +60,6 @@ clickWall2 = data=> {
     if(player?.walls<=0) return console.log('0 walls left');
     //check wall already built, if true return
     if(gameData?.wallArray.includes(`${x}${y}`)) return;
-    //update player info
-    if(turnNo%2===1){
-        player1 = {
-            name: player1?.name,
-            position: player1?.position,
-            walls: player1?.walls-1,
-            myDirection
-        }
-    }else{
-        player2 = {
-            name: player2?.name,
-            position: player2?.position,
-            walls: player2?.walls-1,
-            myDirection
-        }
-    }
     //update blocked boxes
     let {blockBox1, blockBox2} = find_box_adjacent_to_wall(x,y);
 
@@ -92,6 +76,22 @@ clickWall2 = data=> {
     }
     //if wall doesn't isolate pawn from all sides update gameData
     if(checkConditions()){
+        //update player info
+        if(turnNo%2===1){
+            player1 = {
+                name: player1?.name,
+                position: player1?.position,
+                walls: player1?.walls-1,
+                myDirection
+            }
+        }else{
+            player2 = {
+                name: player2?.name,
+                position: player2?.position,
+                walls: player2?.walls-1,
+                myDirection
+            }
+        }
         console.log({p:opponent?.position, opponentTargetRow, ways:[...gameData?.blockedWays, `${blockBox1}${blockBox2}`]})
         updateGameData({
             player1: player1,
