@@ -87,7 +87,7 @@ const Board2 = props => {
             className={boxClassName({ i, targetRowOfP1, targetRowOfP2 })}
             onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2, oldPosition })}
             >
-                <span className='info'>{i}{j}</span>
+                {/* <span className='info'>{i}{j}</span> */}
                 {
                     next1?.includes(`${i}${j}`) && turnNo%2===1 ?
                     <LensIcon className='next'/> : <></>

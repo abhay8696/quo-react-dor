@@ -34,13 +34,14 @@ clickBox2 = data=> {
         winner: winner,
         loser: loser,
         turnNo: turnNo+1,
-        blockedWays: blockedWays
+        blockedWays: blockedWays,
+        errorMsg: undefined
     })
 },
 clickWall2 = data=> {
     const {x,y,gameData,updateGameData,targetRowOfP1,targetRowOfP2} = data;
     let {player1, player2, turnNo, wallArray, winner, loser, blockedWays, myDirection} = gameData;
-    let player, opponent, opponentTargetRow
+    let player, opponent, opponentTargetRow, playerTargetRow, errorMsg;
     // console.log(x,y, gameData);
     //check whose turn
     // gameData?.turnNo%2===1 ? player = gameData?.player1 : player = gameData?.player2;
@@ -48,10 +49,12 @@ clickWall2 = data=> {
         player = gameData?.player1;
         opponent = gameData?.player2;
         opponentTargetRow = targetRowOfP2;
+        playerTargetRow = targetRowOfP1;
     }else{
         player = gameData?.player2;
         opponent = gameData?.player1;
         opponentTargetRow = targetRowOfP1;
+        playerTargetRow = targetRowOfP2;
     }
     //check remaining walls, if 0 return
     if(player?.walls<=0) return console.log('0 walls left');
@@ -75,8 +78,20 @@ clickWall2 = data=> {
     }
     //update blocked boxes
     let {blockBox1, blockBox2} = find_box_adjacent_to_wall(x,y);
+
+    const checkConditions = ()=> {
+        console.log('**************checking parameters*********8')
+        if (!check_possible_ways(opponent?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], opponentTargetRow)){
+            errorMsg = 'Cannot Block Opponent Completely';
+            return false;
+        }if (!check_possible_ways(player?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], playerTargetRow)){
+            errorMsg = 'Cannot Block Yourself Completely';
+            return false;
+        }
+        return true;
+    }
     //if wall doesn't isolate pawn from all sides update gameData
-    if(check_possible_ways(opponent?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], opponentTargetRow)){
+    if(checkConditions()){
         console.log({p:opponent?.position, opponentTargetRow, ways:[...gameData?.blockedWays, `${blockBox1}${blockBox2}`]})
         updateGameData({
             player1: player1,
@@ -85,12 +100,14 @@ clickWall2 = data=> {
             winner: winner,
             loser: loser,
             turnNo: turnNo+1,
-            blockedWays: [...blockedWays, `${blockBox1}${blockBox2}`]
-        })
-    }else{
-        console.log({a:"You Cannot Block Opponent Completely!", opponentTargetRow});
-        // return invalidMove = true;
-    }
+            blockedWays: [...blockedWays, `${blockBox1}${blockBox2}`],
+            errorMsg: undefined
+        });
+        errorMsg=undefined;
+    }else {
+        let msg1 = 'Invalid Move!';
+        return updateGameData({player1, player2, turnNo, wallArray, winner, loser, blockedWays, myDirection, errorMsg:{msg1, msg2:errorMsg}})
+    };
 },
 updateNext = (player, blockedWays)=> {
     const i = Number(player?.position?.split('')[1]);
