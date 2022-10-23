@@ -72,7 +72,7 @@ const OfflineComp = props => {
             },
             player2: {
                 name: name2,
-                position: 'B73',
+                position: 'B14',
                 walls: 12,
                 myDirection: ''
             },
