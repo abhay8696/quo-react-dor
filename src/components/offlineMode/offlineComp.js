@@ -4,12 +4,13 @@ import { PlayerDataContext } from '../../contexts/playerDataContext';
 //components
 import Guide from '../guide/Guide';
 //styles
-import '../../styles/enterName.css'
+import '../../styles/playComp.css'
 
 import { Slide, Zoom } from '@mui/material';
 import { FaArrowRight } from "react-icons/fa";
 import Board from '../board';
 import Board2 from './board2';
+import { MdFlag } from 'react-icons/md';
 
 const OfflineComp = props => {
     const { exitMatch, gameData, updateGameData } = props;
@@ -71,7 +72,7 @@ const OfflineComp = props => {
             },
             player2: {
                 name: name2,
-                position: 'B14',
+                position: 'B73',
                 walls: 12,
                 myDirection: ''
             },
@@ -88,7 +89,7 @@ const OfflineComp = props => {
     
     return (<>
         {gameData ? 
-        <>
+        <div className='oneOnOneComp'>
             <Slide in={slide} timeout={1000}>
             <div className='opponentInfo' id='opponentInfoOFFLINE'>
                 <span className='oppoCircle'></span>
@@ -112,7 +113,11 @@ const OfflineComp = props => {
                 <span className='myCircle'></span>
             </div>
             </Slide>
-        </>
+            <button onClick={()=> exitMatch(true, 'from board')} className='giveUp'>
+                Exit Match
+                <MdFlag/>
+            </button>
+        </div>
         : 
             displayInputs()
         }

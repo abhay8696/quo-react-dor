@@ -5,7 +5,7 @@ import LensIcon from '@mui/icons-material/Lens';
 //styles
 import '../../styles/board.css'
 import { block_boxes_ajacent_to_wall } from '../../functions/boardFunctions';
-import { boxClassName, clickBox2, clickWall2, updateNext, wallClassName } from '../../functions/board2Functions';
+import { boxClassName, checkWinner, clickBox2, clickWall2, updateNext, wallClassName } from '../../functions/board2Functions';
 
 
 const Board2 = props => {
@@ -28,6 +28,18 @@ const Board2 = props => {
     useEffect(()=> {
         setNext1(updateNext(player1, gameData?.blockedWays));
         setNext2(updateNext(player2, gameData?.blockedWays));
+        if(!gameData?.winner){ 
+            checkWinner({
+                position1: player1?.position,
+                target1: targetRowOfP1,
+                position2: player2?.position,
+                target2: targetRowOfP2,
+                gameData,
+                updateGameData
+            })
+        }else{ 
+            handleZoom2(true);
+        }; 
     }, [gameData])
     //functions
     const 
@@ -82,7 +94,7 @@ const Board2 = props => {
         return (
         <Zoom in={zoom} timeout={t} key={`B${i}${j}`} >
         {
-        !winner ?
+        !gameData?.winner ?
             <div 
             className={boxClassName({ i, targetRowOfP1, targetRowOfP2 })}
             onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2, oldPosition })}
@@ -103,7 +115,7 @@ const Board2 = props => {
             <>
             <Zoom in={zoom2} timeout={t} key={`B${i}${j}`} >
                 <div 
-                className={winner===playerData?.name ? 'winnerBox1' : 'winnerBox2'}
+                className={gameData?.winner===1 ? 'winnerBox1' : 'winnerBox2'}
                 >
                 </div>
             </Zoom>

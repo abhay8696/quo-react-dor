@@ -80,6 +80,9 @@
         justify-content: flex-start;
         box-sizing: border-box;
     }
+    .oneOnOneComp{
+        margin-top: 5vh;
+    }
     .myInfo, .opponentInfo{
         width: 100%;
     }
@@ -118,7 +121,6 @@
         align-self: flex-end;
     }
 }
-
 #opponentInfoOFFLINE .oppoInfo{
     transform: rotate(180deg);
 }

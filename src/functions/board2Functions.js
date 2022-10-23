@@ -66,10 +66,10 @@ clickWall2 = data=> {
     const checkConditions = ()=> {
         console.log('**************checking parameters*********8')
         if (!check_possible_ways(opponent?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], opponentTargetRow)){
-            errorMsg = 'Cannot Block Opponent Completely';
+            errorMsg = 'Cannot Block Opponent Completely!';
             return false;
         }if (!check_possible_ways(player?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], playerTargetRow)){
-            errorMsg = 'Cannot Block Yourself Completely';
+            errorMsg = 'Cannot Block Yourself Completely!';
             return false;
         }
         return true;
@@ -146,4 +146,26 @@ wallClassName = data=> {
             return 'selectedHorizontalWall'
         }else return 'horizontalWall';
     }
+},
+checkWinner = (data)=> {
+    const {position1, position2, target1, target2, gameData, updateGameData} = data;
+    let w, l;
+    if(+position1.split('')[1] === target1){
+        w=1; 
+        l=2
+    }else if(+position2.split('')[1] === target2){
+        w=2; 
+        l=1
+    }else return false;
+
+    return updateGameData({
+        player1: gameData?.player1,
+        player2: gameData?.player2,
+        wallArray: gameData?.wallArray,
+        winner: w,
+        loser: l,
+        turnNo: gameData?.turnNo,
+        blockedWays: gameData?.blockedWays,
+        errorMsg: gameData?.errorMsg
+    });
 }

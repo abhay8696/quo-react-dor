@@ -12,6 +12,7 @@ import db from '../Firebase';
 import { collection, onSnapshot, query, doc, updateDoc, getDoc, deleteDoc, getDocs } from 'firebase/firestore';
 //icons
 import { MdLogout } from 'react-icons/md';
+import { FaExclamation } from 'react-icons/fa'; 
 import OfflineComp from './offlineMode/offlineComp';
 
 const AppBody = props => {
@@ -49,6 +50,10 @@ const AppBody = props => {
         };
     },
     exitMatch = async (byMe, source)=> {
+        if(offlineMode){
+            setGameData(undefined);
+            return setOfflineMode(false);
+        }
         //update my doc playingwiht: null
         const playerRef = doc(db, "players", playerData.name);
         await updateDoc(playerRef, {
@@ -75,7 +80,6 @@ const AppBody = props => {
         }
         setGameData(null);
         console.log(`source: ${source}`);
-        
     },
 
     gameMode = ()=> {
@@ -98,6 +102,11 @@ const AppBody = props => {
             }
         }
         return <Guide disappearThis={false}/> 
+    },
+    displayError = ()=> {
+        if(gameData?.errorMsg && gameData?.turnNo%2===1) return <div className='alertDiv1'><FaExclamation/>{gameData?.errorMsg?.msg2}</div>
+        if(gameData?.errorMsg && gameData?.turnNo%2===0) return <div className='alertDiv2'><span><FaExclamation/>{gameData?.errorMsg?.msg2}</span></div>
+        return null;
     }
     return (
         <>
@@ -112,6 +121,7 @@ const AppBody = props => {
             : null
             }
             {gameMode()}
+            {displayError()}
         </div>
         <EnterName disappear={true} text={playerData.name}/> 
         </>
