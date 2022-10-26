@@ -103,10 +103,39 @@ const AppBody = props => {
         }
         return <Guide disappearThis={false}/> 
     },
-    displayError = ()=> {
+    displayAlert = ()=> {
+        if(gameData?.winner) return(
+        <div className='winnerAlert'>
+            <span className='winnerMsg'><FaExclamation/>{gameData?.winnerName} Won!</span>
+            <div className='winnerButtons'>
+                <span className='winnerButton1' onClick={()=> restartGame()}>Play Again?</span>
+                <span className='winnerButton2' onClick={()=> exitMatch()}>Exit</span>
+            </div>
+        </div>)
         if(gameData?.errorMsg && gameData?.turnNo%2===1) return <div className='alertDiv1'><FaExclamation/>{gameData?.errorMsg?.msg2}</div>
         if(gameData?.errorMsg && gameData?.turnNo%2===0) return <div className='alertDiv2'><span><FaExclamation/>{gameData?.errorMsg?.msg2}</span></div>
         return null;
+    },
+    restartGame = ()=> {
+        updateGameData({
+            player1: {
+                name: gameData?.player1?.name,
+                position: 'B74',
+                walls:12,
+                myDirection: ''
+            },
+            player2: {
+                name: gameData?.player2?.name,
+                position: 'B14',
+                walls: 12,
+                myDirection: ''
+            },
+            wallArray : [],
+            winner: null,
+            loser: null,
+            turnNo: 1,
+            blockedWays: []
+        })
     }
     return (
         <>
@@ -121,7 +150,7 @@ const AppBody = props => {
             : null
             }
             {gameMode()}
-            {displayError()}
+            {displayAlert()}
         </div>
         <EnterName disappear={true} text={playerData.name}/> 
         </>

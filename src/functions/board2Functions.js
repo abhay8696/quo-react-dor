@@ -149,13 +149,15 @@ wallClassName = data=> {
 },
 checkWinner = (data)=> {
     const {position1, position2, target1, target2, gameData, updateGameData} = data;
-    let w, l;
+    let w, l, winnerName;
     if(+position1.split('')[1] === target1){
         w=1; 
-        l=2
+        l=2;
+        winnerName = gameData?.player1?.name;
     }else if(+position2.split('')[1] === target2){
         w=2; 
-        l=1
+        l=1;
+        winnerName = gameData?.player2?.name;
     }else return false;
 
     return updateGameData({
@@ -166,6 +168,7 @@ checkWinner = (data)=> {
         loser: l,
         turnNo: gameData?.turnNo,
         blockedWays: gameData?.blockedWays,
-        errorMsg: gameData?.errorMsg
+        errorMsg: gameData?.errorMsg,
+        winnerName: winnerName
     });
 }
