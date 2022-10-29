@@ -54,12 +54,12 @@
 .next,
 .targetBox1,
 .targetBox2 {
-    color: rgb(241, 187, 151);
+    color:#f3b388d5;
     font-size: 3.5em;
 }
 
 .next2 {
-    color: rgba(241, 187, 151, 0.89);
+    color: #f17e7e;
     font-size: 3.5em;
 }
 
@@ -113,12 +113,14 @@
     color: #da6d25;
     position: absolute;
     z-index: 2;
+    filter: drop-shadow(0.2rem 0.2rem 0.2rem #000);
 }
 
 .opponentPawn {
     color: #8b0000;
     position: absolute;
     z-index: 2;
+    filter: drop-shadow(0.2rem 0.2rem 0.2rem #000);
 }
 
 .info {

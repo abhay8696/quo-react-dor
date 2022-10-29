@@ -4,7 +4,7 @@ import { Zoom } from '@mui/material';
 import LensIcon from '@mui/icons-material/Lens';
 //styles
 import '../../styles/board.css'
-import { block_boxes_ajacent_to_wall } from '../../functions/boardFunctions';
+import { block_boxes_ajacent_to_wall, check_next_collide_with_opponentPawn } from '../../functions/boardFunctions';
 import { boxClassName, checkWinner, clickBox2, clickWall2, updateNext, wallClassName } from '../../functions/board2Functions';
 
 
@@ -26,8 +26,9 @@ const Board2 = props => {
         handleZoom(true);
     }, [])
     useEffect(()=> {
-        setNext1(updateNext(player1, gameData?.blockedWays));
-        setNext2(updateNext(player2, gameData?.blockedWays));
+        
+        setNext1(updateNext(player1, gameData?.blockedWays, player2?.position));
+        setNext2(updateNext(player2, gameData?.blockedWays, player1?.position));
         if(!gameData?.winner){ 
             checkWinner({
                 position1: player1?.position,
@@ -96,7 +97,7 @@ const Board2 = props => {
         {
         !gameData?.winner ?
             <div 
-            className={boxClassName({ i, targetRowOfP1, targetRowOfP2 })}
+            className={boxClassName({ i, j, targetRowOfP1, targetRowOfP2 })}
             onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2, oldPosition })}
             >
                 {/* <span className='info'>{i}{j}</span> */}

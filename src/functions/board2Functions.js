@@ -109,21 +109,35 @@ clickWall2 = data=> {
         return updateGameData({player1, player2, turnNo, wallArray, winner, loser, blockedWays, myDirection, errorMsg:{msg1, msg2:errorMsg}})
     };
 },
-updateNext = (player, blockedWays)=> {
+updateNext = (player, blockedWays, opponentPosition)=> {
     const i = Number(player?.position?.split('')[1]);
     const j = Number(player?.position?.split('')[2]);
+    const opCoords = `${opponentPosition[1]}${opponentPosition[2]}`;
+    console.log(opCoords);
     let s = `${i}${j}`, arr = [];
     
     let t = `${i-1}${j}`, r=`${i}${j+1}`, b=`${i+1}${j}`, l=`${i}${j-1}`;
     let next = [`${t}${s}`, `${s}${r}`, `${s}${b}`, `${l}${s}`];
-    if(!blockedWays.includes(next[0])) arr.push(t);
-    if(!blockedWays.includes(next[1])) arr.push(r);
-    if(!blockedWays.includes(next[2])) arr.push(b);
-    if(!blockedWays.includes(next[3])) arr.push(l);
+    if(!blockedWays.includes(next[0]) && t!=opCoords) {
+        arr.push(t);
+        console.log(next[0])
+    }
+    if(!blockedWays.includes(next[1]) && r!=opCoords) {
+        arr.push(r);
+        console.log(next[1])
+    }
+    if(!blockedWays.includes(next[2]) && b!=opCoords) {
+        arr.push(b);
+        console.log(next[2])
+    }
+    if(!blockedWays.includes(next[3]) && l!=opCoords) {
+        arr.push(l);
+        console.log(next[3])
+    }
     return arr;
 },
 boxClassName = data=> {
-    const { i, targetRowOfP1, targetRowOfP2 } = data;
+    const { i, j, targetRowOfP1, targetRowOfP2 } = data;
     
     if(i===0 || i===8) {
         if(i === targetRowOfP1){
