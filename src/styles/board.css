@@ -23,20 +23,33 @@
 .winnerBox1 {
     background-color: #da6d25;
 }
+.nextBox1 {
+    background-color: #fff;
+    animation-name: boxColorTrans1;
+}
 .winnerBox2 {
     background-color: #8b0000;
 }
 
+.nextBox2 {
+    background-color: #fff;
+    animation-name: boxColorTrans2;
+}
+
 .targetBox1 {
-    background-color: #da6d25;
+    box-shadow: inset 0 0 1.5rem #da6d25;
+    background-color: #fff;
 }
 
 .targetBox2 {
-    background-color: #8b0000;
+    box-shadow: inset 0 0 1.5rem #8b0000;
+    background-color: #fff;
 }
 
 .box1,
 .box2,
+.nextBox1,
+.nextBox2,
 .winnerBox1,
 .winnerBox2,
 .targetBox1,
@@ -51,10 +64,13 @@
     position: relative;
 }
 
+
 .next,
+.nextBox1,
+.nextBox2,
 .targetBox1,
 .targetBox2 {
-    color:#f3b388d5;
+    /* color:#f3b388d5; */
     font-size: 3.5em;
 }
 
@@ -143,7 +159,7 @@
     animation-name: moveLeftMobile;
     /* animation-iteration-count: infinite; */
 }
-#to-up1, #to-left1, #to-right1, #to-down1, #to-up2, #to-left2, #to-right2, #to-down2{
+#to-up1, #to-left1, #to-right1, #to-down1, #to-up2, #to-left2, #to-right2, #to-down2, .nextBox1, .nextBox2{
     -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
     -moz-animation-fill-mode: forwards; /* FF 5+ */
     -o-animation-fill-mode: forwards; /* Not implemented yet */
@@ -151,6 +167,9 @@
     animation-fill-mode: forwards;
     animation-duration: 300ms;
     animation-timing-function: ease-out;
+}
+.nextBox1, .nextBox2{
+    animation-duration: 100ms;
 }
 
 /* mobile */
@@ -162,6 +181,8 @@
     .box2,
     .next,
     .next2,
+    .nextBox1,
+    .nextBox2,
     .winnerBox1,
     .winnerBox2,
     .targetBox1,
@@ -202,6 +223,8 @@
     .box2,
     .next,
     .next2,
+    .nextBox1,
+    .nextBox2,
     .winnerBox1,
     .winnerBox2,
     .targetBox1,
@@ -230,6 +253,22 @@
     }
 }
 
+@keyframes boxColorTrans1 {
+    from{
+        background-color:currentColor;
+    }
+    to{
+        box-shadow: inset 0 0 2.3rem #da6d25;
+    }
+}
+@keyframes boxColorTrans2 {
+    from{
+        background-color: currentColor;
+    }
+    to{
+        box-shadow: inset 0 0 2.3rem #8b0000;
+    }
+}
 @keyframes moveUpMobile {
     from {
         bottom: -3.5rem;
@@ -261,4 +300,8 @@
     to {
         bottom: 0;
     }
+}
+
+.verticalWall, .horizontalWall{
+    opacity: 0;
 }

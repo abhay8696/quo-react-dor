@@ -97,18 +97,18 @@ const Board2 = props => {
         {
         !gameData?.winner ?
             <div 
-            className={boxClassName({ i, j, targetRowOfP1, targetRowOfP2 })}
+            className={boxClassName({ i, j, targetRowOfP1, targetRowOfP2, next1, next2, turnNo })}
             onClick={()=>clickBox2({ i, j, gameData, updateGameData, next1, next2, oldPosition })}
             >
                 {/* <span className='info'>{i}{j}</span> */}
-                {
+                {/* {
                     next1?.includes(`${i}${j}`) && turnNo%2===1 ?
                     <LensIcon className='next'/> : <></>
                 }
                 {
                     next2?.includes(`${i}${j}`) && turnNo%2===0 ?
                     <LensIcon className='next2'/> : <></>
-                }
+                } */}
                 {player1?.position===`B${i}${j}` ? <LensIcon className='pawn' id={`${player1?.myDirection}1`}/> : <></>}
                 {player2?.position===`B${i}${j}` ? <LensIcon className='opponentPawn' id={`${player2?.myDirection}2`}/> : <></>}
             </div>

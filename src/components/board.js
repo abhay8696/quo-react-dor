@@ -217,8 +217,8 @@ const Board = (props) => {
             >
                 {/* <span className='info'>{i}{j}</span> */}
                 {
-                    next?.includes(`${i}${j}`) && myTurn ?
-                    <LensIcon className={(i===0 || i===8)?'next2':'next'}/> : <></>
+                    // next?.includes(`${i}${j}`) && myTurn ?
+                    // <LensIcon className={(i===0 || i===8)?'next2':'next'}/> : <></>
                 }
                 {selected?.position===`B${i}${j}` ? <LensIcon className='pawn' id={`${selected?.myDirection}1`}/> : <></>}
                 {opponentPawn?.position===`B${i}${j}` ? <LensIcon className='opponentPawn' id={`${opponentPawn?.myDirection}2`}/> : <></>}
@@ -253,6 +253,7 @@ const Board = (props) => {
         setZoom2((prev) => val);
     },
     boxClassName = (i,j)=> {
+        if(next && next.includes(`${i}${j}`) && myTurn) return 'nextBox1';
         if(i===0 || i===8) {
             if(i === myTargetRow){
                 return 'targetBox1';

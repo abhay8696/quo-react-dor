@@ -137,8 +137,10 @@ updateNext = (player, blockedWays, opponentPosition)=> {
     return arr;
 },
 boxClassName = data=> {
-    const { i, j, targetRowOfP1, targetRowOfP2 } = data;
+    const { i, j, targetRowOfP1, targetRowOfP2, next1, next2, turnNo } = data;
     
+    if(next1.includes(`${i}${j}`) && turnNo%2===1) return 'nextBox1';
+    if(next2.includes(`${i}${j}`) && turnNo%2===0) return 'nextBox2';
     if(i===0 || i===8) {
         if(i === targetRowOfP1){
             return 'targetBox1';
