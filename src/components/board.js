@@ -28,7 +28,7 @@ const Board = (props) => {
     [inValidMove, setInValidMove] = useState(false);
     // [winner, setwinner] = useState(false);
     //props
-    const { gameData, playerData, opponent, myTurn, updateGameData, winner } = props;
+    const { gameData, playerData, opponent, myTurn, updateGameData, winner, wallSwitch } = props;
     //life cycle
     useEffect(()=> {
         let unsub = onSnapshot(doc(db, "liveGames", `${gameData?.id}`), (doc) => {
@@ -185,17 +185,22 @@ const Board = (props) => {
         if(type==='v'){
             if(standingWalls?.includes(`W${x}${y}`)){
                 cls = 'selectedVerticalWall'
-            }else cls = 'verticalWall';
+            }else if(wallSwitch){
+                cls = 'verticalWall';
+            }else cls = 'verticalWallInvisible';
         }else {
             if(standingWalls?.includes(`W${x}${y}`)){
                 cls = 'selectedHorizontalWall'
-            }else cls = 'horizontalWall';
+            }else if(wallSwitch){
+                cls = 'horizontalWall';
+            }else cls = 'horizontalWallInvisible';
         }
         return(
         <Zoom in={zoom} timeout={t} key = {`W${x}${y}`}>
             <div 
             className={cls} 
             onClick={()=> {
+                if(!wallSwitch) return;
                 let val = clickWall({myTurn, x,y, standingWalls, gameData, gameRef, playerData, opponentPawn, blocked, targetRowOfOpponent});
                 console.log(val);
                 setInValidMove(val);

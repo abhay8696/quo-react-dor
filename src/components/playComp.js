@@ -26,6 +26,7 @@ const PlayComp = (props) => {
     [slide, setslide] = useState(false),
     [zoom, setZoom] = useState(false),
     [zoomOut, setZoomOut] = useState(true),
+    [wallSwitch, setWallSwitch] = useState(true),
     [getGameTimer, setGetGameTimer] = useState(), 
     [winner, setWinner] = useState();
     //context
@@ -50,6 +51,7 @@ const PlayComp = (props) => {
         }
     }, [])
     useEffect(()=> {
+        setWallSwitch(false);
         if(gameData){
             handleZoomOut();
         }
@@ -103,7 +105,15 @@ const PlayComp = (props) => {
     handleZoom = val=> {
         setZoom((prev) => val);
     },
-    handleZoomOut = ()=> setZoomOut(prev=> false);
+    handleZoomOut = ()=> setZoomOut(prev=> false),
+    displayWallSwitch = ()=> {
+        if(myTurn) return(
+            <span className='insertWall' onClick={()=> setWallSwitch(!wallSwitch)}>
+                Insert Wall {`(${myGameData?.walls})`}
+            </span>
+        )
+        return <span></span>
+    }
 
     return (
         <>
@@ -142,9 +152,12 @@ const PlayComp = (props) => {
             myTurn={myTurn}
             updateGameData={updateGameData}
             winner={winner}
+            wallSwitch={wallSwitch}
             />
             <Slide in={slide} timeout={500}>
                 <div className='myInfo'>
+                    {displayWallSwitch()}
+                    <span className='myInfo2'>
                     <span className='meInfo'>
                     <span className='infoName'>
                         {playerData?.name}
@@ -153,6 +166,7 @@ const PlayComp = (props) => {
                     <span className='wallInfo'>Walls: {myGameData?.walls}</span>
                     </span>
                     <span className='myCircle'></span>
+                    </span>
                 </div>
             </Slide>
             </>

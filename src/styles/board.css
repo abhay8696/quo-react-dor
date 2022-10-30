@@ -79,13 +79,13 @@
     font-size: 3.5em;
 }
 
-.horizontalWall {
+.horizontalWall, .horizontalWallInvisible {
     width: 4.5rem;
     height: 0.3rem;
     border-radius: 3px;
     background-color: #fff;
     opacity: 0.8;
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .selectedHorizontalWall,
@@ -100,13 +100,13 @@
     /* opacity: 0.8; */
 }
 
-.verticalWall {
+.verticalWall, .verticalWallInvisible {
     height: 4.5rem;
     width: 0.3rem;
     border-radius: 3px;
     background-color: #fff;
     opacity: 0.8;
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .selectedVerticalWall {
@@ -159,15 +159,6 @@
     animation-name: moveLeftMobile;
     /* animation-iteration-count: infinite; */
 }
-#to-up1, #to-left1, #to-right1, #to-down1, #to-up2, #to-left2, #to-right2, #to-down2, .nextBox1, .nextBox2{
-    -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
-    -moz-animation-fill-mode: forwards; /* FF 5+ */
-    -o-animation-fill-mode: forwards; /* Not implemented yet */
-    -ms-animation-fill-mode: forwards; /* IE 10+ */
-    animation-fill-mode: forwards;
-    animation-duration: 300ms;
-    animation-timing-function: ease-out;
-}
 .nextBox1, .nextBox2{
     animation-duration: 100ms;
 }
@@ -193,12 +184,14 @@
     }
 
     .verticalWall,
+    .verticalWallInvisible,
     .selectedVerticalWall {
         height: 2.6rem;
         width: 0.3rem;
     }
 
     .horizontalWall,
+    .horizontalWallInvisible,
     .selectedHorizontalWall {
         width: 2.6rem;
         height: 0.3rem;
@@ -234,12 +227,14 @@
     }
 
     .verticalWall,
+    .verticalWallInvisible,
     .selectedVerticalWall {
         height: 3.5rem;
         width: 0.3rem;
     }
 
     .horizontalWall,
+    .horizontalWallInvisible,
     .selectedHorizontalWall {
         width: 3.5rem;
         height: 0.3rem;
@@ -302,6 +297,50 @@
     }
 }
 
-.verticalWall, .horizontalWall{
-    opacity: 0;
+@keyframes opacityOn {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 0.3;
+    }
+}
+@keyframes opacityOff {
+    from {
+        opacity:0.3;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@keyframes wallDisplay{
+    from{
+        scale: 5;
+        transform: translateY(50px);
+        opacity: 0.3;
+    }
+    to{
+        scale: 1;
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+.selectedHorizontalWall, .selectedVerticalWall{
+    animation-name: wallDisplay;
+}
+.horizontalWall, .verticalWall{
+    animation-name: opacityOn;
+}
+.verticalWallInvisible, .horizontalWallInvisible{
+    animation-name: opacityOff;
+}
+#to-up1, #to-left1, #to-right1, #to-down1, #to-up2, #to-left2, #to-right2, #to-down2, .nextBox1, .nextBox2, .verticalWallInvisible, .horizontalWallInvisible, .horizontalWall, .verticalWall, .selectedHorizontalWall, .selectedVerticalWall{
+    -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
+    -moz-animation-fill-mode: forwards; /* FF 5+ */
+    -o-animation-fill-mode: forwards; /* Not implemented yet */
+    -ms-animation-fill-mode: forwards; /* IE 10+ */
+    animation-fill-mode: forwards;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
 }
