@@ -10,7 +10,7 @@ import { boxClassName, checkWinner, clickBox2, clickWall2, updateNext, wallClass
 
 const Board2 = props => {
     //props
-    const { gameData, winner, playerData, updateGameData } = props;
+    const { gameData, winner, playerData, updateGameData, wallSwitch } = props;
     const { player1, player2, turnNo } = gameData;
     //states
     const
@@ -26,7 +26,6 @@ const Board2 = props => {
         handleZoom(true);
     }, [])
     useEffect(()=> {
-        
         setNext1(updateNext(player1, gameData?.blockedWays, player2?.position));
         setNext2(updateNext(player2, gameData?.blockedWays, player1?.position));
         if(!gameData?.winner){ 
@@ -81,8 +80,11 @@ const Board2 = props => {
         return(
         <Zoom in={zoom} timeout={t} key = {`W${x}${y}`}>
             <div 
-            className={wallClassName({x,y,type,wallArray})} 
-            onClick={()=> clickWall2({x,y,gameData,updateGameData,targetRowOfP1,targetRowOfP2})}
+            className={wallClassName({x,y,type,wallArray, wallSwitch})} 
+            onClick={()=> {
+                if(!wallSwitch) return;
+                clickWall2({x,y,gameData,updateGameData,targetRowOfP1,targetRowOfP2})
+            }}
             ></div>
         </Zoom>
         )

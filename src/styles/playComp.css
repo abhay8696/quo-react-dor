@@ -91,8 +91,9 @@
         width: 100%;
     }
     .opponentInfo{
-        justify-content: flex-start;
-        padding-left: 0.5rem;
+        padding: 0 0.5rem;
+        justify-content: space-between;
+        align-items: center;
     }
     .myInfo{
         /* justify-content: flex-end; */
@@ -104,7 +105,7 @@
         width: 2.5rem;
         height: 2.5rem;
     }
-    .myInfo2{
+    .myInfo2, .opponentInfo2{
         display: flex;
     }
 }
@@ -130,6 +131,6 @@
         align-self: flex-end;
     }
 }
-#opponentInfoOFFLINE .oppoInfo{
+#opponentInfoOFFLINE .oppoInfo, #opponentInfoOFFLINE .insertWall{
     transform: rotate(180deg);
 }

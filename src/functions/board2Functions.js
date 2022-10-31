@@ -152,15 +152,19 @@ boxClassName = data=> {
     return 'box2';
 },
 wallClassName = data=> {
-    const {x,y,type, wallArray} = data;
+    const {x,y,type, wallArray, wallSwitch} = data;
     if(type==='v'){
         if(wallArray?.includes(`${x}${y}`)){
             return 'selectedVerticalWall'
-        }else return 'verticalWall';
+        }else if(wallSwitch){
+            return 'verticalWall';
+        }else return 'verticalWallInvisible';
     }else {
         if(wallArray?.includes(`${x}${y}`)){
             return 'selectedHorizontalWall'
-        }else return 'horizontalWall';
+        }else if(wallSwitch){
+            return 'horizontalWall';
+        }else return 'horizontalWallInvisible';
     }
 },
 checkWinner = (data)=> {

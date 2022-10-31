@@ -21,14 +21,14 @@
 }
 
 .winnerBox1 {
-    background-color: #da6d25;
+    box-shadow: inset 0 0 1.5rem #da6d25;
 }
 .nextBox1 {
     background-color: #fff;
     animation-name: boxColorTrans1;
 }
 .winnerBox2 {
-    background-color: #8b0000;
+    box-shadow: inset 0 0 1.5rem #8b0000;
 }
 
 .nextBox2 {

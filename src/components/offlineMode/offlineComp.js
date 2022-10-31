@@ -22,12 +22,14 @@ const OfflineComp = props => {
     const[slide, setslide] = useState(false);
     const[zoom, setZoom] = useState(false);
     const[zoomOut, setZoomOut] = useState(true);
+    const [wallSwitch, setWallSwitch] = useState(false);
     //variables
     // const {player1,player2} = gameData;
     //life cycle
     useEffect(()=> {
         handleSlide(true);
     },[])
+    useEffect(()=> setWallSwitch(false), [gameData]);
     //functions
     const 
     displayInputs = ()=> {
@@ -85,6 +87,18 @@ const OfflineComp = props => {
     },
     handleSlide = val=> {
         setslide(prev=> val)
+    },
+    displayWallSwitch = (myTurn, data)=> {
+        if(myTurn) return(
+            <span className='insertWall' 
+            onClick={()=> {
+                if(data?.walls<=0) return;
+                setWallSwitch(!wallSwitch);
+            }}>
+                {data?.walls<=0 ? <span>Out Of Walls!</span> : <span>Insert Wall {`(${data?.walls})`}</span>}
+            </span>
+        )
+        return <span></span>
     }
     
     return (<>
@@ -92,6 +106,14 @@ const OfflineComp = props => {
         <div className='oneOnOneComp'>
             <Slide in={slide} timeout={1000}>
             <div className='opponentInfo' id='opponentInfoOFFLINE'>
+                {/* <span className='oppoCircle'></span>
+                <span className='oppoInfo'>
+                <span className='infoName'>
+                    {name2}
+                </span>
+                <span className='wallInfo'>Walls: {gameData?.player2?.walls}</span>
+                </span> */}
+                <span className='myInfo2'>
                 <span className='oppoCircle'></span>
                 <span className='oppoInfo'>
                 <span className='infoName'>
@@ -99,18 +121,28 @@ const OfflineComp = props => {
                 </span>
                 <span className='wallInfo'>Walls: {gameData?.player2?.walls}</span>
                 </span>
+                </span>
+                {displayWallSwitch(gameData?.turnNo%2===0, gameData?.player2)}
             </div>
             </Slide>
-            <Board2 gameData={gameData} playerData={playerData} updateGameData={updateGameData}/>
+            <Board2 
+                gameData={gameData} 
+                playerData={playerData} 
+                updateGameData={updateGameData}
+                wallSwitch={wallSwitch}
+            />
             <Slide in={slide} timeout={1000}>
             <div className='myInfo'>
-                <span className='meInfo'>
-                <span className='infoName'>
-                    {name1}
-                </span>
-                <span className='wallInfo'>Walls: {gameData?.player1?.walls}</span>
-                </span>
-                <span className='myCircle'></span>
+                    {displayWallSwitch(gameData?.turnNo%2===1, gameData?.player1)}
+                    <span className='myInfo2'>
+                    <span className='meInfo'>
+                    <span className='infoName'>
+                        {name1}
+                    </span>
+                    <span className='wallInfo'>Walls: {gameData?.player1?.walls}</span>
+                    </span>
+                    <span className='myCircle'></span>
+                    </span>
             </div>
             </Slide>
             <button onClick={()=> exitMatch(true, 'from board')} className='giveUp'>
@@ -125,3 +157,13 @@ const OfflineComp = props => {
 };
 
 export default OfflineComp;
+
+
+
+                {/* <span className='meInfo'>
+                <span className='infoName'>
+                    {name1}
+                </span>
+                <span className='wallInfo'>Walls: {gameData?.player1?.walls}</span>
+                </span>
+                <span className='myCircle'></span> */}
