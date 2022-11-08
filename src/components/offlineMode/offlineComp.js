@@ -89,7 +89,7 @@ const OfflineComp = props => {
         setslide(prev=> val)
     },
     displayWallSwitch = (myTurn, data)=> {
-        if(myTurn) return(
+        if(myTurn && !gameData?.winner) return(
             <span className='insertWall' 
             onClick={()=> {
                 if(data?.walls<=0) return;
@@ -106,13 +106,6 @@ const OfflineComp = props => {
         <div className='oneOnOneComp'>
             <Slide in={slide} timeout={1000}>
             <div className='opponentInfo' id='opponentInfoOFFLINE'>
-                {/* <span className='oppoCircle'></span>
-                <span className='oppoInfo'>
-                <span className='infoName'>
-                    {name2}
-                </span>
-                <span className='wallInfo'>Walls: {gameData?.player2?.walls}</span>
-                </span> */}
                 <span className='myInfo2'>
                 <span className='oppoCircle'></span>
                 <span className='oppoInfo'>
@@ -132,7 +125,7 @@ const OfflineComp = props => {
                 wallSwitch={wallSwitch}
             />
             <Slide in={slide} timeout={1000}>
-            <div className='myInfo'>
+            <div className='myInfo' id='myInfoOFFLINE'>
                     {displayWallSwitch(gameData?.turnNo%2===1, gameData?.player1)}
                     <span className='myInfo2'>
                     <span className='meInfo'>

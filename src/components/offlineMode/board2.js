@@ -135,7 +135,7 @@ const Board2 = props => {
     }
 
     return (
-        <div className='board'>
+        <div className='board' id='board2'>
             <div className='normal'>
                 {dispBoxes()}
             </div>

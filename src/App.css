@@ -33,13 +33,13 @@ p{
   font-weight: lighter;
 }
 .body{
-  width: 100%;  
+  width: 100vw;  
   display: flex;
   flex: 20;
   box-sizing: border-box;
   position: relative;
   z-index: 2;
-  /* background-color: #d2cb95; */
+  justify-content: center;
 }
 .sideBar{
   /* position: fixed; */

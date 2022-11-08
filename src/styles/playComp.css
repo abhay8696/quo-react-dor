@@ -1,4 +1,4 @@
-.playComp{
+.playComp, .oneOnOneComp{
     /* padding: 1rem; */
     display: flex;
     box-sizing: border-box;
@@ -71,21 +71,24 @@
     font-weight: 300;
 }
 .insertWall{
-    background-color: #da6d25;
+    border: 1px solid #fff;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
+    cursor: pointer;
+}
+.insertWall:hover{
+    border: 1px solid #000;
+    color: #000;
+    background-color: #fff;
 }
 /* mobile */
 @media only screen and (max-width: 900px) {
-    .playComp{
+    .playComp, .oneOnOneComp{
         flex: 1;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
         box-sizing: border-box;
-    }
-    .oneOnOneComp{
-        margin-top: 5vh;
     }
     .myInfo, .opponentInfo{
         width: 100%;
@@ -108,6 +111,9 @@
     .myInfo2, .opponentInfo2{
         display: flex;
     }
+    #opponentInfoOFFLINE .oppoInfo, #opponentInfoOFFLINE .insertWall{
+        transform: rotate(180deg);
+    }
 }
 /* desktop */
 @media only screen and (min-width: 901px) {
@@ -115,9 +121,22 @@
         justify-content: center;
         width: 100%;
     }
+    .oneOnOneComp{
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        width: 100vw;
+    }
+    #opponentInfoOFFLINE, #myInfoOFFLINE {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+    }
     .oppoCircle, .myCircle{
-        width: 3rem;
-        height: 3rem;
+        width: 2rem;
+        height: 2rem;
     }
     .opponentInfo, .myInfo{
         /* width: 10%; */
@@ -130,7 +149,20 @@
     .myInfo{
         align-self: flex-end;
     }
-}
-#opponentInfoOFFLINE .oppoInfo, #opponentInfoOFFLINE .insertWall{
-    transform: rotate(180deg);
+    .oneOnOneComp > .opponentInfo, .oneOnOneComp > .myInfo{
+        align-self: auto;
+    }
+    .insertWall{
+        position: absolute;
+        margin-top: 5rem;
+        font-size: 0.8rem;
+    }
+    .opponentInfo2, .myInfo2{
+        display: flex;
+        align-items: center;
+    }
+    #opponentInfoOFFLINE > .oppoCircle, #myInfoOFFLINE > .myCircle{
+        width: 1rem;
+        height: 1rem;
+    }
 }

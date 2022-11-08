@@ -271,7 +271,7 @@ const Board = (props) => {
     }
 
     return (
-        <div className='board'>
+        <div className='board' id='board1'>
             <div className={boardType}>
                 {dispBoxes()}
             </div>
