@@ -304,18 +304,30 @@
 }
 
 @keyframes opacityOn {
-    from {
-        opacity:0;
+    0%{
+        opacity: 0;
     }
-    to {
-        opacity: 0.3;
+    25%{
+        opacity:0.3;
+    }
+    50%{
+        opacity:0.4;
+    }
+    100%{
+        opacity:0.3;
     }
 }
 @keyframes opacityOff {
-    from {
+    0%{
         opacity:0.3;
     }
-    to {
+    25%{
+        opacity:0.4;
+    }
+    50%{
+        opacity:0.3;
+    }
+    100%{
         opacity: 0;
     }
 }
@@ -349,4 +361,7 @@
     animation-fill-mode: forwards;
     animation-duration: 300ms;
     animation-timing-function: ease-out;
+}
+.horizontalWall, .verticalWall, .verticalWallInvisible, .horizontalWallInvisible{
+    animation-duration: 700ms;
 }

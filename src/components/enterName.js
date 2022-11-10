@@ -86,10 +86,13 @@ const EnterName = (props) => {
     return (
       <div className="enterName">
       <IntroAnimation/>
-        <p className="msg" id="msgIn">
-          A Quoridor Game
-        </p>
-
+        <div className="appTitle">
+          <h1>QUO-REACT-DOR</h1>
+          <p className="msg" id="msgIn">
+            A Quoridor Game
+          </p>
+        </div>
+        <div className="divider"></div>
         <form onSubmit={(e) => getUser(e)} className="form">
           <div className="text" id="textIn">
             What Is Your Name?
@@ -105,7 +108,6 @@ const EnterName = (props) => {
             <FaArrowRight />
           </button>
         </form>
-        <div></div>
       </div>
     );
   };

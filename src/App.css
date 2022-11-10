@@ -146,9 +146,9 @@ button{
 }
 @media only screen and (min-width: 601px) {
   button:hover{
-    background-color: #d2cb95;
+    background-color: rgba(255, 255, 255, 0.5);
     /* border: 1px solid #d2cb95; */
-    color: #ab3706;
+    color: #fff;
     cursor: pointer;
   }
 }

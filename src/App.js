@@ -70,18 +70,21 @@ const App = ()=> {
     <div className="App">
       <PlayerDataContext.Provider value={[playerData, setPlayerData]}>
       <OfflineContext.Provider value={[offlineMode, setOfflineMode]}>
-        <div className='appHead'>
-        <h1>QUO-REACT-DOR</h1>
-        {/* <p>A QUORIDOR GAME</p> */}
-        </div>
+        
         {
           playerData ?
-        <AppBody 
-          logout = {logout}
-          opponent = {opponent}
-          exitGame = {exitGame}
-          toggleRequestDailog = {toggleRequestDailog}
-        />
+        <>
+          <div className='appHead'>
+          <h1>QUO-REACT-DOR</h1>
+          {/* <p>A QUORIDOR GAME</p> */}
+          </div>
+          <AppBody 
+            logout = {logout}
+            opponent = {opponent}
+            exitGame = {exitGame}
+            toggleRequestDailog = {toggleRequestDailog}
+          />
+        </>
         :
         <div className='body'>
           <EnterName disappear={false}/>
