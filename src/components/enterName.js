@@ -80,19 +80,23 @@ const EnterName = (props) => {
   const handleChecked = () => {
     setChecked((prev) => true);
   };
+  const proceedButton = ()=> {
+    if(name?.length) return <button className="arrow" id="arrowIn" type="submit"> <FaArrowRight /> </button>
+    return <button className="arrow" id="arrowInvisible" type="dummy"> <FaArrowRight /> </button>
+  }
   const handleButton = () => setShowButton((prev) => true);
   const handleCheckout = () => setCheckout((prev) => false);
   const displayDIv = () => {
     return (
       <div className="enterName">
       <IntroAnimation/>
-        <div className="appTitle">
+        <div className="appTitle" id="appTitleIn">
           <h1>QUO-REACT-DOR</h1>
           <p className="msg" id="msgIn">
             A Quoridor Game
           </p>
         </div>
-        <div className="divider"></div>
+        <div className="divider" id="dividerIn"></div>
         <form onSubmit={(e) => getUser(e)} className="form">
           <div className="text" id="textIn">
             What Is Your Name?
@@ -103,10 +107,9 @@ const EnterName = (props) => {
             id="inputIn"
             required
             value={name}
+            autocomplete="off" 
           />
-          <button className="arrow" id="arrowIn" type="submit">
-            <FaArrowRight />
-          </button>
+          {proceedButton()}
         </form>
       </div>
     );
@@ -114,9 +117,13 @@ const EnterName = (props) => {
   const disappear_this = () => {
     return (
       <div className="enterName">
-        <p className="msg" id="msgOut">
-          A Quoridor Game
-        </p>
+        <div className="appTitle" id="appTitleOut">
+          <h1>QUO-REACT-DOR</h1>
+          <p className="msg" id="msgOut">
+            A Quoridor Game
+          </p>
+        </div>
+        <div className="divider" id="dividerOut"></div>
         <form onSubmit={(e) => getUser(e)} className="form">
           <div className="text" id="textOut">
             What Is Your Name?
@@ -126,7 +133,6 @@ const EnterName = (props) => {
             <FaArrowRight />
           </button>
         </form>
-        <div></div>
       </div>
     );
   };

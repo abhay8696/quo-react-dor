@@ -4,7 +4,7 @@
   justify-content: space-evenly;
   position: absolute;
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
   z-index: 1;
 }
 .appTitle h1{
@@ -57,28 +57,25 @@
   box-sizing: border-box;
   margin: 8px 0;
 }
-#inputIn {
-  animation-duration: 1000ms;
+#arrowInvisible{
+  opacity: 0;
 }
-#inputOut {
-  animation-duration: 1000ms;
-}
-#arrowIn {
-  animation-duration: 1000ms;
-}
-#arrowOut {
-  animation-duration: 1000ms;
-}
+#appTitleIn,
+#dividerIn,
 #msgIn,
 #textIn,
 #inputIn,
 #arrowIn {
+  animation-duration: 1000ms;
   animation-name: fadeIn;
 }
+#appTitleOut,
+#dividerOut,
 #msgOut,
 #textOut,
 #inputOut,
 #arrowOut {
+  animation-duration: 1000ms;
   animation-name: fadeOut;
   -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
   -moz-animation-fill-mode: forwards; /* FF 5+ */

@@ -22,6 +22,7 @@ import './App.css';
 import { async } from '@firebase/util';
 import SideBar from './components/sideBar';
 import AppBody from './components/appBody';
+import { MdLogout } from 'react-icons/md';
 
 
 const App = ()=> {
@@ -76,6 +77,7 @@ const App = ()=> {
         <>
           <div className='appHead'>
           <h1>QUO-REACT-DOR</h1>
+          <button onClick={()=> logout()} className='signOut'><span>signout</span> <MdLogout/></button>
           {/* <p>A QUORIDOR GAME</p> */}
           </div>
           <AppBody 

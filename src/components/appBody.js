@@ -101,7 +101,7 @@ const AppBody = props => {
                 />)
             }
         }
-        return <Guide disappearThis={false}/> 
+        // return <Guide disappearThis={false}/> 
     },
     displayAlert = ()=> {
         if(gameData?.winner) return(
@@ -145,7 +145,6 @@ const AppBody = props => {
             !gameData ? 
             <>
             <SideBar  playerData={playerData}/>
-            <button onClick={()=> logout()}className='logout'><MdLogout/>signout</button>
             </>
             : null
             }
