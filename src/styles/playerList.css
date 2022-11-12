@@ -1,4 +1,4 @@
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 600px) {
     /* for mobile & tab*/
     .playerList{
         max-height: 20vh;
@@ -8,29 +8,30 @@
 @media only screen and (max-width: 600px) {
     /* for mobile */
     .playerName:active{
-        border-bottom: 1px solid white;
-        color: black;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 0.1rem;
+    }
+    .reqText{
+        font-size: 0.5rem;
     }
 }
 @media only screen and (min-width: 601px) {
     /* for desktop and tab */
     .playerName:hover{
+        background-color: rgba(255, 255, 255, 0.5);
         cursor: pointer;
-        border-bottom: 1px solid white;
-        color: black;
+        border-radius: 0.1rem;
     }
     .playerName{
         font-size: 0.8rem;
     }
+    .reqText{
+        font-size: 0.8rem;
+        padding: 0 0.2rem;
+    }
 }
 @media only screen and (min-width: 951px) {
     /* for desktop */
-    .playerList{
-        padding: 0 1rem;
-    }
-    .online-offline{
-        text-align: center;
-    }
 }
 .playerList{
     text-align: left;
@@ -42,31 +43,55 @@
 .playerName{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #ab3706;
+    border-bottom: 1px solid rgb(87, 87, 87);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    text-align: center;
 }
 .requestSent{
     display: flex;
     align-items: center;
+    background-color: rgb(170, 120, 26);
+    border-radius: 4px;
+    padding: 0 0.3rem;
+}
+.reqText{
+    color: #000;
 }
 .requestRejected{
     display: flex;
     align-items: center;
-    color: red;
+    background-color: rgb(224, 53, 53);
+    border-radius: 4px;
+    padding: 0 0.3rem;
 }
 .requestAccepted{
     display: flex;
     align-items: center;
-    color: green;
-}
-.reqText{
-    font-size: 0.5rem;
+    background-color: rgb(26, 170, 26);
+    border-radius: 4px;
+    padding: 0 0.3rem;
 }
 .reqStatus{
     background-color: red;
     width: 30%;
     display: flex;
     justify-content: center;
+}
+.reqIcon{
+    animation: rotateIcon 2s infinite linear;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+}
+
+@keyframes rotateIcon {
+    from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
 }

@@ -20,6 +20,7 @@ const AppBody = props => {
     const { logout, opponent, toggleRequestDailog} = props;
     //states
     const [gameData, setGameData] = useState(null);
+    const [showEnterName, setShowEnterName] = useState(true);
     //context
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
     const [offlineMode, setOfflineMode] = useContext(OfflineContext);
@@ -39,7 +40,14 @@ const AppBody = props => {
                 setPlayerData(snap.data());
             }
         })
-        return ()=> changes();
+        const enterNameTimeOutClear = setTimeout(() => {
+            setShowEnterName(false);
+        }, 1000);
+        
+        return ()=> {
+            changes();
+            // enterNameTimeOutClear();
+        }
         // }
     }, [])
     //functions
@@ -101,7 +109,7 @@ const AppBody = props => {
                 />)
             }
         }
-        // return <Guide disappearThis={false}/> 
+        return <Guide disappearThis={false}/> 
     },
     displayAlert = ()=> {
         if(gameData?.winner) return(
@@ -151,7 +159,7 @@ const AppBody = props => {
             {gameMode()}
             {displayAlert()}
         </div>
-        <EnterName disappear={true} text={playerData.name}/> 
+        {showEnterName ? <EnterName disappear={true} text={playerData.name}/> : null}
         </>
     );
 };

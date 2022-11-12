@@ -1,12 +1,12 @@
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 600px) {
     .sideBar{
       display: none !important;
     }
     .accordTexts{
-      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex: 1;
     }
     .name_accord{
       font-size: 1.2rem;
@@ -18,13 +18,13 @@
 .forMobile{
   border-radius: 1rem;
   overflow: auto;
-  margin: 0 1rem;
+  margin: 1rem;
 }
 .forMobile div{
-  /* background-color: #d2cb95;
-  color: #ab3706; */
+    background-color: rgba(255, 255, 255, 0.048);
+    color: #fff;
 }
-@media only screen and (min-width: 901px) {
+@media only screen and (min-width: 601px) {
   .forMobile{
     display: none !important;
   }

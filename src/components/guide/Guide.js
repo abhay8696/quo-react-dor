@@ -37,14 +37,14 @@ const Guide = props => {
                 <div className='header'>How To Play?</div>
             </Grow>
             <div className='guideBody'>
-                <Step1 disappearThis={disappearThis}/>
+                {/* <Step1 disappearThis={disappearThis}/>
                 <Step2 disappearThis={disappearThis}/>
                 <div className='combinedSteps'>
                     <Step3 disappearThis={disappearThis}/>
                     <Step4 disappearThis={disappearThis}/>
                 </div>
                 <Step5/>
-                <StepWinner/>
+                <StepWinner/> */}
             </div>
         </div>
     );

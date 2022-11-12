@@ -86,25 +86,25 @@ const PlayerList = (props) => {
             if(reqTo.status === 'pending') return(
                 <span className='requestSent'>
                     <span className='reqText'>request sent</span>
-                    <MdHourglassEmpty/>
+                    <span className='reqIcon'><MdHourglassEmpty/></span>
                 </span>
             )
             if(reqTo.status === 'rejected') return(
                 <span className='requestRejected'>
                     <span className='reqText'>request rejected</span>
-                    <MdBlock/>
+                    <span className='reqIcon'><MdBlock/></span>
                 </span>
             )
             if(reqTo.status === 'accepted') return(
                 <span className='requestAccepted'>
                     <span className='reqText'>request accepted</span>
-                    <MdDone/>
+                    <span className='reqIcon'><MdDone/></span>
                 </span>
             )
             if(reqTo.status === 'cancelled') return(
                 <span className='requestRejected'>
-                    <span className='reqText'>request cancelled</span>
-                    <MdBlock/>
+                    <span className='reqText'>cancelling request</span>
+                    <span className='reqIcon'><MdBlock/></span>
                 </span>
             )
         }
@@ -136,7 +136,7 @@ const PlayerList = (props) => {
     return (
         <div className='playerList'>
             <div className='divOffline'>
-                <div className='online-offline'>Play Offline</div>
+                <div className='online-offline'>One Screen</div>
                 <div 
                 onClick={()=> setOfflineMode(!offlineMode)}
                 className='playerName'
@@ -144,7 +144,7 @@ const PlayerList = (props) => {
                     1 vs 1
                 </div>
             </div>
-            <div className='online-offline'>Online Players</div>
+            <div className='online-offline'>Remote Players</div>
             { onlinePlayers ? dispOnlinePlayers() : <></>}
         </div>
     );

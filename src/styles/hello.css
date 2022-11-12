@@ -1,18 +1,21 @@
 .hello{
-    width: 20vw;
-    background-color: #fff;
-    color: #000;
+    width: 250px;
+    background-color: rgba(255, 255, 255, 0.048);
+    color: #fff;
     font-size: 1rem;
-    border-radius: 1rem;
-    height: 75vh;
+    border-radius: 0.5rem;
+    height: 100%;
+    padding: 1rem;
 }
 .name{
-    font-size: 2rem;
-    margin: 1rem auto;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+    text-align: left;
 }
 
 /* mobile and tab */
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 600px) {
     .hello{
         width: 75vw;
     }
