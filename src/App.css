@@ -47,6 +47,7 @@ p{
   z-index: 2;
   justify-content: center;
   padding: 1rem;
+  overflow: hidden;
 }
 button{
   font-size: 1rem;

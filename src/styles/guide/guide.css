@@ -2,43 +2,73 @@
     flex: 1;
     overflow-x: hidden;
     /* position: relative; */
-    /* padding: 1rem; */
+    /* padding: 0 1rem; */
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     box-sizing: border-box;
-    /* background-color: red; */
 }
-.header{
+.guideBody{
+    overflow-y: auto;
+}
+.stepBody{
+    background-color: rgba(136, 132, 132, 0.164);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+.howToPlay{
     font-size: 1.5rem;
     text-align: left;
 }
 /* mobile */
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 600px) {
     .guide{
-        margin: 1rem 1rem 0 1rem;
+        /* margin: 0 0.5rem; */
     }
-    .header{
-        margin-bottom: 0.5rem;
+    .howToPlay{
+        margin-left: 0.5rem;
     }
     .guideBody{
         max-height: 80vh;
         overflow-y: scroll;
     }
+    .stepBody{
+        margin: 0.5rem;
+    }
 }
 /* desktops */
-@media only screen and (min-width: 901px) {
+@media only screen and (min-width: 601px) {
     /* .guide{
     } */
-    .header{
-        margin-bottom: 1rem;
+    .howToPlay{
         margin-left: 1rem;
     }
+    .stepBody{
+        margin: 1rem;
+    }
     .guideBody{
-        max-height: 90vh;
-        overflow-y: scroll;
+        display: grid;
     }
     .combinedSteps{
         display: flex;
+    }
+}
+@media only screen and (min-width: 1200px){
+    .guideBody{
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        /* grid-column-gap: 2rem;
+        grid-row-gap: 1rem; */
+    }
+}
+@media only screen and (min-width: 900px) and (max-width: 1199px){
+    .guideBody{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        /* grid-column-gap: 1rem;
+        grid-row-gap: 1rem; */
     }
 }
