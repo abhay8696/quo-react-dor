@@ -76,6 +76,9 @@ const BoardImage = (props) => {
         if(movesW && i===5){
             boxStyle = 'iFinBox2';
         }
+        if(movesW && i===1&& j===2){
+            boxStyle = 'iFinBox1 winnerBox';
+        }
         return (<div 
             className={boxStyle}
             key={`B${i}${j}`} 
@@ -85,16 +88,16 @@ const BoardImage = (props) => {
             </div>)
     },
     dispPawn = ij=> {
-        if(moves && ij==='33') return <span className='pawn1'><LensIcon /></span>;
+        if(moves && ij==='33') return <span className='pawn1'></span>;
 
-        if(moves3 && ij === '42') return <span className='pawn1'><LensIcon /></span>;
-        if(moves3 && ij === '13') return <span className='pawn2'><LensIcon /></span>;
+        if(moves3 && ij === '42') return <span className='pawn1'></span>;
+        if(moves3 && ij === '13') return <span className='pawn2'></span>;
 
-        if((moves4 || moves5) && ij === '43') return <span className='pawn1'><LensIcon /></span>;
-        if((moves4 || moves5) && ij === '24') return <span className='pawn2'><LensIcon /></span>;
+        if((moves4 || moves5) && ij === '43') return <span className='pawn1'></span>;
+        if((moves4 || moves5) && ij === '24') return <span className='pawn2'></span>;
 
-        if(movesW && ij === '12') return <span className='pawn1'><LensIcon /></span>;
-        if(movesW && ij === '44') return <span className='pawn2'><LensIcon /></span>;
+        if(movesW && ij === '12') return <span className='pawn1'></span>;
+        if(movesW && ij === '44') return <span className='pawn2'></span>;
     },
     display_specific_walls = (x,y, type)=> {
         if(moves3 && (`${x}${y}`===`12` || `${x}${y}`===`23` || `${x}`===`6` || `${x}`===`6` || `${x}`===`6`)){

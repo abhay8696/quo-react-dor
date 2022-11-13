@@ -37,6 +37,9 @@
     text-align: left;
     overflow-y: auto;
 }
+.online-offline{
+    font-weight: 600;
+}
 .divOffline{
     margin-bottom: 1rem;
 }

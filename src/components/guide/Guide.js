@@ -47,11 +47,12 @@ const Guide = props => {
     const showBoards = ()=> {
         let arr = [];
         for(let i=1; i<=6; i++){
+            let x = 1000+200*i;
             arr.push(
                 <Grow
                 in={grow1}
                 style={{ transformOrigin: '0 0 0' }}
-                {...(grow1 ? { timeout: 1000 } : {})}
+                {...(grow1 ? { timeout: x } : {})}
                 >
                     <div className='stepBody'>
                         {boardArray[i]}
