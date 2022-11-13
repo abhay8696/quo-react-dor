@@ -75,6 +75,7 @@ const SideBar = (props) => {
     const handleAccordian = (panel) => (event, isExpanded) => {
       setExpanded(isExpanded ? panel : false);
     };
+    const closeAccordian = ()=> setExpanded(false);
     //functions
     const handleChecked = val => setChecked((prev) => val);
     return (
@@ -94,6 +95,7 @@ const SideBar = (props) => {
                     <AccordionDetails>
                         <PlayerList 
                         onlinePlayers={onlinePlayers}
+                        closeAccordian={closeAccordian}
                         />
                     </AccordionDetails>
                 </Accordion>

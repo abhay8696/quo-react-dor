@@ -11,7 +11,7 @@ import { MdHourglassEmpty, MdBlock, MdDone } from 'react-icons/md'
 
 const PlayerList = (props) => {
     //props
-    const { currentPlayerName, onlinePlayers, offline } = props;
+    const { currentPlayerName, onlinePlayers, offline, closeAccordian } = props;
     //contexts
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
     const [offlineMode, setOfflineMode] = useContext(OfflineContext);
@@ -138,7 +138,7 @@ const PlayerList = (props) => {
             <div className='divOffline'>
                 <div className='online-offline'>One Screen</div>
                 <div 
-                onClick={()=> setOfflineMode(!offlineMode)}
+                onClick={()=> {setOfflineMode(!offlineMode); {closeAccordian()}}}
                 className='playerName'
                 >
                     1 vs 1

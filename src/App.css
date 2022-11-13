@@ -45,16 +45,15 @@ p{
   box-sizing: border-box;
   position: relative;
   z-index: 2;
-  justify-content: center;
   padding: 1rem;
   overflow: hidden;
 }
 button{
   font-size: 1rem;
-  border: 1px solid  rgba(255, 255, 255, 0.301);
+  background-color: rgba(255, 255, 255, 0.301);;
+  border: 1px solid  rgba(255, 255, 255, 0);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  background: none;
   color: #fff;
   z-index: 10;
   display: flex;
@@ -159,8 +158,8 @@ input{
 }
 @media only screen and (min-width: 601px) {
   button:hover{
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 1px solid  rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid   rgba(255, 255, 255, 0.5);
     /* border: 1px solid #d2cb95; */
     color: #fff;
     cursor: pointer;
