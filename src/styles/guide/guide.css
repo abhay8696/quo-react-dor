@@ -7,6 +7,19 @@
     flex-direction: column;
     box-sizing: border-box;
 }
+.guideBody::-webkit-scrollbar {
+  width: 0.5em;
+}
+ 
+.guideBody::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.993);
+}
+ 
+.guideBody::-webkit-scrollbar-thumb {
+  background-color:rgba(136, 132, 132, 0.164);
+  outline: none;
+  border-radius: 0.5rem;
+}
 .guideBody{
     overflow-y: auto;
 }
