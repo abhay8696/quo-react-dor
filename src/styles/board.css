@@ -75,6 +75,9 @@
     /* color:#f3b388d5; */
     font-size: 3.5em;
 }
+.nextBox1, .nextBox2{
+    cursor: pointer;
+}
 
 .next2 {
     color: #f17e7e;
@@ -165,6 +168,9 @@
 }
 .nextBox1, .nextBox2{
     animation-duration: 100ms;
+}
+#board1{
+    align-self: center;
 }
 
 /* mobile */

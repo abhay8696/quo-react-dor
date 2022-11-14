@@ -162,7 +162,7 @@ const PlayComp = (props) => {
             wallSwitch={wallSwitch}
             />
             <Slide in={slide} timeout={500}>
-                <div className='myInfo'>
+                <div className='myInfo' id='myInfoOnline'>
                     {displayWallSwitch()}
                     <span className='myInfo2'>
                     <span className='meInfo'>
@@ -189,10 +189,6 @@ const PlayComp = (props) => {
           opponentExit ? <OpponentQuit name = {opponentExit} exitMatch={exitMatch} /> : null
         }
         </div>
-        <button onClick={()=> exitMatch(true, 'from board')} className='giveUp'>
-            give up
-            <MdFlag/>
-        </button>
         </>
     );
 };
@@ -202,7 +198,8 @@ export default PlayComp;
 
 
 
-{/* <button onClick={()=> exitMatch(true, 'from board')}>
-give up
-<MdFlag/>
-</button> */}
+{/* 
+        <button onClick={()=> exitMatch(true, 'from board')} className='giveUp'>
+            give up
+            <MdFlag/>
+        </button> */}
