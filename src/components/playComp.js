@@ -144,7 +144,7 @@ const PlayComp = (props) => {
                 <span className='oppoInfo'>
                 <span className='infoName'>
                     {opponent}
-                    {!myTurn ? '*' : null}
+                    {!myTurn ? <span className='turnIndicator2'></span> : null}
                 </span>
                 <span className='wallInfo'>Walls: {opponentData?.walls}</span>
                 </span>
@@ -167,8 +167,8 @@ const PlayComp = (props) => {
                     <span className='myInfo2'>
                     <span className='meInfo'>
                     <span className='infoName'>
+                        {myTurn ? <span className='turnIndicator1'></span> : null}
                         {playerData?.name}
-                        {myTurn ? '*' : null}
                     </span>
                     <span className='wallInfo'>Walls: {myGameData?.walls}</span>
                     </span>

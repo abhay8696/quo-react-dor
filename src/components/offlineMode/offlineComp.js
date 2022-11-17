@@ -116,8 +116,9 @@ const OfflineComp = props => {
                 <span className='myInfo2'>
                 <span className='oppoCircle'></span>
                 <span className='oppoInfo'>
-                <span className='infoName'>
+                <span className='infoName' id='infoName2Offline'>
                     {name2}
+                    {gameData?.turnNo%2===0 ? <span className='turnIndicator2'></span> : <span className='turnIndicatorDummy'></span>}
                 </span>
                 <span className='wallInfo'>Walls: {gameData?.player2?.walls}</span>
                 </span>
@@ -137,6 +138,7 @@ const OfflineComp = props => {
                     <span className='myInfo2'>
                     <span className='meInfo'>
                     <span className='infoName'>
+                    {gameData?.turnNo%2===1 ? <span className='turnIndicator1'></span> :<span className='turnIndicatorDummy'></span>}
                         {name1}
                     </span>
                     <span className='wallInfo'>Walls: {gameData?.player1?.walls}</span>
