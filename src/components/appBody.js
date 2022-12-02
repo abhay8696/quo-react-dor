@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 //contexts
 import { PlayerDataContext } from '../contexts/playerDataContext';
 import { OfflineContext } from '../contexts/offlineCOntext';
+import { GameDataContext } from '../contexts/gameDataContext';
 //components
 import EnterName from './enterName';
 import Guide from './guide/Guide';
@@ -17,13 +18,13 @@ import OfflineComp from './offlineMode/offlineComp';
 
 const AppBody = props => {
     //props
-    const { logout, opponent, toggleRequestDailog} = props;
+    const {toggleRequestDailog, exitMatch} = props;
     //states
-    const [gameData, setGameData] = useState(null);
     const [showEnterName, setShowEnterName] = useState(true);
     //context
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
     const [offlineMode, setOfflineMode] = useContext(OfflineContext);
+    const [gameData, setGameData] = useContext(GameDataContext);
     //useeffect
     useEffect(()=> {
         // if(playerData){
@@ -57,55 +58,47 @@ const AppBody = props => {
             setGameData(dataObject)
         };
     },
-    exitMatch = async (byMe, source)=> {
-        if(offlineMode){
-            setGameData(undefined);
-            return setOfflineMode(false);
-        }
-        //update my doc playingwiht: null
-        const playerRef = doc(db, "players", playerData.name);
-        await updateDoc(playerRef, {
-            playingWith: {name: null}
-        })
-        //byme
-        //update oppo's doc exitedByOpponent: true
-        if(playerData?.playingWith?.name && byMe){
-            console.log('Exit by me');
-            const opponentRef = doc(db, "players", playerData?.playingWith?.name)
-            await updateDoc(opponentRef, {
-            exitedByOpponent: true
-            })
-        }
+    // exitMatch = async (byMe, source)=> {
+    //     if(offlineMode){
+    //         setGameData(undefined);
+    //         return setOfflineMode(false);
+    //     }
+    //     //update my doc playingwiht: null
+    //     const playerRef = doc(db, "players", playerData.name);
+    //     await updateDoc(playerRef, {
+    //         playingWith: {name: null}
+    //     })
+    //     //byme
+    //     //update oppo's doc exitedByOpponent: true
+    //     if(playerData?.playingWith?.name && byMe){
+    //         console.log('Exit by me');
+    //         const opponentRef = doc(db, "players", playerData?.playingWith?.name)
+    //         await updateDoc(opponentRef, {
+    //         exitedByOpponent: true
+    //         })
+    //     }
         
-        //!byMe
-        //delete gameData doc from liveGames
-        if(!byMe){
-            console.log('Exit by opponent');
-            console.log(gameData.id);
-            if(gameData.id){
-                await deleteDoc(doc(db, 'liveGames', `${gameData.id}`));
-            }
-        }
-        setGameData(null);
-        console.log(`source: ${source}`);
-    },
+    //     //!byMe
+    //     //delete gameData doc from liveGames
+    //     if(!byMe){
+    //         console.log('Exit by opponent');
+    //         console.log(gameData.id);
+    //         if(gameData.id){
+    //             await deleteDoc(doc(db, 'liveGames', `${gameData.id}`));
+    //         }
+    //     }
+    //     setGameData(null);
+    //     console.log(`source: ${source}`);
+    // },
 
     gameMode = ()=> {
         if(offlineMode || playerData?.playingWith?.name){
-            if(offlineMode) {
-                return (
-                <OfflineComp
-                exitMatch={exitMatch} 
-                gameData={gameData} 
-                updateGameData={updateGameData}
-                />)
-            }
+            if(offlineMode) return <OfflineComp />
+
             if(playerData?.playingWith?.name){
                 return( <PlayComp 
                 opponent={playerData?.playingWith?.name} 
                 exitMatch={exitMatch} 
-                gameData={gameData} 
-                updateGameData={updateGameData}
                 />)
             }
         }

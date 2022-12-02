@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+//context
+import { GameDataContext } from '../../contexts/gameDataContext';
 //mui
 import { Zoom } from '@mui/material';
 import LensIcon from '@mui/icons-material/Lens';
@@ -10,8 +12,9 @@ import { boxClassName, checkWinner, clickBox2, clickWall2, updateNext, wallClass
 
 const Board2 = props => {
     //props
-    const { gameData, winner, playerData, updateGameData, wallSwitch } = props;
-    const { player1, player2, turnNo } = gameData;
+    const { winner, playerData, wallSwitch } = props;
+    //context
+    const [gameData, setGameData] = useContext(GameDataContext);
     //states
     const
     [next1, setNext1] = useState(['64','75', '84', '73']),
@@ -25,6 +28,13 @@ const Board2 = props => {
     useEffect(()=> {
         handleZoom(true);
     }, [])
+
+    const updateGameData = dataObject=> {
+        if(dataObject){
+            setGameData(dataObject)
+        };
+    }
+    const { player1, player2, turnNo } = gameData;
     useEffect(()=> {
         setNext1(updateNext(player1, gameData?.blockedWays, player2?.position));
         setNext2(updateNext(player2, gameData?.blockedWays, player1?.position));

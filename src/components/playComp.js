@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 //context
 import { PlayerDataContext } from '../contexts/playerDataContext';
+import { GameDataContext } from '../contexts/gameDataContext';
 //functions
 import { getHash } from '../functions/helperFunctions';
 //firebase
@@ -31,8 +32,9 @@ const PlayComp = (props) => {
     [winner, setWinner] = useState();
     //context
     const [playerData, setplayerData] = useContext(PlayerDataContext);
+    const [gameData, setGameData] = useContext(GameDataContext);
     //props
-    const { opponent, exitMatch , gameData, updateGameData} = props;
+    const { opponent, exitMatch } = props;
     //life cycle
     useEffect(()=> {
         let checkExit = onSnapshot(doc(db, 'players', playerData.name), doc=> {
@@ -47,7 +49,7 @@ const PlayComp = (props) => {
         return()=> {
             // unsub();
             checkExit();
-            updateGameData(null);
+            setGameData(null);
         }
     }, [])
     useEffect(()=> {
@@ -89,7 +91,7 @@ const PlayComp = (props) => {
             snap.forEach(doc=> {
                 console.log(doc.data());
                 if(Number(doc.id) === getHash(playerData.name, opponent) ){
-                    updateGameData(doc.data());
+                    setGameData(doc.data());
                     d = doc.data();
                 }
             });
@@ -153,11 +155,9 @@ const PlayComp = (props) => {
             </div>
             </Slide>
             <Board 
-            gameData={gameData} 
             opponent={opponent} 
             playerData={playerData} 
             myTurn={myTurn}
-            updateGameData={updateGameData}
             winner={winner}
             wallSwitch={wallSwitch}
             />

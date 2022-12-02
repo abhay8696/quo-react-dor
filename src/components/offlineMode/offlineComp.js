@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 //contexts
 import { PlayerDataContext } from '../../contexts/playerDataContext';
 import { OfflineContext } from '../../contexts/offlineCOntext';
+import { GameDataContext } from '../../contexts/gameDataContext';
 //components
 import Guide from '../guide/Guide';
 //styles
@@ -14,10 +15,10 @@ import Board2 from './board2';
 import { MdFlag } from 'react-icons/md';
 
 const OfflineComp = props => {
-    const { exitMatch, gameData, updateGameData } = props;
     //context
     const [playerData, setPlayerData] = useContext(PlayerDataContext);
     const [offlineMode, setOfflineMode] = useContext(OfflineContext);
+    const [gameData, setGameData] = useContext(GameDataContext);
     //states
     const [name1, setName1] = useState(playerData?.name);
     const [name2, setName2] = useState('');
@@ -72,7 +73,7 @@ const OfflineComp = props => {
 
     handleSubmit = e => {
         e.preventDefault();
-        updateGameData({
+        setGameData({
             player1: {
                 name: name1,
                 position: 'B74',
@@ -127,9 +128,6 @@ const OfflineComp = props => {
             </div>
             </Slide>
             <Board2 
-                gameData={gameData} 
-                playerData={playerData} 
-                updateGameData={updateGameData}
                 wallSwitch={wallSwitch}
             />
             <Slide in={slide} timeout={1000}>
@@ -147,10 +145,6 @@ const OfflineComp = props => {
                     </span>
             </div>
             </Slide>
-            <button onClick={()=> exitMatch(true, 'from board')} className='giveUp'>
-                Exit Match
-                <MdFlag/>
-            </button>
         </div>
         : 
             displayInputs()

@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+//context
+import { GameDataContext } from '../contexts/gameDataContext';
 //firebase
 import db from '../Firebase';
 import { doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
@@ -12,6 +14,8 @@ import StarsIcon from '@mui/icons-material/Stars';
 import LensIcon from '@mui/icons-material/Lens';
 import { Zoom, selectClasses } from '@mui/material';
 const Board = (props) => {
+    //context
+    const [gameData, setGameData] = useContext(GameDataContext);
     //states
     const 
     [gameRef, setGameRef] = useState(),
@@ -28,13 +32,13 @@ const Board = (props) => {
     [inValidMove, setInValidMove] = useState(false);
     // [winner, setwinner] = useState(false);
     //props
-    const { gameData, playerData, opponent, myTurn, updateGameData, winner, wallSwitch } = props;
+    const { playerData, opponent, myTurn, winner, wallSwitch } = props;
     //life cycle
     useEffect(()=> {
         let unsub = onSnapshot(doc(db, "liveGames", `${gameData?.id}`), (doc) => {
             console.log('snapshot taken');
             console.log(doc.data());
-            updateGameData(doc.data())
+            setGameData(doc.data())
         });
         console.log('board mounted')
         if(gameData && playerData){

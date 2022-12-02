@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { PlayerDataContext } from './contexts/playerDataContext';
 import { OpponentContext } from './contexts/opponentContext';
 import { OfflineContext } from './contexts/offlineCOntext';
+import { GameDataContext } from './contexts/gameDataContext';
 //components
 import Hello from './components/hello';
 import EnterName from './components/enterName';
@@ -29,9 +30,9 @@ const App = ()=> {
   //states
   const [playerData, setPlayerData] = useState();
   const [offlineMode, setOfflineMode] = useState(false);
-  const [opponent, setOpponent] = useState();
   const [requestDailog, setRequestDailog] = useState(false);
   const [requestFrom, setRequestFrom] = useState();
+  const [gameData, setGameData] = useState(null);
 
   //functions
   const 
@@ -39,51 +40,63 @@ const App = ()=> {
     setRequestDailog(val);
     setRequestFrom(from);
   },
-  exitGame = async (exitByMe, source)=> {
-    console.log('exit called from' + source);
-    setOpponent(null);
-    //update playingWith on db
+  exitMatch = async (byMe, source)=> {
+    if(offlineMode){
+        setGameData(undefined);
+        return setOfflineMode(false);
+    }
+    //update my doc playingwiht: null
     const playerRef = doc(db, "players", playerData.name);
     await updateDoc(playerRef, {
         playingWith: {name: null}
     })
-    if(opponent && exitByMe){
-      const opponentRef = doc(db, "players", opponent)
-      await updateDoc(opponentRef, {
+    //byme
+    //update oppo's doc exitedByOpponent: true
+    if(playerData?.playingWith?.name && byMe){
+        console.log('Exit by me');
+        const opponentRef = doc(db, "players", playerData?.playingWith?.name)
+        await updateDoc(opponentRef, {
         exitedByOpponent: true
-      })
+        })
     }
-    //reset playerData
-    const docRef = doc(db, 'players', playerData.name);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setPlayerData(docSnap.data());
+    
+    //!byMe
+    //delete gameData doc from liveGames
+    if(!byMe){
+        console.log('Exit by opponent');
+        console.log(gameData.id);
+        if(gameData.id){
+            await deleteDoc(doc(db, 'liveGames', `${gameData.id}`));
+        }
     }
-    //
+    setGameData(null);
+    console.log(`source: ${source}`);
   },
   logout = ()=> {
     setPlayerData(undefined);
     window.localStorage.setItem("userData", null);
+  },
+  displayExitButton = ()=>{
+    if(!gameData) return <button onClick={()=> logout()} className='signOut'><span>signout</span> <MdLogout/></button>
+    return <button onClick={()=> exitMatch(true, 'from appbar')} className='signOut'><span>Exit Game</span> <MdLogout/></button>
   };
 
   return (
     <div className="App">
       <PlayerDataContext.Provider value={[playerData, setPlayerData]}>
       <OfflineContext.Provider value={[offlineMode, setOfflineMode]}>
-        
+      <GameDataContext.Provider value={[gameData, setGameData]}>
         {
           playerData ?
         <>
           <div className='appHead'>
           <h1>QUO-REACT-DOR</h1>
-          <button onClick={()=> logout()} className='signOut'><span>signout</span> <MdLogout/></button>
+          {displayExitButton()}
           {/* <p>A QUORIDOR GAME</p> */}
           </div>
           <AppBody 
             logout = {logout}
-            opponent = {opponent}
-            exitGame = {exitGame}
+            exitMatch={exitMatch}
             toggleRequestDailog = {toggleRequestDailog}
           />
         </>
@@ -95,8 +108,9 @@ const App = ()=> {
         {
           requestDailog ? <RequestBox requestFrom={requestFrom} playerData={playerData} /> : <></>
         }
-    </OfflineContext.Provider>
-    </PlayerDataContext.Provider>
+      </GameDataContext.Provider>
+      </OfflineContext.Provider>
+      </PlayerDataContext.Provider>
     </div>
   );
 }
