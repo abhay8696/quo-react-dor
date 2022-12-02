@@ -116,19 +116,19 @@
     display: flex;
     align-items: center;
 }
-.turnIndicator1, .turnIndicator2{
+.turnIndicator1, .turnIndicator1Dummy, .turnIndicator2, .turnIndicator2Dummy{
     width: 0;
     height: 0;
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
 }
-.turnIndicator1{
+.turnIndicator1, .turnIndicator1Dummy{
     border-left: 12px solid #da6d25;
     animation-name: indicatorAnimation1;
     animation-duration: 2000ms;
     animation-iteration-count: infinite;
 }
-.turnIndicator2{ 
+.turnIndicator2, .turnIndicator2Dummy{ 
     border-right: 12px solid #8b0000;
     animation-name: indicatorAnimation2;
     animation-duration: 2000ms;
@@ -150,7 +150,7 @@
     #infoName2Offline{
         flex-direction: row-reverse;
     }
-    #infoName2Offline .turnIndicator2{
+    #infoName2Offline .turnIndicator2,  #infoName2Offline .turnIndicator2Dummy{
         border-left: 12px solid #8b0000;
         border-right: none;
         animation-name: indicatorAnimation1;
@@ -248,6 +248,9 @@
         width: 1rem;
         height: 1rem;
     }
+}
+.turnIndicator1Dummy, .turnIndicator2Dummy{
+    opacity: 0;
 }
 
 
