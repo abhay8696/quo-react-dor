@@ -8,6 +8,12 @@
   top: 0;
   bottom: 0;
 }
+.abhay{
+  position: fixed;
+  bottom: 1vh;
+  font-size: 0.8rem;
+  right: 1vw;
+}
 .appTitle h1{
   margin: 0;
   font-size: 48px;
