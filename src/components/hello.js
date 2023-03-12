@@ -25,7 +25,7 @@ const Hello = props => {
           style={{ transformOrigin: '0 0 0' }}
           {...(checked ? { timeout: 500 } : {})}
         >
-          <div className='name'>Hello {playerData.name}!</div>
+          <div className='name'>Play here {playerData.name}...</div>
         </Grow>
         <PlayerList 
           onlinePlayers={onlinePlayers}

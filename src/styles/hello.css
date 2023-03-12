@@ -12,6 +12,10 @@
     margin-bottom: 1rem;
     font-style: italic;
     text-align: left;
+    animation-name: attract2;
+    animation-duration: 1500ms;
+    /* animation-delay: 10s; */
+    animation-iteration-count: infinite;
 }
 
 /* mobile and tab */
@@ -19,4 +23,16 @@
     .hello{
         width: 75vw;
     }
+}
+
+@keyframes attract2 {
+  0%{
+    transform: scale(100%);
+  }
+  50%{
+    transform: scale(105%);
+  }
+  100%{
+    transform: scale(100%);
+  }
 }

@@ -89,7 +89,7 @@ const SideBar = (props) => {
                     id="panel1a-header">
                         <span className='accordTexts'>
                             <span className='name_accord'>Hello {playerData.name}</span>
-                            <span>Play</span>
+                            <span className='playAttract'>Play</span>
                         </span>
                     </AccordionSummary>
                     <AccordionDetails>

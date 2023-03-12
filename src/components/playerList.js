@@ -136,12 +136,12 @@ const PlayerList = (props) => {
     return (
         <div className='playerList'>
             <div className='divOffline'>
-                <div className='online-offline'>One Screen</div>
+                <div className='online-offline'>One Device</div>
                 <div 
                 onClick={()=> {setOfflineMode(!offlineMode); {closeAccordian()}}}
                 className='playerName'
                 >
-                    1 vs 1
+                    2 Players
                 </div>
             </div>
             <div className='online-offline'>Remote Players</div>
