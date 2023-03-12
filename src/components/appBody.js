@@ -5,6 +5,7 @@ import { OfflineContext } from '../contexts/offlineCOntext';
 import { GameDataContext } from '../contexts/gameDataContext';
 //components
 import EnterName from './enterName';
+import Guide2 from './guide/guide2';
 import Guide from './guide/Guide';
 import PlayComp from './playComp';
 import SideBar from './sideBar';
@@ -102,7 +103,7 @@ const AppBody = props => {
                 />)
             }
         }
-        return <Guide disappearThis={false}/> 
+        return <Guide2 disappearThis={false}/> 
     },
     displayAlert = ()=> {
         if(gameData?.winner) return(
@@ -170,7 +171,7 @@ export default AppBody;
                 updateGameData={updateGameData}
             />
             : 
-            <Guide opponent={opponent}/> 
+            <Guide2 opponent={opponent}/> 
             // null
             }
 */

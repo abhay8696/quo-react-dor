@@ -14,6 +14,10 @@
   font-size: 0.8rem;
   right: 1vw;
 }
+.appTitleH1{
+  display: flex;
+  align-items: center;
+}
 .appTitle h1{
   margin: 0;
   font-size: 48px;
@@ -67,15 +71,42 @@
 #arrowInvisible{
   opacity: 0;
 }
-#appTitleIn,
+.appTitleDiv{
+    font-size: 1rem;
+    z-index: 1;
+    height: 55px;
+    /* width: 250px; */
+    /* text-transform: ; */
+    display: flex;
+    align-items: center;
+    /* background-color: aqua; */
+    background-color: #161618;
+    position: absolute;
+    z-index: 2;
+}
+.introCube1{
+    height: 50px;
+    width: 50px;
+    background-color: #161618;
+    border: 2px solid rgba(245, 222, 179, 0.226);
+    border-radius: 8px;
+    display: block;
+    transform: scale(0);
+    animation: spinEnlarge1 500ms ease 2000ms forwards;
+}
+/* #appTitleIn, */
 #dividerIn,
 #msgIn,
 #textIn,
 #inputIn,
 #arrowIn {
+  transform: scale(0);
   animation-duration: 1000ms;
   animation-name: fadeIn;
+  animation-delay: 4000ms;
+  animation-fill-mode: forwards;
 }
+#arrowIn{ animation-delay: 500ms;}
 #appTitleOut,
 #dividerOut,
 #msgOut,
@@ -102,6 +133,16 @@
     max-width: 150px;
     font-size: 1rem;
   }
+  .appTitleDiv{
+    animation: slideRight1 1000ms ease 2500ms forwards;
+  }
+  .appTitleDiv{
+      height: 40px;
+  }
+  .introCube1{
+      height: 40px;
+      width: 40px;
+  }
 }
 @media only screen and (max-width: 900px) {
   .enterName{
@@ -110,6 +151,14 @@
   }
   .appTitle h1{
     font-size: 36px;
+  }
+  .appTitleDiv{
+    animation: slideRight1 1000ms ease 2500ms forwards;
+    height: 40px;
+  }
+  .introCube1{
+      height: 40px;
+      width: 40px;
   }
   .divider{
     border-bottom: 1px solid rgba(255, 255, 255, 0.301);
@@ -148,6 +197,7 @@
     border-right: 1px solid rgba(255, 255, 255, 0.301);
     height: 50vh;
     margin: 0 2rem;
+    z-index: 3;
   }
   .form {
     width: 30vw;
@@ -156,6 +206,9 @@
   .input {
     padding: 0.5rem;
     max-width: 250px;
+  }
+  .appTitleDiv{
+    animation: slideRight2 1000ms ease 2500ms forwards;
   }
 }
 
@@ -181,5 +234,31 @@
     opacity: 0;
     transform: scale(0.1);
     transform-origin: top left;
+  }
+}
+
+
+@keyframes spinEnlarge1 {
+  0%{
+      transform: scale(0%);
+  }
+  100%{
+      transform: scale(100%);
+  }
+}
+@keyframes slideRight1 {
+  0%{
+      transform: translate(0);
+  }
+  100%{
+      transform: translateX(275px);
+  }
+}
+@keyframes slideRight2 {
+  0%{
+      transform: translate(0);
+  }
+  100%{
+      transform: translateX(360px);
   }
 }

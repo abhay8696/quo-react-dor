@@ -86,12 +86,22 @@ const EnterName = (props) => {
   }
   const handleButton = () => setShowButton((prev) => true);
   const handleCheckout = () => setCheckout((prev) => false);
+  const titleIntro = ()=> <div className='titleIntro'>
+      <div className='appTitleDiv'>
+          <span className='introCube1'></span>
+          <span style={{opacity:0}}><h1>QUO-REACT-DOR</h1></span>
+      </div>
+  </div>
   const displayDIv = () => {
     return (
       <div className="enterName">
       <IntroAnimation/>
         <div className="appTitle" id="appTitleIn">
-          <h1>QUO-REACT-DOR</h1>
+          {titleIntro()}
+          <div className="appTitleH1">
+            <h1>QUO-REACT-DOR</h1>
+            <span className='introCube1' style={{opacity:0}}></span>
+          </div>
           <p className="msg" id="msgIn">
             A Quoridor Game
           </p>
@@ -108,6 +118,7 @@ const EnterName = (props) => {
             required
             value={name}
             autocomplete="off" 
+            placeholder="type here..."
           />
           {proceedButton()}
         </form>

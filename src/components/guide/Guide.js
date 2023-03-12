@@ -66,13 +66,13 @@ const Guide = props => {
     return (
         
         <div className='guide'>
-            <Grow
+            {/* <Grow
             in={grow}
             style={{ transformOrigin: '0 0 0' }}
             {...(grow ? { timeout: 100 } : {})}
             >
                 <div className='howToPlay'>How To Play?</div>
-            </Grow>
+            </Grow> */}
             <div className='guideBody'>
                 {showBoards()}
             </div>

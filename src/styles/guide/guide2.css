@@ -1,0 +1,53 @@
+.guide2{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guideTitle{
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 1;
+    height: 50px;
+    /* width: 250px; */
+    /* text-transform: ; */
+    display: flex;
+    align-items: center;
+}
+
+.guideTitle:hover{
+    text-decoration: underline;
+}
+.guideIntro{
+    background-color: #161618;
+    position: absolute;
+    z-index: 2;
+    animation: slideRight3 1000ms ease 2500ms forwards;
+}
+.introCube{
+    height: 50px;
+    width: 50px;
+    background-color: wheat;
+    border-radius: 8px;
+    display: block;
+    transform: scale(0);
+    animation: spinEnlarge2 500ms ease 2000ms forwards;
+}
+
+@keyframes spinEnlarge2 {
+    0%{
+        transform: scale(0%);
+    }
+    100%{
+        transform: scale(100%);
+    }
+}
+@keyframes slideRight3 {
+    0%{
+        transform: translate(0);
+    }
+    100%{
+        transform: translateX(170px);
+    }
+}
