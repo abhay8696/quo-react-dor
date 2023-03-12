@@ -90,7 +90,10 @@ const App = ()=> {
           playerData ?
         <>
           <div className='appHead'>
-          <h1>QUO-REACT-DOR</h1>
+          <span className='appH1'>
+            <h1>QUO-REACT-DOR</h1>
+            <span className='appCube'></span>
+          </span>
           {displayExitButton()}
           {/* <p>A QUORIDOR GAME</p> */}
           </div>

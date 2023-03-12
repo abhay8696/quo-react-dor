@@ -27,11 +27,25 @@
   background-color: rgba(255, 255, 255, 0.048);
   padding: 0.5rem 1rem;
 }
+.appH1{
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+}
 .appHead h1{
   font-weight: 400;
   margin: 0;
   font-size: 2rem;
   font-weight: 700;
+}
+.appCube{
+  height: 37px;
+  aspect-ratio: 1;
+  background-color: inherit;
+  border: 1px solid rgba(245, 222, 179, 0.226);
+  border-radius: 6px;
+  display: block;
+  margin-left: 4px;
 }
 
 p{
@@ -109,6 +123,9 @@ input{
   }
   .appHead h1{
     font-size: 1.5rem;
+  }
+  .appCube{
+    height: 30px;
   }
   button{
     font-size: 0.9rem;
