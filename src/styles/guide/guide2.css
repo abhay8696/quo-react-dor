@@ -34,7 +34,41 @@
     transform: scale(0);
     animation: spinEnlarge2 500ms ease 2000ms forwards;
 }
-
+.demoCarousel{
+    display: flex;
+    overflow-x: hidden;
+    scroll-behavior: smooth; 
+}
+/* desktops */
+@media only screen and (min-width: 601px) {
+    .demoCarousel, .demo img {
+        max-width: 500px;
+    }
+}
+/* mobile and tab */
+@media only screen and (max-width: 600px) {
+    .demoCarousel, .demo img{
+        max-width: 400px;
+    }
+}
+.demoButtons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.demoCarousel{
+}
+.demoButton{
+    text-decoration: none;
+    color: inherit;
+}
+.demoButton button{
+    width: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 @keyframes spinEnlarge2 {
     0%{
         transform: scale(0%);

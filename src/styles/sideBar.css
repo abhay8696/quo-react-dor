@@ -19,6 +19,9 @@
   border-radius: 1rem;
   overflow: auto;
   margin: 1rem 0.5rem;
+  animation-name: attract2;
+  animation-duration: 10000ms;
+  animation-iteration-count: infinite;
 }
 .name_accord{
   font-style: italic;
@@ -28,29 +31,11 @@
     color: #fff;
 }
 
-.playAttract{
-  animation-name: attract;
-  animation-duration: 1500ms;
-  animation-delay: 10s;
-  animation-iteration-count: infinite;
-}
 @media only screen and (min-width: 601px) {
   .forMobile{
     display: none !important;
   }
   .sideBar{
     margin-top: 0;
-  }
-}
-
-@keyframes attract {
-  0%{
-    transform: scale(100%);
-  }
-  50%{
-    transform: scale(110%);
-  }
-  100%{
-    transform: scale(100%);
   }
 }

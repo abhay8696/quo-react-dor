@@ -6,16 +6,15 @@
     border-radius: 0.5rem;
     height: 100%;
     padding: 1rem;
+    animation-name: attract2;
+    animation-duration: 10000ms;
+    animation-iteration-count: infinite;
 }
 .name{
     font-size: 1.5rem;
     margin-bottom: 1rem;
     font-style: italic;
     text-align: left;
-    animation-name: attract2;
-    animation-duration: 1500ms;
-    /* animation-delay: 10s; */
-    animation-iteration-count: infinite;
 }
 
 /* mobile and tab */
@@ -26,13 +25,15 @@
 }
 
 @keyframes attract2 {
-  0%{
-    transform: scale(100%);
+  90%{
+    box-shadow: none;
   }
-  50%{
-    transform: scale(105%);
+  95%{
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(255,255,255,0.5);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(255,255,255,0.5);
+    box-shadow: 0px 0px 5px 1px rgba(255,255,255,0.5);
   }
   100%{
-    transform: scale(100%);
+    box-shadow: none;
   }
 }

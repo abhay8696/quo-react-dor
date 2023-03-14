@@ -88,8 +88,8 @@ const SideBar = (props) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header">
                         <span className='accordTexts'>
-                            <span className='name_accord'>Hello {playerData.name}</span>
-                            <span className='playAttract'>Play</span>
+                            <span className='name_accord'>Hello {playerData?.name}</span>
+                            <span className='playAttract'>Play here...</span>
                         </span>
                     </AccordionSummary>
                     <AccordionDetails>
