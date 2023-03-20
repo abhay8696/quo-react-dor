@@ -54,7 +54,7 @@ const BoardImage = (props) => {
             onClick={()=> console.log({x,y})}
             >
 
-            {moves5 && (`${x}${y}`===`33` || `${x}$${y}`===`65`) ? <span className='wrong'><MdCancel /></span> : null}
+            {/* {moves5 && (`${x}${y}`===`33` || `${x}$${y}`===`65`) ? <span className='wrong'><MdCancel /></span> : null} */}
             </div>)
     },
     box = (i,j)=> {
@@ -100,14 +100,14 @@ const BoardImage = (props) => {
         if(movesW && ij === '44') return <span className='pawn2'></span>;
     },
     display_specific_walls = (x,y, type)=> {
-        if(moves3 && (`${x}${y}`===`12` || `${x}${y}`===`23` || `${x}`===`6` || `${x}`===`6` || `${x}`===`6`)){
-            if(`${x}${y}`===`64` || `${x}${y}`===`65` || `${x}${y}`===`66`) return 'hideHorizontalWall';
+        // if(moves3 && (`${x}${y}`===`12` || `${x}${y}`===`23` || `${x}`===`6` || `${x}`===`6` || `${x}`===`6`)){
+            // if(`${x}${y}`===`64` || `${x}${y}`===`65` || `${x}${y}`===`66`) return 'hideHorizontalWall';
             if(type==='v'){
                 return 'vertical_wall';
             }else {
                 return 'horizontal_wall';
             }
-        }
+        // }
 
         if((moves4 || moves5 || movesW) && (`${x}${y}`===`14` || `${x}${y}`===`12` || `${x}${y}`===`34` || x===2 || x===4 || x===6)){
             if(`${x}${y}`===`41` || `${x}${y}`===`42` || `${x}${y}`===`43` || `${x}${y}`===`45`) return 'hideHorizontalWall';

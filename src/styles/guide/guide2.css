@@ -41,17 +41,25 @@
 }
 /* desktops */
 @media only screen and (min-width: 601px) {
-    .demoCarousel, .demo img {
-        max-width: 500px;
+    .demoCarousel{
+        max-width: 19rem;
     }
 }
 /* mobile and tab */
 @media only screen and (max-width: 600px) {
-    .demoCarousel, .demo img{
-        max-width: 400px;
+    .demoCarousel{
+        max-width: 19rem;
     }
 }
+.demo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-width: 100%;
+}
 .demoButtons{
+    min-width: 100%;
+    padding: 0 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;

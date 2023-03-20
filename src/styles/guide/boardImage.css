@@ -1,5 +1,6 @@
 .boardImage{
-    width: 17rem;
+    width: 19rem;
+    /* border: 1px solid red; */
 }
 .wrong_v_wall, .wrong_h_wall{
     position: relative;
@@ -49,6 +50,7 @@
 .horizontal_wall, .vertical_wall, .wrong_v_wall, .wrong_h_wall{
     border-radius: 3px;
     background-color: #fff;
+    opacity: 0.4;
 }
 .horizontal_wall, .hideHorizontalWall, .wrong_h_wall{
     width: 3rem;
@@ -77,7 +79,34 @@
 }
 
 /* mobile */
-@media only screen and (max-width: 600px) {
+/* @media only screen and (max-width: 600px) {
+    .boardImage{
+        width: 17rem;
+    }
+    .ibox, .start_finish, .boxHighlighted, .iFinBox1, .iFinBox2{
+        width: 2rem;
+        height: 2rem;
+        margin: 0.3rem;
+    }
+    .pawn1, .pawn2{
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 50%;
+    }
+    .horizontal_wall{
+        width: 2rem;
+        height: 0.2rem;
+        margin-left: 0.4rem;
+        margin-right: 0.4rem;
+    }
+    .vertical_wall{
+        height: 2rem;
+        width: 0.2rem;
+        margin: 0;
+    }
+} */
+/* small mobile */
+@media only screen and (max-width: 300px) {
     .boardImage{
         width: 13rem;
     }
@@ -105,7 +134,7 @@
 }
 
 /* desktops */
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 301px) {
     .pawn1, .pawn2{
         width: 2.5rem;
         height: 2.5rem;

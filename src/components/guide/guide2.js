@@ -28,7 +28,7 @@ const Guide2 = props => {
         'Coin/Pawn Should Have Atleast One Way To Reach Destination',
         'First Coin/Pawn To Reach Opposite Side Wins!',
     ]
-    const boardArray = [
+    const demoArray = [
         '',
         <BoardImage noWalls = {true} start_finish = {true}/>,
         <BoardImage noWalls = {true} moves = {true}/>,
@@ -36,6 +36,10 @@ const Guide2 = props => {
         <BoardImage moves4={true}/>,
         <BoardImage moves5={true}/>,
         <BoardImage movesW={true}/>
+    ],
+    demoMsg = [
+        '',
+        []
     ],
     boardImages = ['', demo1, demo2, demo3, demo4, demo5];
     // functions
@@ -64,37 +68,43 @@ const Guide2 = props => {
         if(!demoNo) return null;
         // return <h1>DEMOS</h1>
         let arr = [];
-        for(let i=1; i<boardArray.length; i++){
+        for(let i=1; i<demoArray.length; i++){
             arr.push(
                 <section 
                 className={`demo${i} demo`} 
                 key={`demo${i}`}
                 id={`demo${i}`}
                 >
-                    <img src={boardImages[i]}/>
-            <div className='demoButtons'>
-                {
-                i > 1 ? 
-                <a href={`#demo${i-1}`} className='demoButton1 demoButton'><button>Previous</button></a>
-                : <span></span>
-                }
-                {
-                i <= 4 ? 
-                <a href={`#demo${i+1}`} className='demoButton2 demoButton'><button>Next</button></a>
-                : <span></span>
-                }
-            </div>
+                    <div className='demoBoard'>{demoArray[i]}</div>
+                    <div className='demoMsgDiv'>
+                        <span>{texts[i]}</span>
+                    </div>
+                    <div className='demoButtons'>
+                        {
+                        i > 1 ? 
+                        <a href={`#demo${i-1}`} className='demoButton1 demoButton'><button>Previous</button></a>
+                        : <span></span>
+                        }
+                        {
+                        i <= 5 ? 
+                        <a href={`#demo${i+1}`} className='demoButton2 demoButton'><button>Next</button></a>
+                        : <span></span>
+                        }
+                    </div>
                 </section>
             )
         }
         return <div className='demoCarousel'>{arr}</div>
-    }
+    },
+
+    displayMsgs = ()=> {}
     return (
         
         <div className='guide2'>
             {displayHowToPlay()}
             {guideIntro()}
             {displayDemos()}
+
         </div>
     );
 };
