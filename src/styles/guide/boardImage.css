@@ -36,7 +36,23 @@
     background-color:  rgba(255, 255, 255, 0.80);
 }
 .start_finish{
-    background-color: #fff;
+    background-color: rgba(255, 255, 255);
+    animation: blinkers 5s infinite forwards;
+}
+#start_finishID5{
+    animation-delay: 0s;
+}
+#start_finishID4{
+    animation-delay: 1s;
+}
+#start_finishID3{
+    animation-delay: 2s;
+}
+#start_finishID2{
+    animation-delay: 3s;
+}
+#start_finishID1{
+    animation-delay: 4s;
 }
 .boxHighlighted{
     background-color: rgb(226, 98, 12);
@@ -139,5 +155,14 @@
         width: 2.5rem;
         height: 2.5rem;
         border-radius: 50%;
+    }
+}
+
+@keyframes blinkers {
+    0%, 100%{
+        background-color: #fff;
+    }
+    80%{
+        background-color: rgba(255, 255, 255, 0.50);
     }
 }

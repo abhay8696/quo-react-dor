@@ -59,7 +59,8 @@ const BoardImage = (props) => {
     },
     box = (i,j)=> {
         let boxStyle = 'ibox';
-        if((i===1 || i===5) && start_finish){
+        let start_finishID = '';
+        if(start_finish){
             boxStyle = 'start_finish'
         }
         if(moves&&(`${i}${j}`===`23` || `${i}${j}`===`34` || `${i}${j}`===`43` || `${i}${j}`===`32`)){
@@ -79,8 +80,11 @@ const BoardImage = (props) => {
         if(movesW && i===1&& j===2){
             boxStyle = 'iFinBox1 winnerBox';
         }
+
+        if(start_finish) start_finishID = `start_finishID${i}`
         return (<div 
             className={boxStyle}
+            id={start_finishID}
             key={`B${i}${j}`} 
             >
                 {dispPawn(`${i}${j}`)}

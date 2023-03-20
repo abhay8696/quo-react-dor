@@ -22,7 +22,7 @@ const Guide2 = props => {
     const texts = [
         '',
         'Start At One End And Reach Other',
-        'Coin/Pawn Can Move One Step In Adjacent Sqaures',
+        'Coin/Pawn Can Move One Step In Adjacent Squares',
         'Use Walls As Obstacles For Opponent',
         'Coin/Pawn Cannot Pass Through Walls',
         'Coin/Pawn Should Have Atleast One Way To Reach Destination',
