@@ -103,10 +103,10 @@ const OfflineComp = props => {
                 if(data?.walls<=0) return;
                 setWallSwitch(!wallSwitch);
             }}>
-                {data?.walls<=0 ? <span>Out Of Walls!</span> : <span>Insert Wall {`(${data?.walls})`}</span>}
+                {data?.walls<=0 ? <span>Out Of Walls!</span> : <button className=''>Insert Wall {`(${data?.walls})`}</button>}
             </span>
         )
-        return <span></span>
+        return <span className='insertWall-disabled'><button className=''>Insert Wall {`(${data?.walls})`}</button></span>
     }
     
     return (<>

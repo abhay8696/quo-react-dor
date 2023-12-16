@@ -44,13 +44,16 @@
     margin-bottom: 1rem;
 }
 .playerName{
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 0;
     border-bottom: 1px solid rgb(87, 87, 87);
     display: flex;
     align-items: center;
     justify-content: space-between;
     text-align: center;
+    transition: all 250ms;
+}
+.playerName:hover{
+    padding: 0.5rem;
 }
 .requestSent{
     display: flex;

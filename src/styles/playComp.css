@@ -12,6 +12,15 @@
     align-items: center;
     justify-content: flex-start;
 }
+.inputFormOffline input{
+    margin: 0;
+}
+.inputFormOffline{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
 .offlineBar{
     width: 100%;
     text-align: left;
@@ -33,6 +42,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
 }
 .loadingDiv{
     position: absolute;
@@ -102,15 +112,15 @@
     font-weight: 300;
 }
 .insertWall{
-    border: 1px solid #fff;
+    /* border: 1px solid #fff;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    cursor: pointer;
+    cursor: pointer; */
 }
 .insertWall:hover{
-    border: 1px solid #000;
+    /* border: 1px solid #000;
     color: #000;
-    background-color: #fff;
+    background-color: #fff; */
 }
 .infoName{
     display: flex;
@@ -160,6 +170,10 @@
         padding: 0.5rem;
         max-height: 50vh;
     }
+    .inputFormOffline input{
+        /* background-color: rebeccapurple; */
+        width: 50vw;
+    }
     .offlineBar{
         font-size: 1.2rem;
     }
@@ -204,15 +218,16 @@
     .oneOnOneComp{
         display: flex;
         justify-content: space-around;
-        align-items: stretch;
+        align-items: center;
         width: 100vw;
     }
     #opponentInfoOFFLINE, #myInfoOFFLINE {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: flex-end;
         height: 100%;
-        margin: 0;
+        margin-bottom: 5rem;
     }
     .oppoCircle, .myCircle{
         width: 2rem;
@@ -236,13 +251,14 @@
         align-self: auto;
     }
     .insertWall{
-        position: absolute;
-        margin-top: 5rem;
+        /* position: absolute; */
+        /* margin: 1rem 0; */
         font-size: 0.8rem;
     }
     .opponentInfo2, .myInfo2{
         display: flex;
         align-items: center;
+        margin: 1rem;
     }
     #opponentInfoOFFLINE > .oppoCircle, #myInfoOFFLINE > .myCircle{
         width: 1rem;
@@ -251,6 +267,15 @@
 }
 .turnIndicator1Dummy, .turnIndicator2Dummy{
     opacity: 0;
+}
+.insertWall-disabled{
+    opacity: 0.2;
+    cursor:default;
+}
+.insertWall-disabled:hover{
+    background-color: rgba(255, 255, 255, 0.301);
+    border: 1px solid gba(255, 255, 255, 0.301) !important;
+    cursor: default;
 }
 
 
