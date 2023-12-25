@@ -74,7 +74,7 @@ const EnterName = (props) => {
     }
   };
   const handleInput = (evt) => {
-    setName(`${evt.target.value}`.toLowerCase());
+    setName(`${evt.target.value}`?.toLowerCase());
     handleButton();
   };
   const handleChecked = () => {
