@@ -4,7 +4,7 @@ import '../styles/boardErrorMsg.css'
 //icons
 import { FaExclamation } from 'react-icons/fa'; 
 
-const BoardErrorMsg = props => {
+const BoardErrorMsg = props => { 
     //props
     const { gameData, class_name } = props;
     
