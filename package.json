@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "homepage": "https://abhay8696.github.io/quo-react-dor",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
