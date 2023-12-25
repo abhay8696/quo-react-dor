@@ -21,16 +21,16 @@
 }
 
 .winnerBox1 {
-    box-shadow: inset 0 0 2.3rem #da6d25;
     background-color: #fff;
+    animation: changeColor1 250ms forwards;
 }
 .nextBox1 {
     background-color: #fff;
     animation-name: boxColorTrans1;
 }
 .winnerBox2 {
-    box-shadow: inset 0 0 2.3rem #8b0000;
     background-color: #fff;
+    animation: changeColor2 250ms forwards;
 }
 
 .nextBox2 {
@@ -40,12 +40,12 @@
 
 .targetBox1 {
     box-shadow: inset 0 0 1.5rem #da6d25;
-    background-color: #fff;
+    background-color: #d67738;
 }
 
 .targetBox2 {
     box-shadow: inset 0 0 1.5rem #8b0000;
-    background-color: #fff;
+    background-color: #851313;
 }
 
 .box1,
@@ -262,18 +262,21 @@
 
 @keyframes boxColorTrans1 {
     from{
-        background-color:currentColor;
+        background-color: #fff;
     }
     to{
-        box-shadow: inset 0 0 2.3rem #da6d25;
+        /* background-color: #da6d25; */
+        box-shadow: inset 0px 0px 0 4px #da6d25;
+        background-color: #d18858;
     }
 }
 @keyframes boxColorTrans2 {
     from{
-        background-color: currentColor;
+        background-color: #fff;
     }
     to{
-        box-shadow: inset 0 0 2.3rem #8b0000;
+        box-shadow: inset 0px 0px 0 4px #d14444;
+        background-color: #d38585;
     }
 }
 @keyframes moveUpMobile {
@@ -347,6 +350,22 @@
         scale: 1;
         transform: translateY(0px);
         opacity: 1;
+    }
+}
+@keyframes changeColor1 {
+    from{
+        background-color: #fff;
+    }
+    to{
+        background-color: #da6d25;
+    }
+}
+@keyframes changeColor2 {
+    from{
+        background-color: #fff;
+    }
+    to{
+        background-color: #8b0000;
     }
 }
 

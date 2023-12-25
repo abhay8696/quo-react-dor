@@ -100,8 +100,10 @@ const Board2 = props => {
         )
     },
     box = (i,j)=> {
-        const t = 250*i+j;
+        let t = 250*i+j, animeDelay;
         let oldPosition;
+        gameData?.winner===1 ? animeDelay = i*100 : animeDelay = (8-i)*100;
+
         if(turnNo%2===1) oldPosition = gameData?.player1?.position;
         else oldPosition = gameData?.player2?.position;
         return (
@@ -126,12 +128,11 @@ const Board2 = props => {
             </div>
         :
             <>
-            <Zoom in={zoom2} timeout={t} key={`B${i}${j}`} >
-                <div 
-                className={gameData?.winner===1 ? 'winnerBox1' : 'winnerBox2'}
-                >
-                </div>
-            </Zoom>
+            <div 
+            className={gameData?.winner===1 ? 'winnerBox1 winnerBoxAppear' : 'winnerBox2 winnerBoxAppear'}
+            style={{animationDelay: `${animeDelay}ms`}}
+            >
+            </div>
             </>
         }
         </Zoom>

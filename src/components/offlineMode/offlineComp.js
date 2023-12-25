@@ -13,6 +13,7 @@ import { FaArrowRight } from "react-icons/fa";
 import Board from '../board';
 import Board2 from './board2';
 import { MdFlag } from 'react-icons/md';
+import BoardErrorMsg from '../BoardErrorMsg';
 
 const OfflineComp = props => {
     //context
@@ -115,14 +116,15 @@ const OfflineComp = props => {
             <Slide in={slide} timeout={1000}>
             <div className='opponentInfo' id='opponentInfoOFFLINE'>
                 <span className='myInfo2'>
-                <span className='oppoCircle'></span>
-                <span className='oppoInfo'>
-                <span className='infoName' id='infoName2Offline'>
-                    {name2}
-                    {gameData?.turnNo%2===0 ? <span className='turnIndicator2'></span> : <span className='turnIndicatorDummy'></span>}
-                </span>
-                <span className='wallInfo'>Walls: {gameData?.player2?.walls}</span>
-                </span>
+                    <span className='oppoCircle'></span>
+                    <span className='oppoInfo'>
+                    <span className='infoName' id='infoName2Offline'>
+                        {name2}
+                        {gameData?.turnNo%2===0 ? <span className='turnIndicator2'></span> : <span className='turnIndicatorDummy'></span>}
+                    </span>
+                    <span className='wallInfo'>Walls: {gameData?.player2?.walls}</span>
+                    </span>
+                    {gameData?.turnNo%2===0 && gameData?.errorMsg ? <BoardErrorMsg gameData={gameData} class_name="alertDiv2" /> : null}
                 </span>
                 {displayWallSwitch(gameData?.turnNo%2===0, gameData?.player2)}
             </div>
@@ -134,14 +136,15 @@ const OfflineComp = props => {
             <div className='myInfo' id='myInfoOFFLINE'>
                     {displayWallSwitch(gameData?.turnNo%2===1, gameData?.player1)}
                     <span className='myInfo2'>
-                    <span className='meInfo'>
-                    <span className='infoName'>
-                    {gameData?.turnNo%2===1 ? <span className='turnIndicator1'></span> :<span className='turnIndicatorDummy'></span>}
-                        {name1}
-                    </span>
-                    <span className='wallInfo'>Walls: {gameData?.player1?.walls}</span>
-                    </span>
-                    <span className='myCircle'></span>
+                        <span className='meInfo'>
+                        <span className='infoName'>
+                        {gameData?.turnNo%2===1 ? <span className='turnIndicator1'></span> :<span className='turnIndicatorDummy'></span>}
+                            {name1}
+                        </span>
+                        <span className='wallInfo'>Walls: {gameData?.player1?.walls}</span>
+                        </span>
+                        <span className='myCircle'></span>
+                        {gameData?.turnNo%2===1 && gameData?.errorMsg ? <BoardErrorMsg gameData={gameData} class_name="alertDiv1" /> : null}
                     </span>
             </div>
             </Slide>

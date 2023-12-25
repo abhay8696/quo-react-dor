@@ -109,8 +109,8 @@ const AppBody = props => {
         <div className='winnerAlert'>
             <span className='winnerMsg'><FaExclamation/>{gameData?.winnerName} Won!</span>
             <div className='winnerButtons'>
-                <span className='winnerButton1' onClick={()=> restartGame()}>Play Again?</span>
-                <span className='winnerButton2' onClick={()=> exitMatch()}>Exit</span>
+                <button className='winnerButton1' onClick={()=> restartGame()}>Play Again?</button>
+                <button className='winnerButton2' onClick={()=> exitMatch()}>Exit</button>
             </div>
         </div>)
         if(gameData?.errorMsg && gameData?.turnNo%2===1) return <div className='alertDiv1'><FaExclamation/>{gameData?.errorMsg?.msg2}</div>
@@ -150,7 +150,7 @@ const AppBody = props => {
             : null
             }
             {gameMode()}
-            {displayAlert()}
+            {/* {displayAlert()} */}
         </div>
         {showEnterName ? <EnterName disappear={true} text={playerData.name}/> : null}
         </>

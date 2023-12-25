@@ -1,0 +1,42 @@
+
+.boardErrorMsg{
+    position: absolute;
+    width: 200px;
+    padding: 0.5rem 1rem;
+    right: 0;
+    background-color: rgba(255, 0, 0, 0.24);
+    text-align: center;
+    border: 1px solid rgba(255, 0, 0, 0.445);
+    border-radius: 0.3rem;
+    color: red;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* -webkit-animation: scale-in-center 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: scale-in-center 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; */
+}
+.alertDiv1{
+    left: 0;
+    transform: translateX(calc(-100% - 1rem));
+}
+.alertDiv2{
+    right: 0;
+    transform: translateX(calc(100% + 1rem));
+}
+
+  /* mobile */
+@media only screen and (max-width: 600px) {
+    .boardErrorMsg{
+      /* width: 80vw; */
+    }
+    .alertDiv1{
+        bottom: 0;
+        transform: translateY(calc(100% + 1rem)) translateX(-50%);
+    }
+    .alertDiv2{
+        top: 0;
+        right: 0;
+        transform: translateX(calc(100% + 1rem)) translateY(-1rem) rotate(180deg);
+    }
+}

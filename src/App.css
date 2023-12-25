@@ -77,30 +77,44 @@ input{
   font-family: 'Comic Neue', cursive;
 }
 
-.alertDiv1, .alertDiv2{
-  width: 20vw;
-  padding: 0.5rem 1rem;
-  background-color: rgba(255, 0, 0, 0.24);
-  text-align: center;
-  border: 1px solid rgba(255, 0, 0, 0.445);
-  border-radius: 0.3rem;
-  color: red;
+.winnerAlert{
   position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #161618;
+  border: 2px solid grey;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 1rem;
+  width: 500px;
+  transform: translate(-50%, -100%) scale(0);
+  animation: appearOutFast 250ms 500ms forwards;
+}
+.winnerAlert > *{
+  /* transform: translateX(-50%); */
+}
+.winnerMsg{
+  /* width: 60vw; */
+  font-size: 2rem;
+}
+.winnerButtons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 1rem;
+}
+.winnerButtons > *{
+  flex: 1;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  right: 5vw;
-  -webkit-animation: scale-in-center 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  animation: scale-in-center 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
-.alertDiv1{
-  bottom: 10vh;
-}
-.alertDiv2{
-  top: 0vh;
-}
-.alertDiv2 > *{
-  transform: rotate(180deg);
+.winnerMsg{
 }
 /* mobile */
 @media only screen and (max-width: 600px) {
@@ -126,38 +140,11 @@ input{
   .alertDiv1, .alertDiv2{
     width: 80vw;
   }
+  .alertDiv2 > *{
+    /* transform: rotate(180deg); */
+  }
   .winnerAlert{
-    bottom: 50vh;
-    position: absolute;
-    left: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 10vh;
-    -webkit-animation: scale-in-center 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    animation: scale-in-center 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  }
-  .winnerAlert > *{
-    transform: translateX(-50%);
-  }
-  .winnerMsg{
-    width: 60vw;
-  }
-  .winnerButtons{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .winnerButtons > *{
-    width: 45%;
-    box-sizing: border-box;
-  }
-  .winnerMsg, .winnerButton1, .winnerButton2{
-    color: rgb(0, 253, 0);
-    background-color: rgba(0, 128, 0, 0.815);
-    border: 1px solid rgba(0, 253, 0);
-    border-radius: 0.3rem;
-    padding: 0.5rem 1rem;
+    max-width: 90vw;
   }
 }
 @media only screen and (min-width: 601px) {
@@ -176,6 +163,15 @@ input{
     /* border: 1px solid #d2cb95; */
     color: #fff;
     cursor: pointer;
+  }
+}
+
+@keyframes appearOutFast {
+  from{
+    transform: translate(-50%, -100%) scale(0);
+  }
+  to{
+    transform: translate(-50%, -100%) scale(100%);
   }
 }
 

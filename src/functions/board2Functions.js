@@ -66,10 +66,10 @@ clickWall2 = data=> {
     const checkConditions = ()=> {
         console.log('**************checking parameters*********8')
         if (!check_possible_ways(opponent?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], opponentTargetRow)){
-            errorMsg = 'Cannot Block Opponent Completely!';
+            errorMsg = 'Invalid Move!';
             return false;
         }if (!check_possible_ways(player?.position, [...gameData?.blockedWays, `${blockBox1}${blockBox2}`], playerTargetRow)){
-            errorMsg = 'Cannot Block Yourself Completely!';
+            errorMsg = 'Invalid Move!';
             return false;
         }
         return true;

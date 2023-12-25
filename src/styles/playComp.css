@@ -93,6 +93,9 @@
 .myInfo{
     align-items: flex-end;
 }
+.myInfo2{
+    position: relative;
+}
 .giveUp{
   position: fixed;
   right: 0.5rem;
