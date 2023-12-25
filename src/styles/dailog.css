@@ -1,16 +1,20 @@
 .dailog{
-    background-color: #fff;
+    background-color: #161618;
     border-radius: 1rem;
     border: 1px solid black;
-    color: #000;
+    color: #fff;
     padding: 1rem 2rem;
     position: absolute;
     bottom: 50%;
+    left: 50vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     z-index: 20;
+    width: 300px;
+    animation: appearIn 250ms forwards;
+    opacity: 0;
 }
 .dailogMsg{
     font-size: 1rem;
@@ -20,23 +24,17 @@
     margin-bottom: 1rem;
 }
 .buttons{
-    width: 75%;
+    /* width: 75%; */
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    gap: 16px;
     /* border: 1px solid black; */
 }
-.dailog button{
-    color:#000;
-    font-size: 2rem;
-    padding: 0;
-    margin-top: 0.5rem;
-    font-size: 1rem;
-}
-.exitButton{
-    border: 1px solid #ab3706;
-    border-radius: 5px;
-    padding: 0.2rem 0.5rem !important;
+.buttons button{
+    flex: 1;
+    text-align: center !important;
 }
 /* mobile */
 @media only screen and (max-width: 600px) {
@@ -52,5 +50,16 @@
 @media only screen and (min-width: 600px) {
     button:hover{
         color: black;
+    }
+}
+
+@keyframes appearIn {
+    from{
+        transform: translateX(-50%) scale(85%);
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+        transform: translateX(-50%) scale(100%);
     }
 }

@@ -5,6 +5,7 @@ import { OfflineContext } from '../../contexts/offlineCOntext';
 import { GameDataContext } from '../../contexts/gameDataContext';
 //components
 import Guide from '../guide/Guide';
+import WinnerBox from '../winnerBox';
 //styles
 import '../../styles/playComp.css'
 
@@ -71,18 +72,18 @@ const OfflineComp = props => {
             </form>
         </div>
     )},
-
-    handleSubmit = e => {
-        e.preventDefault();
+    startGame = ()=>{
         setGameData({
             player1: {
                 name: name1,
+                // position: 'B14',
                 position: 'B74',
                 walls:12,
                 myDirection: ''
             },
             player2: {
                 name: name2,
+                // position: 'B64',
                 position: 'B14',
                 walls: 12,
                 myDirection: ''
@@ -93,6 +94,10 @@ const OfflineComp = props => {
             turnNo: 1,
             blockedWays: []
           })
+    },
+    handleSubmit = e => {
+        e.preventDefault();
+        startGame();
     },
     handleSlide = val=> {
         setslide(prev=> val)
@@ -111,6 +116,11 @@ const OfflineComp = props => {
     }
     
     return (<>
+        {
+            gameData?.winnerName ? 
+            <WinnerBox winner={gameData?.winnerName} restart1vs1Game = {startGame}/>
+            : null
+        }
         {gameData ? 
         <div className='oneOnOneComp'>
             <Slide in={slide} timeout={1000}>

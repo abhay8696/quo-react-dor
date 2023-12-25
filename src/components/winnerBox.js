@@ -4,50 +4,37 @@ import db from '../Firebase';
 import { collection, onSnapshot, query, doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 //context
 import { PlayerDataContext } from '../contexts/playerDataContext';
+import { GameDataContext } from '../contexts/gameDataContext';
+import { OfflineContext } from '../contexts/offlineCOntext';
 //styles
-import '../styles/dailog.css'
-import { MdDone, MdClose } from 'react-icons/md'
+import '../styles/dailog.css';
 //mui
-import { Zoom } from '@mui/material';
 
 const WinnerBox = (props) => {
     //context
-    const [playerData, setPlayerData] = useContext(PlayerDataContext);
-    //states
-    const [checked, setChecked] = useState(false);
-
-    let timeOut;
-    // const [opponent, setOpponent] = useContext(OpponentContext);
+    const [offlineMode, setOfflineMode] = useContext(OfflineContext);
+    const [gameData, setGameData] = useContext(GameDataContext);
+    
     //props
-    const { winner, closeGame } = props;
-    //life cycle
-    useEffect(()=> {
-        // timeOut = setTimeout(() => {
-        //     if(playerData && requestFrom){
-        //         handleZoom(false);
-        //         reject();
-        //     }
-        // }, 15000);
-        handleZoom(true);
-        return ()=> {
-            // clearTimeout(timeOut);
-        }
-    }, [])
+    const { winner, closeGame, restart1vs1Game } = props;
+    
     //functions
     const
-    handleZoom = (val) => {
-        setChecked((prev) => val);
-    };
+    exitMatch = ()=>{
+        if(offlineMode){
+            setGameData(undefined);
+            return setOfflineMode(false);
+        }
+    }
 
     return (
-        <Zoom in={checked}>
         <div className='dailog'>
             <div className='dailogMsg1'>{winner} won!</div>
             <div className='buttons'>
-                <button className='exitButton' onClick={()=> {handleZoom(false); closeGame()}}>exit</button>
+                <button className='exitButton' onClick={exitMatch}>exit</button>
+                <button className='exitButton' onClick={restart1vs1Game}>Play Again</button>
             </div>
         </div>
-        </Zoom>
     );
 };
 
